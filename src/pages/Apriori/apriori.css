@@ -1,0 +1,371 @@
+.loading-page-apriori {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--title-color)
+}
+.loading-page-apriori .column-apriori {
+    padding-top: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+.loading-page-apriori .column-apriori .column-apriori-p {
+    margin: 20px;
+}
+.side-menu-apriori {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(17, 17, 17, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 1.5%;
+    padding-left: 1.5%;
+}
+.side-menu-apriori-hidden {
+    height: 100%;
+    width: 0%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: -1.5%;
+    background-color: rgba(17, 17, 17, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 1.5%;
+    padding-left: 1.5%;
+}
+.div-logout-apriori{
+    margin-top: 5%;
+    padding-left: 20%;
+    margin-right: 5%;
+    border-top: solid rgb(102, 102, 102) 1px;
+    border-bottom: solid rgb(102, 102, 102) 1px;
+}
+.menu-apriori{
+    margin-top: 5%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 20%;
+    margin-right: 5%;
+    font-size: 20px;
+}
+.menu-apriori-item{
+    font-size: 16px;
+    color: rgb(218, 218, 218);
+    transition: color 0.2s;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.menu-apriori-item:hover{
+    color: white;
+    cursor: pointer;
+}
+.main-apriori {
+    padding: 1%;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    height: 100%;
+}
+.main-apriori .main-apriori-left{
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.main-apriori .main-apriori-right{
+    width: 85%;
+    display: flex;
+    flex-direction: row;
+    color: var(--title-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main-apriori .main-apriori-right .row-1-apriori{
+    display: flex;
+    align-items: center;
+    overflow: auto;
+    flex-direction: row;
+    width: 90%;
+    height: 230px;
+    margin: 1%;
+    background-color: #F0F2F5;
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    border-radius: 10px;
+    padding: 2%;
+}
+.main-apriori .main-apriori-right .row-2-apriori{
+    display: flex;
+    align-items: center;
+    overflow: auto;
+    flex-direction: column;
+    width: 90%;
+    height: 150px;
+    margin: 1%;
+    background-color: #F0F2F5;
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    border-radius: 10px;
+    padding: 2%;
+}
+.main-apriori .main-apriori-right .row-2-apriori .row-2-apriori-bottom{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+    height: 150px;
+}
+.row-2-apriori-bottom-left select{
+    width: 250px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: -10px;
+}
+.row-2-apriori-bottom-center{
+    font-size: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.row-2-apriori-bottom-right select{
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: -10px;
+}
+.main-apriori .main-apriori-right .row-3-apriori{
+    width: 90%;
+    height: 150px;
+    margin: 1%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.main-apriori .main-apriori-right .row-1-apriori:hover{
+    box-shadow: 1px 1px 20px 1px #BEBEBE;
+}
+.main-apriori .main-apriori-right .row-2-apriori:hover{
+    box-shadow: 1px 1px 20px 1px #BEBEBE;
+}
+.main-apriori .main-apriori-right .row-3-apriori .column-1-apriori{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 70%;
+    height: 150px;
+    background-color: #F0F2F5;
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    border-radius: 10px;
+    padding: 2.5%;
+}
+.main-apriori .main-apriori-right .row-3-apriori .column-1-apriori:hover{
+    box-shadow: 1px 1px 20px 1px #BEBEBE;
+}
+.main-apriori .main-apriori-right .row-3-apriori .column-2-apriori{
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.main-apriori .main-apriori-right .row-3-apriori .column-2-apriori button{
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    border-radius: 10px;
+    border: none;
+    width: 45%;
+    height: 50%;
+    color: var(--title-color);
+    background-color: #c9dae6;
+    transition: background-color 0.2s;
+    font-size: 18px;
+}
+.main-apriori .main-apriori-right .row-3-apriori .column-2-apriori button:hover {
+    box-shadow: 1px 1px 20px 1px #BEBEBE;
+    background-color: #beceda;
+}
+.content-apriori .top-bar-apriori {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    font-size: 25px;
+    padding: 1.5%;
+    border-bottom: solid 3px var(--title-color);
+}
+.content-apriori .top-bar-apriori span {
+    font-size: 12px;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+}
+.content-apriori .top-bar-apriori:before {
+    content: "";
+    margin-left: 5%;
+    position: absolute;
+    bottom: 0;
+    height: 0;
+    width: 90%;
+}
+.content-apriori .top-bar-apriori .top-bar-apriori-left {
+    display: flex;
+    width: 5%;
+    height: 60px;
+    justify-content: space-between;
+}
+.content-apriori .top-bar-apriori .top-bar-apriori-center {
+    display: flex;
+    width: 55%;
+    height: 60px;
+    justify-content: space-between;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.content-apriori .top-bar-apriori .top-bar-apriori-right {
+    display: flex;
+    width: 40%;
+    height: 60px;
+    justify-content: space-between;
+}
+.title-apriori{
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.title-apriori:hover{
+    text-decoration: underline;
+}
+a{
+    text-decoration: none;
+    color: rgb(54, 60, 80);
+}
+a:hover{
+    text-decoration: none;
+    color: rgb(32, 72, 82);
+}
+.time-apriori {
+    font-weight: 500;
+}
+.menu-button-apriori{
+    display: inline-block;
+    cursor: pointer;
+}
+.bar-apriori{
+    background-color: var(--title-color);
+    width: 25px;
+    height: 3px;
+    margin: 6px 0;
+}
+.bar-white-apriori{
+    background-color: whitesmoke;
+    width: 25px;
+    height: 3px;
+    margin: 6px 0;
+}
+.main-apriori .main-apriori-left .item-apriori {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10%;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 5%;
+    font-size: 120%;
+    color: var(--title-color);
+    cursor: pointer;
+    border-radius: 5px;
+    border: 2px var(--title-color) solid;
+    background-color: #F0F2F5;
+}
+.item-apriori-p{
+    padding-top: 12%;
+}
+.checkbox-apriori {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.main-apriori .main-apriori-left .item-apriori-selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10%;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 5%;
+    font-size: 120%;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 2px var(--title-color) solid;
+    background-color: #cedbf0;
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    color: var(--title-color);
+}
+.apriori-item {
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    width: 200px;
+    min-width: 200px;
+    height: 100%;
+    padding: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.column-1-apriori-left{
+    width: 50%;
+    margin-right: 15%;
+}
+.column-1-apriori-right{
+    width: 50%;
+    margin-left: 2%;
+}
+.support, .confidence, .lift{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.support p, .confidence p, .lift p{
+    height: 25px;
+}
+.support .input-number, .confidence .input-number, .lift .input-number{
+    width: 70px;
+    height: 20%;
+}
+.apriori-start-date, .apriori-end-date{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2%;
+}
+.apriori-start-date p, .apriori-end-date p{
+    height: 25px;
+}
+.apriori-start-date .input-date, .apriori-end-date .input-date{
+    width: 150px;
+    height: 20%;
+}
+.apriori-item-title{
+    font-weight: bold;
+    margin-bottom: -4%;
+}
+.apriori-item-box{
+    border-radius: 15px;
+    background-color: #e0ebf3;
+}
+.apriori-item-box-p{
+    padding: 4%;
+}
+.apriori-item-box-select{
+    margin-top: -16px;
+}

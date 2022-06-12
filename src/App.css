@@ -1,0 +1,43 @@
+:root {
+    --primary-color: #224255;
+    --title-color: #224255;
+    --text-color: #1C1E21;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    background: #F0F2F5;
+    -webkit-font-smoothing: antialiased;
+    color: var(--text-color);
+  }
+  body, input, button {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--title-color);
+  }
+  .footer{
+    width: 100%;
+    background-color: var(--title-color);
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    color: whitesmoke;
+    padding-top: 3%;
+  }
+  .footer-right{
+      width: 33%;
+      text-align: center;
+  }
+  .footer-center{
+      width: 33%;
+      text-align: center;
+  }
+  .footer-left{
+      width: 33%;
+      text-align: center;
+  }

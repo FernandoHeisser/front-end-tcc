@@ -1,0 +1,199 @@
+body{
+    color: var(--title-color)
+}
+.loading-page-apriori-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--title-color)
+}
+.loading-page-apriori-result .column-apriori-result {
+    padding-top: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+.loading-page-apriori-result .column-apriori-result p {
+    margin: 20px;
+}
+.side-menu-apriori-result {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(17, 17, 17, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 1.5%;
+    padding-left: 1.5%;
+}
+.side-menu-apriori-result-hidden {
+    height: 100%;
+    width: 0%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: -1.5%;
+    background-color: rgba(17, 17, 17, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 1.5%;
+    padding-left: 1.5%;
+}
+.div-logout-apriori-result{
+    margin-top: 5%;
+    padding-left: 20%;
+    margin-right: 5%;
+    border-top: solid rgb(102, 102, 102) 1px;
+    border-bottom: solid rgb(102, 102, 102) 1px;
+}
+.menu-apriori-result{
+    margin-top: 5%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 20%;
+    margin-right: 5%;
+    font-size: 20px;
+}
+.menu-apriori-result-item{
+    font-size: 16px;
+    color: rgb(218, 218, 218);
+    transition: color 0.2s;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.menu-apriori-result-item:hover{
+    color: white;
+    cursor: pointer;
+}
+.main-apriori-result {
+    color: var(--title-color);
+    min-height: 500px;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    height: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.apriori-result-item-left{
+    display: flex;
+    flex-direction: row; 
+    width: 50%;
+    align-items: center;
+    margin: -0.5%;
+}
+.apriori-result-item-left-base{
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+}
+.apriori-result-item-left-add{
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+}
+.apriori-result-item-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    padding-right: 10%;
+}
+.arrow{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.content-apriori-result .top-bar-apriori-result {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    font-size: 25px;
+    padding: 1.5%;
+    border-bottom: solid 3px var(--title-color);
+}
+.content-apriori-result .top-bar-apriori-result span {
+    font-size: 12px;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+}
+.content-apriori-result .top-bar-apriori-result:before {
+    content: "";
+    margin-left: 5%;
+    position: absolute;
+    bottom: 0;
+    height: 0;
+    width: 90%;
+}
+.content-apriori-result .top-bar-apriori-result .top-bar-apriori-result-left {
+    display: flex;
+    width: 5%;
+    height: 60px;
+    justify-content: space-between;
+}
+.content-apriori-result .top-bar-apriori-result .top-bar-apriori-result-center {
+    display: flex;
+    width: 55%;
+    height: 60px;
+    justify-content: space-between;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.content-apriori-result .top-bar-apriori-result .top-bar-apriori-result-right {
+    display: flex;
+    width: 40%;
+    height: 60px;
+    justify-content: space-between;
+}
+.menu-button-apriori-result{
+    display: inline-block;
+    cursor: pointer;
+}
+.bar-apriori-result{
+    background-color: var(--title-color);
+    width: 25px;
+    height: 3px;
+    margin: 6px 0;
+}
+.bar-white-apriori-result{
+    background-color: whitesmoke;
+    width: 25px;
+    height: 3px;
+    margin: 6px 0;
+}
+.accordion-body{
+    display: flex;
+    flex-direction: row;
+}
+.table{
+    width: 40%;
+    color: var(--title-color);
+}
+.side-table{
+    width: 60%;
+    padding: 1%;
+    background-color: white;
+    height: auto;
+    margin: 1%;
+}
+.td{
+    overflow: hidden;
+}
+.green-symbol{
+    white-space: pre;
+    color: rgb(0, 121, 0);
+    font-weight: bold;
+}
+.red-symbol{
+    white-space: pre;
+    color: rgb(190, 0, 0);
+    font-weight: bold;
+}
