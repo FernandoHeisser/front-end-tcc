@@ -75,7 +75,7 @@ const Login = () => {
 
     function addStock() {
         let stocks = userStocks;
-        if(!stocks.includes(selectedStock))
+        if(!stocks.includes(selectedStock) && selectedStock !== '')
             stocks.push(selectedStock);
         setUserStocks(stocks);
         setSelectedStock('');

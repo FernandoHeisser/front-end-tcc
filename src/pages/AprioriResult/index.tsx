@@ -175,7 +175,7 @@ const AprioriResult = () => {
         const request = {
             stockList: symbols
         };
-        const response = await api.post('stock/data/yahoo/list', request);
+        const response = await api.post('yahoo', request);
         const _stockDataYahoo: StockDataYahoo[] = response.data;
         setStockDataYahoo(_stockDataYahoo);
     }
