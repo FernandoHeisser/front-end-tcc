@@ -148,112 +148,11 @@
     height: 60px;
     justify-content: space-between;
 }
-.main .right {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
-.main .right .inside-left {
-    width: 70%;
-    margin: 2%;
-}
-.main .right .inside-left .tags-bar {
-    display: flex;
-    flex-direction: row;
-    box-shadow: 1px 1px 10px 1px #BEBEBE;
-    height: 50px;
-    padding: 1%;
-}
-.main .right .inside-left .tags-bar .edit-button {
-    box-shadow: 0.5px 0.5px 5px 0.5px #BEBEBE;
-    border: none;
-    width: 10%;
-    color: var(--title-color);
-    transition: background-color 0.2s;
-    margin-left: 1%;
-    height: 100%;
-    padding: 1%;
-}
-.main .right .inside-left .tags-bar .edit-button-selected {
-    box-shadow: 1px 1px 10px 1px #BEBEBE;
-    border: none;
-    width: 10%;
-    color: var(--title-color);
-    background-color: #c9dae6;
-    transition: background-color 0.2s;
-    margin-left: 1%;
-    height: 100%;
-    padding: 1%;
-}
-.main .right .inside-left .tags-bar .edit-button:hover {
-    background-color: #d5dee4;
-}
-.main .right .inside-left .tags-bar .tags-bar-input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-size: 14px;
-    border: 1px solid #b3b3b3;
-}
-.main .right .inside-left .tags-bar .p-text {
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-size: 14px;
-    align-items: center;
-    padding-top: 1%;
-    margin-left: -3%;
-}
-.main .right .inside-left .tags-bar .tags-bar-p {
-    font-size: 14px;
-    align-items: center;
-    width: 200px;
-    padding-top: 1%;
-}
-.main .right .inside-left .tags-bar .tags-bar-input:focus {
-    outline: none;
-    border: 2px solid var(--title-color);
-}
-.main .right .inside-left .news {
-    margin-top: 30px;
-
-}
-.main .right .inside-left .news .article{
-    margin-bottom: 20px;
-    box-shadow: 1px 1px 10px 1px #BEBEBE;
-    padding: 2%;
-    border-radius: 10px;
-    transition: box-shadow 0.2s;
-}
-.main .right .inside-left .news .article:hover{
-    box-shadow: 2px 2px 10px 1px #b3b3b3;
-}
 img{
     width: 50%;
     height: 50%;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-.main .right .inside-left .news .article .card-footer{
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-    margin-top: 10px;
-    margin-bottom: -15px;
-    margin-left: -15px;
-    margin-right: -15px;
-    background-color: #D5DEE4;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-.main .right .inside-left .news .article .card-footer p {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 8%;
-    margin-right: 5px;
-    width: 33%;
-    overflow: hidden;
 }
 .title{
     font-weight: bold;
@@ -273,57 +172,6 @@ img{
 }
 .time {
     font-weight: 500;
-}
-.main .right .below .inside-right {
-    width: 30%;
-    margin: 2%;
-    border-radius: 10px;
-    box-shadow: 1px 1px 10px 1px #BEBEBE;
-}
-.main .right .inside-right a .item-article {
-    padding: 2%;
-    border-bottom: var(--title-color) solid 3px;
-}
-.main .right .inside-right a .item-article div {
-    display: flex;
-    justify-content: space-between;
-    margin: 3%;
-}
-.main .right .inside-right a .item-article p {
-    margin: 10px;
-}
-.main .right .inside-right .sources-box {
-    display: flex;
-    color: black;
-    margin: 4%;
-    justify-content: space-between;
-}
-.main .right .inside-right .sources-box .sources-box-left{
-    width: 85%;
-}
-.main .right .inside-right .sources-box .sources-box-left .source-item {
-    margin: 2%;
-}
-.main .right .inside-right .sources-box .sources-box-left .source-item input {
-    margin-right: 1%;
-    width: 15px;
-    height: 15px;
-}
-.main .right .inside-right .sources-box .sources-box-right{
-    width: 15%;
-}
-.main .right .inside-right .sources-box .sources-box-right .edit-button{
-    box-shadow: 1px 1px 10px 1px #BEBEBE;
-    border: none;
-    color: var(--title-color);
-    transition: background-color 0.2s;
-    margin-left: 1%;
-    padding: 1%;
-    height: 40px;
-    width: 60px;
-}
-.main .right .inside-right .sources-box .sources-box-right .edit-button:hover{
-    background-color: #d5dee4   ;
 }
 .menu-button{
     display: inline-block;
