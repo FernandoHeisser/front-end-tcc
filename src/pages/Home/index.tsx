@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useHistory } from 'react-router';
 import { HiOutlineSearch } from 'react-icons/hi';
+import { MdExpandMore, MdExpandLess } from 'react-icons/md'
 import api from '../../services/api';
 import './home.css';
 
@@ -44,6 +45,7 @@ const Home = () => {
     const [haveChanges, setHaveChanges] = useState(true);
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [firstTimeFlag, setFirstTimeFlag] = useState(false);
+    const [expandFlag, setExpandFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [userId, setUserId] = useState('');
     const [responseFlag, setResponseFlag] = useState(false);
@@ -268,21 +270,45 @@ const Home = () => {
                                                             <p className='main-article-p'>5 horas atrás</p>
                                                         </div>
                                                     </div>
-                                                    <div className='main-article-bottom'>
-                                                        <div className='main-article-bottom-top'>
-                                                            <p className='main-article-title-2'
-                                                            title='Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes'>
-                                                                Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes
-                                                            </p>
+                                                        <div className='first-main-article-bottom'>
+                                                            <div className='main-article-bottom-top'>
+                                                                <p className='main-article-title-2'
+                                                                title='Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes'>
+                                                                    Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes
+                                                                </p>
+                                                            </div>
+                                                            <div className='main-article-bottom-bottom'>
+                                                                <p className='main-article-p'>Suno Notícias</p>
+                                                                <p className='main-article-p'>3 dias atrás</p>
+                                                            </div>
                                                         </div>
-                                                        <div className='main-article-bottom-bottom'>
-                                                            <p className='main-article-p'>Suno Notícias</p>
-                                                            <p className='main-article-p'>3 dias atrás</p>
+                                                    {[0, 1, 2, 4, 5].map(e => (
+                                                        <div className={expandFlag ? 'main-article-bottom' : 'main-article-bottom-collapsed'}>
+                                                            <div className='main-article-bottom-top'>
+                                                                <p className='main-article-title-2'
+                                                                title='Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes'>
+                                                                    Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes
+                                                                </p>
+                                                            </div>
+                                                            <div className='main-article-bottom-bottom'>
+                                                                <p className='main-article-p'>Suno Notícias</p>
+                                                                <p className='main-article-p'>3 dias atrás</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    ))}
                                                 </div>
                                                 <div className='main-article-right'>
-                                                    <img className='main-article-image' src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/06/Design-sem-nome-56-628x353.png" alt="Luiza" />
+                                                    <a className='a' href="http://" target="_blank" rel="noopener noreferrer">
+                                                        <img className='main-article-image' src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/06/Design-sem-nome-56-628x353.png" alt="Luiza" />
+                                                    </a>
+                                                    <div className='dummy-div-1'>
+                                                        <div></div>
+                                                        {expandFlag ? 
+                                                            <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(!expandFlag)}/>
+                                                            :
+                                                            <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(!expandFlag)}/>
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                             {[0, 1, 2, 3, 4, 5].map(e => (
