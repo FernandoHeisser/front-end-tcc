@@ -1,3 +1,4 @@
+import News from "./News";
 import StockData from "./StockData";
 
 interface Stock {
@@ -8,7 +9,8 @@ interface Stock {
     data?: StockData,
     tags?: string,
     condition?: string,
-    checked?: boolean
+    checked?: boolean,
+    news?: News
 }
 
 export default Stock;
