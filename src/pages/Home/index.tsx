@@ -3,42 +3,12 @@ import ReactLoading from 'react-loading';
 import { useHistory } from 'react-router';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
-import api from '../../services/api';
 import './home.css';
-
-interface Session {
-    user: User,
-    stocks: UserStock[]
-}
-
-interface User {
-    _id?: string,
-    stocks?: Stock[]
-}
-
-interface Stock {
-    symbol: string,
-    tags?: string,
-}
-
-interface UserStock {
-    symbol: string,
-    company: string,
-    data: CurrentData,
-    tags?: string
-}
-
-interface Item {
-    symbol: string,
-    selected: boolean
-}
-
-interface CurrentData {
-    high: number,
-    low: number,
-    current: number,
-    datetime: string
-}
+import StockData from '../../models/StockData';
+import Stock from '../../models/Stock';
+import Item from '../../models/Item';
+import Session from '../../models/Session';
+import api from '../../services/api';
 
 const Home = () => {
     const history = useHistory();
@@ -51,8 +21,8 @@ const Home = () => {
     const [responseFlag, setResponseFlag] = useState(false);
     const [items, setItems] = useState<Item[]>();
     const [changesCounter, setChangesCounter] = useState(0);
-    const [userStocks, setUserStocks] = useState<UserStock[]>([]);
-    const [currentUserStock, setCurrentUserStock] = useState<UserStock>();
+    const [userStocks, setUserStocks] = useState<Stock[]>([]);
+    const [currentUserStock, setCurrentUserStock] = useState<Stock>();
 
     function formatDate(str: string | undefined) {
         if (str !== undefined && str !== null && str !== '') {
@@ -126,25 +96,27 @@ const Home = () => {
             if (_session.user.stocks !== undefined) {
                 var firstSymbol = _session.user.stocks[0].symbol;
                 _session.user.stocks.forEach(stock => {
-                    const item: Item = {
-                        symbol: stock.symbol,
-                        selected: false
+                    if(stock.symbol !== undefined){
+                        const item: Item = {
+                            symbol: stock.symbol,
+                            selected: false
+                        }
+                        itemList.push(item);
                     }
-                    itemList.push(item);
                 });
             }
             itemList[0].selected = true;
 
-            let userStockList: UserStock[] = userStocks;
+            let userStockList: Stock[] = userStocks;
             itemList.forEach(async (item) => {
                 const symbol = item.symbol;
 
-                const currentUserStock: UserStock | undefined = _session.stocks
+                const currentUserStock: Stock | undefined = _session.stocks
                     .find(stock => stock.symbol === symbol);
 
-                if (currentUserStock !== undefined) {
+                if (currentUserStock !== undefined && currentUserStock.data !== undefined) {
 
-                    const stockData: CurrentData = currentUserStock.data;
+                    const stockData: StockData = currentUserStock.data;
 
                     const userTags = _session.user.stocks?.find(stock => stock.symbol === symbol)?.tags;
 
@@ -152,7 +124,8 @@ const Home = () => {
                     listKeywords?.map(keyword => keyword.trim());
 
                     if ((listKeywords === undefined || listKeywords?.length === 0) && stockData !== undefined) {
-                        listKeywords = [currentUserStock.symbol, currentUserStock.company];
+                        if(currentUserStock.symbol !== undefined && currentUserStock.company !== undefined)
+                            listKeywords = [currentUserStock.symbol, currentUserStock.company];
                     }
 
                     if (_session.user.stocks?.find(stock => stock.symbol === item.symbol) === undefined) {
@@ -164,7 +137,7 @@ const Home = () => {
                         });
                     }
 
-                    const userStockItem: UserStock = {
+                    const userStockItem: Stock = {
                         data: stockData,
                         tags: userTags,
                         symbol: currentUserStock.symbol,
@@ -175,7 +148,8 @@ const Home = () => {
 
                     setItems(itemList);
                     setUserStocks(userStockList);
-                    setSelected(firstSymbol);
+                    if(firstSymbol !== undefined)
+                        setSelected(firstSymbol);
                     setLoadingFlag(true);
                 }
             });

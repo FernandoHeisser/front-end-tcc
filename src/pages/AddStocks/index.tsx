@@ -3,32 +3,9 @@ import ReactLoading from 'react-loading';
 import { IoMdClose } from 'react-icons/io';
 import { useHistory } from 'react-router';
 import './addStocks.css';
+import Stock from '../../models/Stock';
+import User from '../../models/User';
 import api from '../../services/api';
-
-interface User {
-    _id?: string,
-    stocks: UserStock[]
-}
-
-interface UserStock {
-    symbol: string,
-    sources?: Source[],
-    tags?: string
-}
-
-interface Source {
-    _id: string,
-    value: string,
-    checked: boolean
-}
-
-interface Stock {
-    company?: string,
-    symbol?: string,
-    url?: string,
-    _id?: string,
-    tags?: string
-}
 
 const AddStocks = () => {
     const history = useHistory();
@@ -83,8 +60,10 @@ const AddStocks = () => {
         setSelectedStock('');
     }
 
-    function checkIncludes(stock: UserStock) {
-        return userStocks.includes(stock.symbol);
+    function checkIncludes(stock: Stock) {
+        if(stock.symbol !== undefined)
+            return userStocks.includes(stock.symbol);
+        return false;
     }
 
     async function handleSubmit(event: FormEvent) {
@@ -133,7 +112,8 @@ const AddStocks = () => {
 
             var userStocks: string[] = [];
             user.stocks.forEach(stock => {
-                userStocks.push(stock.symbol);
+                if(stock.symbol !== undefined)
+                    userStocks.push(stock.symbol);
             });
             setUserStocks(userStocks);
 

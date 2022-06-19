@@ -2,14 +2,9 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useHistory } from 'react-router';
 import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
-import api from '../../services/api';
 import './apriori.css';
-
-interface Stock {
-    symbol: string,
-    checked?: boolean,
-    condition?: string
-}
+import Stock from '../../models/Stock';
+import api from '../../services/api';
 
 const Apriori = () => {
     const history = useHistory();
@@ -125,7 +120,7 @@ const Apriori = () => {
         setSecondCondition(secondCondition);
     }
 
-    function handleStockCondition(event: ChangeEvent<HTMLSelectElement>, symbol: string){
+    function handleStockCondition(event: ChangeEvent<HTMLSelectElement>, symbol: string | undefined){
         const stockCondition = event.target.value;
         var _stocks: Stock[] = [];
         stocks.forEach(stock => {

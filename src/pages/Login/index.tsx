@@ -2,20 +2,9 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
+import Stock from '../../models/Stock'
+import User from '../../models/User';
 import './login.css';
-
-interface User {
-    _id?: string,
-    stocks: Stock[]
-}
-
-interface Stock {
-    company?: string,
-    symbol?: string,
-    url?: string,
-    _id?: string,
-    tags?: string
-}
 
 const Login = () => {
     const history = useHistory();

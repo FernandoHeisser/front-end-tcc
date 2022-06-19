@@ -5,61 +5,22 @@ import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import { CgArrowLongRight } from 'react-icons/cg';
 import './aprioriResult.css';
+import StockDataYahoo from '../../models/StockDataYahoo';
+import YahooData from '../../models/YahooData';
+import Stock from '../../models/Stock';
+import AprioriCondition from '../../models/AprioriCondition';
+import AprioriItem from '../../models/AprioriItem';
+import AprioriStockCondition from '../../models/AprioriStockCondition';
 import api from '../../services/api';
-
-interface Item {
-    items_base: string[],
-    items_add: string[],
-    support: number,
-    confidence: number,
-    lift: number,
-}
-
-interface Condition {
-    firstCondition: string,
-    secondCondition: string,
-    stocks: Stock[]
-}
-
-interface StockCondition {
-    columnName1?: string,
-    columnName2?: string,
-    previous?: boolean
-}
-
-interface Stock {
-    symbol: string,
-    checked?: boolean,
-    condition?: string
-}
-
-interface StockDataYahoo {
-    symbol: string,
-    content: {
-        yesterday: YahooData,
-        today: YahooData
-    }
-}
-
-interface YahooData {
-    [key: string]: string | number,
-    open: number,
-    high: number,
-    low: number,
-    close: number,
-    adjClose: number,
-    volume: number,
-    datetime: string
-}
 
 const AprioriResult = () => {
     const history = useHistory();
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
-    const [items, setItems] = useState<Item[]>([]);
+    const [items, setItems] = useState<AprioriItem[]>([]);
     const [stocks, setStocks] = useState<Stock[]>([]);
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
-    const [condition, setCondition] = useState<Condition>();
+    const [condition, setCondition] = useState<AprioriCondition>();
 
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
@@ -146,7 +107,7 @@ const AprioriResult = () => {
     }
 
     function checkCondition(symbol: string){
-        const stockCondition: StockCondition = getCondition();
+        const stockCondition: AprioriStockCondition = getCondition();
         const stockData = stockDataYahoo.find(s => s.symbol === symbol);
         const stock = stocks.find(s => s.symbol === symbol);
         const yesterday: YahooData | undefined = stockData?.content.yesterday;
@@ -192,7 +153,7 @@ const AprioriResult = () => {
             if(lastAnalysis === undefined || lastAnalysis === null) {
                 history.push('/apriori');
             } else {
-                var _items: Item[] = JSON.parse(lastAnalysis);
+                var _items: AprioriItem[] = JSON.parse(lastAnalysis);
 
                 setItems(_items);
 
@@ -207,7 +168,8 @@ const AprioriResult = () => {
                     var symbols: string[] = [];
                     
                     stocks.forEach(stock => {
-                        symbols.push(stock.symbol);
+                        if(stock.symbol !== undefined)
+                            symbols.push(stock.symbol);
                     });
 
                     await getStockDataFromYahoo(symbols);
@@ -216,7 +178,7 @@ const AprioriResult = () => {
                 
                     if(request_apriori !== undefined && request_apriori !== null) {
                         
-                        const _condition: Condition = JSON.parse(request_apriori);
+                        const _condition: AprioriCondition = JSON.parse(request_apriori);
                         
                         setCondition(_condition);
                     }   
