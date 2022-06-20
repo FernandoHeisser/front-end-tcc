@@ -2,7 +2,9 @@ import Article from "./Article";
 
 interface MainArticle {
     article: Article,
-    subArticles: Article[]
+    firstSubArticle: Article,
+    subArticles: Article[],
+    expandFlag: boolean
 }
 
 export default MainArticle;
