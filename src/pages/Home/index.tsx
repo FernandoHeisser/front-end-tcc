@@ -94,6 +94,13 @@ const Home = () => {
         let search = event.target.value;
         search = search.replaceAll(' ', '+')
         setSearch(search);
+
+        let _currentUserStock = currentUserStock;
+        if (_currentUserStock !== undefined) {
+            _currentUserStock.tags = search;
+            setCurrentUserStock(_currentUserStock);
+        }
+        setChangesCounter(changesCounter + 1);
     }
 
     function submitSearch(event: { charCode: number; }) {
@@ -292,7 +299,7 @@ const Home = () => {
                                     <div className='home-inside-left'>
                                         <div className='search-bar'>
                                             <HiOutlineSearch className='search-icon' onClick={submitSearch2}/>
-                                            <input placeholder={currentUserStock?.tags?.replaceAll('+', ' ')} type="search" className='search-input' onChange={handleSearch} onKeyPress={submitSearch}/>
+                                            <input value={currentUserStock?.tags?.replaceAll('+', ' ')} type="search" className='search-input' onChange={handleSearch} onKeyPress={submitSearch}/>
                                         </div>
                                         {loadingFlag2 ? 
                                             <div className='loading-page'>
@@ -321,7 +328,9 @@ const Home = () => {
                                                             </div>
                                                                 <div className='first-main-article-bottom'>
                                                                     <div className='main-article-bottom-top'>
-                                                                        <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
+                                                                        <a className='a' href={mainArticle.firstSubArticle.url} target="_blank" rel="noopener noreferrer">
+                                                                            <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
+                                                                        </a>
                                                                     </div>
                                                                     <div className='main-article-bottom-bottom'>
                                                                         <a className='a' href={mainArticle.firstSubArticle.source.url} target="_blank" rel="noopener noreferrer">
@@ -333,7 +342,9 @@ const Home = () => {
                                                             {mainArticle.subArticles.map((subArticle, index) => (
                                                                 <div className={mainArticle.expandFlag == true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
                                                                     <div className='main-article-bottom-top'>
-                                                                        <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
+                                                                        <a className='a' href={subArticle.url} target="_blank" rel="noopener noreferrer">
+                                                                            <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
+                                                                        </a>
                                                                     </div>
                                                                     <div className='main-article-bottom-bottom'>
                                                                         <a className='a' href={subArticle.source.url} target="_blank" rel="noopener noreferrer">

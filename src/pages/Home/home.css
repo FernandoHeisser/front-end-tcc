@@ -220,6 +220,9 @@
 .expand-button{
     font-size: 30px;
 }
+.expand-button:hover{
+    cursor: pointer;
+}
 .home-inside-left .articles .main-article .main-article-left .main-article-bottom-top{
     display: flex;
     flex-direction: column;
