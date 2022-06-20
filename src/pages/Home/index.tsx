@@ -67,8 +67,8 @@ const Home = () => {
     function setExpandFlag(url: string) {
         var _currentUserStock = currentUserStock;
         _currentUserStock?.news?.mainArticles.map(mainArticle => {
-            if(mainArticle.article.url == url){
-                if(mainArticle.expandFlag == false || mainArticle.expandFlag == undefined){
+            if(mainArticle.article.url === url){
+                if(mainArticle.expandFlag === false || mainArticle.expandFlag === undefined){
                     mainArticle.expandFlag = true;
                 } else {
                     mainArticle.expandFlag = false;
@@ -305,7 +305,6 @@ const Home = () => {
                                             <div className='loading-page'>
                                                 <div className='column'>
                                                     <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
-                                                    <p className='column-p'>Buscando os dados na web...</p>
                                                 </div>
                                             </div>                    
                                             :
@@ -340,7 +339,7 @@ const Home = () => {
                                                                     </div>
                                                                 </div>
                                                             {mainArticle.subArticles.map((subArticle, index) => (
-                                                                <div className={mainArticle.expandFlag == true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
+                                                                <div className={mainArticle.expandFlag === true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
                                                                     <div className='main-article-bottom-top'>
                                                                         <a className='a' href={subArticle.url} target="_blank" rel="noopener noreferrer">
                                                                             <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
