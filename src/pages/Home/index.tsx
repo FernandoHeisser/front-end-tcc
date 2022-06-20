@@ -357,7 +357,7 @@ const Home = () => {
                                                         </div>
                                                         <div className='main-article-right'>
                                                             <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
-                                                                <img className='main-article-image' src={mainArticle.article.image} />
+                                                                <img className='main-article-image' srcSet={mainArticle.article.image} />
                                                             </a>
                                                             <div className='dummy-div-1'>
                                                                 <div></div>
@@ -386,7 +386,7 @@ const Home = () => {
                                                             </div>
                                                         </div>
                                                         <div className='article-right'>
-                                                            <img className='article-image' src={article.image}/>
+                                                            <img className='article-image' srcSet={article.image}/>
                                                         </div>
                                                     </div>
                                                 ))}

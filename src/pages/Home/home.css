@@ -148,6 +148,7 @@
 .home-inside-left .articles .main-article {
     width: 100%;
     height: auto;
+    min-height: 320px;
     border-radius: 10px;
     margin-bottom: 16px;
     border: solid 2px #BEBEBE;
