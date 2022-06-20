@@ -9,13 +9,13 @@ import Stock from '../../models/Stock';
 import Item from '../../models/Item';
 import Session from '../../models/Session';
 import api from '../../services/api';
+import News from '../../models/News';
 
 const Home = () => {
     const history = useHistory();
     const [haveChanges, setHaveChanges] = useState(true);
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [firstTimeFlag, setFirstTimeFlag] = useState(false);
-    const [expandFlag, setExpandFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [userId, setUserId] = useState('');
     const [responseFlag, setResponseFlag] = useState(false);
@@ -58,6 +58,10 @@ const Home = () => {
 
     function setSelected(firstSymbol: string) {
         setCurrentUserStock(userStocks.find(page => page?.symbol === firstSymbol));
+    }
+
+    function setExpandFlag(url: string) {
+
     }
 
     function handleLogout() {
@@ -114,9 +118,11 @@ const Home = () => {
                 const currentUserStock: Stock | undefined = _session.stocks
                     .find(stock => stock.symbol === symbol);
 
-                if (currentUserStock !== undefined && currentUserStock.data !== undefined) {
+                if (currentUserStock !== undefined && currentUserStock.data !== undefined && currentUserStock.news !== undefined) {
 
                     const stockData: StockData = currentUserStock.data;
+
+                    const stockNews: News = currentUserStock.news;
 
                     const userTags = _session.user.stocks?.find(stock => stock.symbol === symbol)?.tags;
 
@@ -138,6 +144,7 @@ const Home = () => {
                     }
 
                     const userStockItem: Stock = {
+                        news: stockNews,
                         data: stockData,
                         tags: userTags,
                         symbol: currentUserStock.symbol,
@@ -228,81 +235,79 @@ const Home = () => {
                                             <input type="search" className='search-input' />
                                         </div>
                                         <div className='articles'>
-                                            <div className='main-article'>
-                                                <div className='main-article-left'>
-                                                    <div className='main-article-top'>
-                                                        <div className='main-article-top-top'>
-                                                            <a className='a' href="http://" target="_blank" rel="noopener noreferrer">
-                                                                <p className='main-article-title'
-                                                                title='Fortuna de Luiza Trajano está indo pro ralo junto com as ações do Magazine Luiza: empresária foi cortada da lista de bilionários da Forbes após MGLU3 despencar quase 90%'>
-                                                                    Fortuna de Luiza Trajano está indo pro ralo junto com as ações do Magazine Luiza: empresária foi cortada da lista de bilionários da Forbes após MGLU3 despencar quase 90%
-                                                                </p>
-                                                            </a>
+                                            {currentUserStock?.news?.mainArticles.map((mainArticle, index) => (
+                                                <div className='main-article' key={index}>
+                                                    <div className='main-article-left'>
+                                                        <div className='main-article-top'>
+                                                            <div className='main-article-top-top'>
+                                                                <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                                    <p className='main-article-title' title={mainArticle.article.title}>{mainArticle.article.title}</p>
+                                                                </a>
+                                                            </div>
+                                                            <div className='main-article-top-bottom'>
+                                                                <a className='a' href={mainArticle.article.source.url} target="_blank" rel="noopener noreferrer">
+                                                                    <p className='main-article-p'>{mainArticle.article.source.title}</p>
+                                                                </a>
+                                                                <p className='main-article-p'>{mainArticle.article.time.title}</p>
+                                                            </div>
                                                         </div>
-                                                        <div className='main-article-top-bottom'>
-                                                            <p className='main-article-p'>Seu Dinheiro</p>
-                                                            <p className='main-article-p'>5 horas atrás</p>
+                                                            <div className='first-main-article-bottom'>
+                                                                <div className='main-article-bottom-top'>
+                                                                    <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
+                                                                </div>
+                                                                <div className='main-article-bottom-bottom'>
+                                                                    <a className='a' href={mainArticle.firstSubArticle.source.url} target="_blank" rel="noopener noreferrer">
+                                                                        <p className='main-article-p'>{mainArticle.firstSubArticle.source.title}</p>
+                                                                    </a>
+                                                                    <p className='main-article-p'>{mainArticle.firstSubArticle.time.title}</p>
+                                                                </div>
+                                                            </div>
+                                                        {mainArticle.subArticles.map((subArticle, index) => (
+                                                            <div className={mainArticle.expandFlag == true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
+                                                                <div className='main-article-bottom-top'>
+                                                                    <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
+                                                                </div>
+                                                                <div className='main-article-bottom-bottom'>
+                                                                    <a className='a' href={subArticle.source.url} target="_blank" rel="noopener noreferrer">
+                                                                        <p className='main-article-p'>{subArticle.source.title}</p>
+                                                                    </a>
+                                                                    <p className='main-article-p'>{subArticle.time.title}</p>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <div className='main-article-right'>
+                                                        <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                            <img className='main-article-image' src={mainArticle.article.image} />
+                                                        </a>
+                                                        <div className='dummy-div-1'>
+                                                            <div></div>
+                                                            {mainArticle.expandFlag ? 
+                                                                <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
+                                                                :
+                                                                <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
+                                                            }
                                                         </div>
                                                     </div>
-                                                        <div className='first-main-article-bottom'>
-                                                            <div className='main-article-bottom-top'>
-                                                                <p className='main-article-title-2'
-                                                                title='Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes'>
-                                                                    Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes
-                                                                </p>
-                                                            </div>
-                                                            <div className='main-article-bottom-bottom'>
-                                                                <p className='main-article-p'>Suno Notícias</p>
-                                                                <p className='main-article-p'>3 dias atrás</p>
-                                                            </div>
-                                                        </div>
-                                                    {[0, 1, 2, 4, 5].map(e => (
-                                                        <div className={expandFlag ? 'main-article-bottom' : 'main-article-bottom-collapsed'}>
-                                                            <div className='main-article-bottom-top'>
-                                                                <p className='main-article-title-2'
-                                                                title='Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes'>
-                                                                    Luiza Trajano, dona do Magazine Luiza (MGLU3), sai da lista de bilionários da Forbes
-                                                                </p>
-                                                            </div>
-                                                            <div className='main-article-bottom-bottom'>
-                                                                <p className='main-article-p'>Suno Notícias</p>
-                                                                <p className='main-article-p'>3 dias atrás</p>
-                                                            </div>
-                                                        </div>
-                                                    ))}
                                                 </div>
-                                                <div className='main-article-right'>
-                                                    <a className='a' href="http://" target="_blank" rel="noopener noreferrer">
-                                                        <img className='main-article-image' src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/06/Design-sem-nome-56-628x353.png" alt="Luiza" />
-                                                    </a>
-                                                    <div className='dummy-div-1'>
-                                                        <div></div>
-                                                        {expandFlag ? 
-                                                            <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(!expandFlag)}/>
-                                                            :
-                                                            <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(!expandFlag)}/>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {[0, 1, 2, 3, 4, 5].map(e => (
-                                                <div className='article'>
+                                            ))}
+                                            {currentUserStock?.news?.articles.map((article, index) => (
+                                                <div className='article' key={index}>
                                                     <div className='article-left'>
                                                         <div className='article-top'>
-                                                            <a className='a' href="http://" target="_blank" rel="noopener noreferrer">
-                                                                <p className='article-title' 
-                                                                title='Fortuna de Luiza Trajano está indo pro ralo junto com as ações do Magazine Luiza: empresária foi cortada da lista de bilionários da Forbes após MGLU3 despencar quase 90% Fortuna de Luiza Trajano está indo pro ralo junto com as ações do Magazine Luiza: empresária foi cortada da lista de bilionários da Forbes após MGLU3 despencar quase 90%'>
-                                                                    Fortuna de Luiza Trajano está indo pro ralo junto com as ações do Magazine Luiza: empresária foi cortada da lista de bilionários da Forbes após MGLU3 despencar quase 90%
-                                                                </p>
+                                                            <a className='a' href={article.url} target="_blank" rel="noopener noreferrer">
+                                                                <p className='article-title' title={article.title}>{article.title}</p>
                                                             </a>
                                                         </div>
                                                         <div className='article-bottom'>
-                                                            <p className='main-article-p'>Seu Dinheiro</p>
-                                                            <p className='main-article-p'>5 horas atrás</p>
+                                                            <a className='a' href={article.source.url} target="_blank" rel="noopener noreferrer">
+                                                                <p className='main-article-p'>{article.source.title}</p>
+                                                            </a>
+                                                            <p className='main-article-p'>{article.time.title}</p>
                                                         </div>
                                                     </div>
                                                     <div className='article-right'>
-                                                        <img className='article-image' src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/06/Design-sem-nome-56-628x353.png" alt="Luiza" />
+                                                        <img className='article-image' src={article.image}/>
                                                     </div>
                                                 </div>
                                             ))}
