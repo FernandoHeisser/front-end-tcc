@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useHistory } from 'react-router';
 import { HiOutlineSearch } from 'react-icons/hi';
@@ -10,6 +10,7 @@ import Item from '../../models/Item';
 import Session from '../../models/Session';
 import api from '../../services/api';
 import News from '../../models/News';
+import User from '../../models/User';
 
 const Home = () => {
     const history = useHistory();
@@ -17,12 +18,15 @@ const Home = () => {
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [firstTimeFlag, setFirstTimeFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
+    const [loadingFlag2, setLoadingFlag2] = useState(false);
     const [userId, setUserId] = useState('');
     const [responseFlag, setResponseFlag] = useState(false);
     const [items, setItems] = useState<Item[]>();
     const [changesCounter, setChangesCounter] = useState(0);
     const [userStocks, setUserStocks] = useState<Stock[]>([]);
     const [currentUserStock, setCurrentUserStock] = useState<Stock>();
+    const [search, setSearch] = useState<string>();
+    const [user, setUser] = useState<User>();
 
     function formatDate(str: string | undefined) {
         if (str !== undefined && str !== null && str !== '') {
@@ -86,6 +90,47 @@ const Home = () => {
         }
     }
 
+    function handleSearch(event: ChangeEvent<HTMLInputElement>){
+        let search = event.target.value;
+        search = search.replaceAll(' ', '+')
+        setSearch(search);
+    }
+
+    function submitSearch(event: { charCode: number; }) {
+        if (event.charCode === 13) {
+            getNews(search);
+        }
+    }
+
+    function submitSearch2() {        
+        getNews(search);
+    }
+
+    async function getNews(tags: string | undefined) {
+        setLoadingFlag2(true);
+        if (tags !== undefined && tags !== null && tags !== '') {
+            const response = await api.get(`news/${tags}`);
+            const news: News = response.data;
+            let _currentUserStock = currentUserStock;
+            if (_currentUserStock !== undefined && news !== undefined) {
+                _currentUserStock.news = news;
+                _currentUserStock.tags = tags;
+                setCurrentUserStock(_currentUserStock);
+                setChangesCounter(changesCounter + 1);
+                let _user = user;
+                _user?.stocks.map(stock => {
+                    if(stock.symbol === _currentUserStock?.symbol){
+                        stock.tags = tags;
+                    }
+                    return stock;
+                });
+                setUser(_user);
+                api.put('users', _user);
+            }
+        }
+        setLoadingFlag2(false);
+    }
+
     useEffect(() => {
         (async function () {
             if (!haveChanges) {
@@ -108,6 +153,8 @@ const Home = () => {
             const sessionResponse = await api.get(`/session/${userId}`);
 
             const _session: Session = sessionResponse.data;
+
+            setUser(_session.user);
 
             let itemList: Item[] = [];
             if (_session.user.stocks !== undefined) {
@@ -244,87 +291,96 @@ const Home = () => {
                                 <div className='right'>
                                     <div className='home-inside-left'>
                                         <div className='search-bar'>
-                                            <HiOutlineSearch className='search-icon' />
-                                            <input type="search" className='search-input' />
+                                            <HiOutlineSearch className='search-icon' onClick={submitSearch2}/>
+                                            <input placeholder={currentUserStock?.tags?.replaceAll('+', ' ')} type="search" className='search-input' onChange={handleSearch} onKeyPress={submitSearch}/>
                                         </div>
-                                        <div className='articles'>
-                                            {currentUserStock?.news?.mainArticles.map((mainArticle, index) => (
-                                                <div className='main-article' key={index}>
-                                                    <div className='main-article-left'>
-                                                        <div className='main-article-top'>
-                                                            <div className='main-article-top-top'>
-                                                                <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
-                                                                    <p className='main-article-title' title={mainArticle.article.title}>{mainArticle.article.title}</p>
+                                        {loadingFlag2 ? 
+                                            <div className='loading-page'>
+                                                <div className='column'>
+                                                    <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
+                                                    <p className='column-p'>Buscando os dados na web...</p>
+                                                </div>
+                                            </div>                    
+                                            :
+                                            <div className='articles'>
+                                                {currentUserStock?.news?.mainArticles.map((mainArticle, index) => (
+                                                    <div className='main-article' key={index}>
+                                                        <div className='main-article-left'>
+                                                            <div className='main-article-top'>
+                                                                <div className='main-article-top-top'>
+                                                                    <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                                        <p className='main-article-title' title={mainArticle.article.title}>{mainArticle.article.title}</p>
+                                                                    </a>
+                                                                </div>
+                                                                <div className='main-article-top-bottom'>
+                                                                    <a className='a' href={mainArticle.article.source.url} target="_blank" rel="noopener noreferrer">
+                                                                        <p className='main-article-p'>{mainArticle.article.source.title}</p>
+                                                                    </a>
+                                                                    <p className='main-article-p'>{mainArticle.article.time.title}</p>
+                                                                </div>
+                                                            </div>
+                                                                <div className='first-main-article-bottom'>
+                                                                    <div className='main-article-bottom-top'>
+                                                                        <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
+                                                                    </div>
+                                                                    <div className='main-article-bottom-bottom'>
+                                                                        <a className='a' href={mainArticle.firstSubArticle.source.url} target="_blank" rel="noopener noreferrer">
+                                                                            <p className='main-article-p'>{mainArticle.firstSubArticle.source.title}</p>
+                                                                        </a>
+                                                                        <p className='main-article-p'>{mainArticle.firstSubArticle.time.title}</p>
+                                                                    </div>
+                                                                </div>
+                                                            {mainArticle.subArticles.map((subArticle, index) => (
+                                                                <div className={mainArticle.expandFlag == true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
+                                                                    <div className='main-article-bottom-top'>
+                                                                        <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
+                                                                    </div>
+                                                                    <div className='main-article-bottom-bottom'>
+                                                                        <a className='a' href={subArticle.source.url} target="_blank" rel="noopener noreferrer">
+                                                                            <p className='main-article-p'>{subArticle.source.title}</p>
+                                                                        </a>
+                                                                        <p className='main-article-p'>{subArticle.time.title}</p>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                        <div className='main-article-right'>
+                                                            <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                                <img className='main-article-image' src={mainArticle.article.image} />
+                                                            </a>
+                                                            <div className='dummy-div-1'>
+                                                                <div></div>
+                                                                {mainArticle.expandFlag ? 
+                                                                    <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
+                                                                    :
+                                                                    <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                {currentUserStock?.news?.articles.map((article, index) => (
+                                                    <div className='article' key={index}>
+                                                        <div className='article-left'>
+                                                            <div className='article-top'>
+                                                                <a className='a' href={article.url} target="_blank" rel="noopener noreferrer">
+                                                                    <p className='article-title' title={article.title}>{article.title}</p>
                                                                 </a>
                                                             </div>
-                                                            <div className='main-article-top-bottom'>
-                                                                <a className='a' href={mainArticle.article.source.url} target="_blank" rel="noopener noreferrer">
-                                                                    <p className='main-article-p'>{mainArticle.article.source.title}</p>
+                                                            <div className='article-bottom'>
+                                                                <a className='a' href={article.source.url} target="_blank" rel="noopener noreferrer">
+                                                                    <p className='main-article-p'>{article.source.title}</p>
                                                                 </a>
-                                                                <p className='main-article-p'>{mainArticle.article.time.title}</p>
+                                                                <p className='main-article-p'>{article.time.title}</p>
                                                             </div>
                                                         </div>
-                                                            <div className='first-main-article-bottom'>
-                                                                <div className='main-article-bottom-top'>
-                                                                    <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
-                                                                </div>
-                                                                <div className='main-article-bottom-bottom'>
-                                                                    <a className='a' href={mainArticle.firstSubArticle.source.url} target="_blank" rel="noopener noreferrer">
-                                                                        <p className='main-article-p'>{mainArticle.firstSubArticle.source.title}</p>
-                                                                    </a>
-                                                                    <p className='main-article-p'>{mainArticle.firstSubArticle.time.title}</p>
-                                                                </div>
-                                                            </div>
-                                                        {mainArticle.subArticles.map((subArticle, index) => (
-                                                            <div className={mainArticle.expandFlag == true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
-                                                                <div className='main-article-bottom-top'>
-                                                                    <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
-                                                                </div>
-                                                                <div className='main-article-bottom-bottom'>
-                                                                    <a className='a' href={subArticle.source.url} target="_blank" rel="noopener noreferrer">
-                                                                        <p className='main-article-p'>{subArticle.source.title}</p>
-                                                                    </a>
-                                                                    <p className='main-article-p'>{subArticle.time.title}</p>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                    <div className='main-article-right'>
-                                                        <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
-                                                            <img className='main-article-image' src={mainArticle.article.image} />
-                                                        </a>
-                                                        <div className='dummy-div-1'>
-                                                            <div></div>
-                                                            {mainArticle.expandFlag ? 
-                                                                <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
-                                                                :
-                                                                <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
-                                                            }
+                                                        <div className='article-right'>
+                                                            <img className='article-image' src={article.image}/>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                            {currentUserStock?.news?.articles.map((article, index) => (
-                                                <div className='article' key={index}>
-                                                    <div className='article-left'>
-                                                        <div className='article-top'>
-                                                            <a className='a' href={article.url} target="_blank" rel="noopener noreferrer">
-                                                                <p className='article-title' title={article.title}>{article.title}</p>
-                                                            </a>
-                                                        </div>
-                                                        <div className='article-bottom'>
-                                                            <a className='a' href={article.source.url} target="_blank" rel="noopener noreferrer">
-                                                                <p className='main-article-p'>{article.source.title}</p>
-                                                            </a>
-                                                            <p className='main-article-p'>{article.time.title}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className='article-right'>
-                                                        <img className='article-image' src={article.image}/>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                                                ))}
+                                            </div>
+                                        }
                                     </div>
                                     <div className='home-inside-right'>
 
