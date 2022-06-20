@@ -277,7 +277,7 @@
     flex-direction: column;
     width: 18%;
 }
-.home-inside-left .articles .article .article-right .article-image {
+.article-image {
     display: flex;
     flex-direction: column;
     height: 100%;

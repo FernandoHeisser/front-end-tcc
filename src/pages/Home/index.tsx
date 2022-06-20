@@ -61,7 +61,20 @@ const Home = () => {
     }
 
     function setExpandFlag(url: string) {
-
+        var _currentUserStock = currentUserStock;
+        _currentUserStock?.news?.mainArticles.map(mainArticle => {
+            if(mainArticle.article.url == url){
+                if(mainArticle.expandFlag == false || mainArticle.expandFlag == undefined){
+                    mainArticle.expandFlag = true;
+                } else {
+                    mainArticle.expandFlag = false;
+                }
+            }
+            return mainArticle;
+        });
+        console.log(_currentUserStock?.news?.mainArticles);
+        setCurrentUserStock(_currentUserStock);
+        setChangesCounter(changesCounter + 1);
     }
 
     function handleLogout() {
