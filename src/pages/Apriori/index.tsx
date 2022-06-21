@@ -20,6 +20,7 @@ const Apriori = () => {
     const [minLift, setMinLift] = useState("null");
     const [firstCondition, setFirstCondition] = useState("Abertura (atual)");
     const [secondCondition, setSecondCondition] = useState("Fechamento (atual)");
+    const [interval, setInterval] = useState('1d');
 
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
@@ -135,6 +136,11 @@ const Apriori = () => {
         setStocks(_stocks);
     }
 
+    function handleInterval(event: ChangeEvent<HTMLSelectElement>){
+        const interval = event.target.value;
+        setInterval(interval);
+    }
+
     async function handleSubmit(event: FormEvent){
         event.preventDefault();
 
@@ -159,7 +165,8 @@ const Apriori = () => {
             'minConfidence': minConfidence,
             'minLift': minLift,
             'firstCondition': firstCondition,
-            'secondCondition': secondCondition
+            'secondCondition': secondCondition,
+            'interval': interval
         };
 
         setLoadingFlag2(false);
@@ -322,6 +329,24 @@ const Apriori = () => {
                                                                 <div className='apriori-end-date'>
                                                                     <p>Até o dia:</p>
                                                                     <input className='input-date' type="date" defaultValue={getToday()} max={getToday()} onChange={handleEndDate}/>
+                                                                </div>
+                                                                <div className='apriori-interval'>
+                                                                    <p>Intervalo:</p>
+                                                                    <select className='apriori-interval-select' onChange={handleInterval}>
+                                                                        <option value='1m'>1 Minuto</option>
+                                                                        <option value='2m'>2 Minutos</option>
+                                                                        <option value='5m'>5 Minutos</option>
+                                                                        <option value='15m'>15 Minutos</option>
+                                                                        <option value='30m'>30 Minutos</option>
+                                                                        <option value='60m'>60 Minutos</option>
+                                                                        <option value='90m'>90 Minutos</option>
+                                                                        <option value='1h'>1 Hora</option>
+                                                                        <option value='1d' selected>1 Dia</option>
+                                                                        <option value='5d'>5 Dias</option>
+                                                                        <option value='1wk'>1 Semana</option>
+                                                                        <option value='1mo'>1 Mês</option>
+                                                                        <option value='3mo'>3 Meses</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div className='column-1-apriori-right'>

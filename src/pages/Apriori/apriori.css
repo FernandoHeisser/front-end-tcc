@@ -143,7 +143,7 @@
 }
 .main-apriori .main-apriori-right .row-3-apriori{
     width: 90%;
-    height: 150px;
+    height: 200px;
     margin: 1%;
     display: flex;
     justify-content: space-between;
@@ -160,7 +160,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 70%;
-    height: 150px;
+    height: 200px;
     background-color: #F0F2F5;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     border-radius: 10px;
@@ -342,11 +342,15 @@ a:hover{
     width: 70px;
     height: 20%;
 }
-.apriori-start-date, .apriori-end-date{
+.apriori-start-date, .apriori-end-date, .apriori-interval{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 2%;
+}
+.apriori-interval-select{
+    height: 30px;
+    width: 150px;
 }
 .apriori-start-date p, .apriori-end-date p{
     height: 25px;
