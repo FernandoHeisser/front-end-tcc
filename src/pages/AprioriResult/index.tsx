@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import { CgArrowLongRight } from 'react-icons/cg';
+import { AiOutlineReload } from 'react-icons/ai';
 import './aprioriResult.css';
 import StockDataYahoo from '../../models/StockDataYahoo';
 import YahooData from '../../models/YahooData';
@@ -17,10 +18,24 @@ const AprioriResult = () => {
     const history = useHistory();
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
+    const [loadingFlag2, setLoadingFlag2] = useState(false);
     const [items, setItems] = useState<AprioriItem[]>([]);
     const [stocks, setStocks] = useState<Stock[]>([]);
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
     const [condition, setCondition] = useState<AprioriCondition>();
+
+    function reloadData(){
+        setLoadingFlag2(true);
+        let symbols: string[] = [];
+        stocks.forEach(stock => {
+            if (stock.symbol !== undefined) {
+                symbols.push(stock.symbol);
+            }
+        });
+
+        getStockDataFromYahoo(symbols);
+        setLoadingFlag2(false);
+    }
 
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
@@ -271,44 +286,62 @@ const AprioriResult = () => {
                                         </div>
                                     </Accordion.Header>
                                     <Accordion.Body className='accordion-body'>
-                                        <Table className='table'>
-                                            <thead>
-                                                <tr>
-                                                    <th><span>Ação</span></th>
-                                                    <th><span>Abertura</span></th>
-                                                    <th><span>Cotação</span></th>
-                                                    <th><span>Máxima</span></th>
-                                                    <th><span>Mínima</span></th>
-                                                    <th><span>Volume</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {item.items_base.map(symbol => (
-                                                <tr key={symbol}>
-                                                    <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.open).toFixed(2)}</p></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.close).toFixed(2)}</p></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.high).toFixed(2)}</p></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.low).toFixed(2)}</p></td>
-                                                    <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.volume)}</p></td>
-                                                </tr>
-                                            ))}
-                                            {item.items_add.map(symbol => (
-                                                <tr key={symbol}>
-                                                    <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.open).toFixed(2)}</p></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.close).toFixed(2)}</p></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.high).toFixed(2)}</p></td>
-                                                    <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.low).toFixed(2)}</p></td>
-                                                    <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.volume)}</p></td>
-                                                </tr>
-                                            ))}
-                                            </tbody>
-                                        </Table>
+                                        {loadingFlag2 ? 
+                                            <div className='loading-page-apriori-result'>
+                                                <div className='column-apriori-result'>
+                                                    <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
+                                                </div>
+                                            </div>
+                                            :
+                                            <Table className='table'>
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Ação</span></th>
+                                                        <th><span>Abertura</span></th>
+                                                        <th><span>Cotação</span></th>
+                                                        <th><span>Máxima</span></th>
+                                                        <th><span>Mínima</span></th>
+                                                        <th><span>Volume</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {item.items_base.map(symbol => (
+                                                    <tr key={symbol}>
+                                                        <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.open).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.close).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.high).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.low).toFixed(2)}</p></td>
+                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.volume)}</p></td>
+                                                    </tr>
+                                                ))}
+                                                {item.items_add.map(symbol => (
+                                                    <tr key={symbol}>
+                                                        <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.open).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.close).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.high).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.low).toFixed(2)}</p></td>
+                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.volume)}</p></td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </Table>
+                                        }
                                         <div className='side-table'>
-                                            <p>Valores atuais das ações analisadas.</p>
-                                            <p><span className='red-symbol'>Vermelho</span> - A condição analisada não está se satisfazendo atualmente.</p>
-                                            <p><span className='green-symbol'>Verde</span> - A condição analisada está se satisfazendo atualmente.</p>
+                                            <div className='side-table-left'>
+                                                <div className='side-table-left-top'>
+                                                    <AiOutlineReload className='reload-button' onClick={reloadData}/>
+                                                </div>
+                                                <div className='side-table-left-bottom'>
+
+                                                </div>
+                                            </div>
+                                            <div className='side-table-right'>
+                                                <p>Valores atuais das ações analisadas.</p>
+                                                <p><span className='red-symbol'>Vermelho</span> - A condição analisada não está se satisfazendo atualmente.</p>
+                                                <p><span className='green-symbol'>Verde</span> - A condição analisada está se satisfazendo atualmente.</p>
+                                            </div>
                                         </div>
                                     </Accordion.Body>
                                 </Accordion.Item>

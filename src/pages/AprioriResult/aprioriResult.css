@@ -179,8 +179,34 @@ body{
 }
 .side-table{
     width: 60%;
-    padding: 1%;
     background-color: white;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+.side-table-left{
+    width: 5%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+.side-table-left-top{
+    margin-left: -25px;
+    height: 15%;
+    font-size: 20px;
+    color: black;
+}
+.reload-button:hover{
+    cursor: pointer;
+    background-color: #E7F1FF;
+    border-radius: 5px;
+}
+.side-table-left-bottom{
+    height: 95%;
+}
+.side-table-right{
+    width: 95%;
+    padding: 1%;
     height: auto;
     margin: 1%;
 }
