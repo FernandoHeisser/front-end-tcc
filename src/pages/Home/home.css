@@ -238,15 +238,21 @@
     width: 20%;
     justify-content: space-between;
 }
+.main-image-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50%;
+}
 .main-article-image {
     width: 100%;
     height: 120px;
-    object-fit: cover;
     border-radius: 10px;
 }
 .home-inside-left .articles .article {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin-top: 16px;
     margin-bottom: 16px;
     width: 100%;
@@ -278,15 +284,15 @@
 }
 .home-inside-left .articles .article .article-right {
     display: flex;
-    flex-direction: column;
-    width: 18%;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 15%;
 }
 .article-image {
     display: flex;
     flex-direction: column;
     height: 100%;
     border-radius: 10px;
-    object-fit: cover;
 }
 .home-inside-right {
     width: 30%;

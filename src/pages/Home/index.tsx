@@ -355,9 +355,14 @@ const Home = () => {
                                                             ))}
                                                         </div>
                                                         <div className='main-article-right'>
-                                                            <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
-                                                                <img className='main-article-image' srcSet={mainArticle.article.image} />
-                                                            </a>
+                                                            <div className='main-image-div'>
+                                                                <div className='dummy-div-2'>
+
+                                                                </div>
+                                                                <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                                    <img referrerPolicy="no-referrer" className='main-article-image' srcSet={mainArticle.article.image} />
+                                                                </a>
+                                                            </div>
                                                             <div className='dummy-div-1'>
                                                                 <div></div>
                                                                 {mainArticle.expandFlag ? 
@@ -385,7 +390,8 @@ const Home = () => {
                                                             </div>
                                                         </div>
                                                         <div className='article-right'>
-                                                            <img className='article-image' srcSet={article.image}/>
+                                                            <div></div>
+                                                            <img referrerPolicy="no-referrer" className='article-image' srcSet={article.image}/>
                                                         </div>
                                                     </div>
                                                 ))}
