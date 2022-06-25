@@ -181,7 +181,17 @@ const Apriori = () => {
             history.push('/apriori-result');
 
         } catch(e) {
-            console.log(e);
+            setStartDate("null");
+            setEndDate("null");
+            setMinSupport("null");
+            setMinConfidence("null");
+            setMinLift("null");
+            setFirstCondition("Abertura (atual)");
+            setSecondCondition("Fechamento (atual)");
+            setInterval('1d');
+
+            setLoadingFlag2(true);
+            alert('Período e intervalo de tempo inviável, tente com um período ou intervalo de tempo menor.');
         }
         
         setLoadingFlag2(true);

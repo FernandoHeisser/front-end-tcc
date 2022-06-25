@@ -5,7 +5,8 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--title-color)
+    color: var(--title-color);
+    width: 100%;
 }
 .loading-page-apriori-result .column-apriori-result {
     padding-top: 15%;
@@ -22,7 +23,7 @@ body{
     height: 100%;
     width: 20%;
     position: fixed;
-    z-index: 1;
+    z-index: 5;
     top: 0;
     left: 0;
     background-color: rgba(17, 17, 17, 0.9);
@@ -174,7 +175,7 @@ body{
     flex-direction: row;
 }
 .table{
-    width: 40%;
+    width: 100%;
     color: var(--title-color);
 }
 .side-table{

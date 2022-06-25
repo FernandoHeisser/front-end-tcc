@@ -24,7 +24,7 @@ const AprioriResult = () => {
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
     const [condition, setCondition] = useState<AprioriCondition>();
 
-    function reloadData(){
+    async function reloadData(){
         setLoadingFlag2(true);
         let symbols: string[] = [];
         stocks.forEach(stock => {
@@ -33,7 +33,7 @@ const AprioriResult = () => {
             }
         });
 
-        getStockDataFromYahoo(symbols);
+        await getStockDataFromYahoo(symbols);
         setLoadingFlag2(false);
     }
 
@@ -288,8 +288,8 @@ const AprioriResult = () => {
                                     <Accordion.Body className='accordion-body'>
                                         {loadingFlag2 ? 
                                             <div className='loading-page-apriori-result'>
-                                                <div className='column-apriori-result'>
-                                                    <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
+                                                <div>
+                                                    <ReactLoading type={'spin'} color={'#224255'} height={75} width={75} />
                                                 </div>
                                             </div>
                                             :
