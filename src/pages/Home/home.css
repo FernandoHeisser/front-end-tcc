@@ -78,20 +78,28 @@
     width: 10%;
 }
 .main .left .item {
-    padding: 20%;
+    display: flex;
+    padding-top: 8%;
+    padding-right: 8%;
     height: 80px;
     font-size: 120%;
     color: var(--title-color);
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
 }
 .main .left .item-selected {
-    padding: 20%;
+    display: flex;
+    padding-top: 8%;
+    padding-right: 8%;
     height: 80px;
     font-size: 121%;
     background-color: white;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     color: var(--title-color);
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
 }
 .main .right {
     box-shadow: 1px 1px 10px 1px #BEBEBE;
