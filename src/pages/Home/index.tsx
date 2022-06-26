@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
 import './home.css';
@@ -13,7 +13,7 @@ import News from '../../models/News';
 import User from '../../models/User';
 
 const Home = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [haveChanges, setHaveChanges] = useState(true);
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [firstTimeFlag, setFirstTimeFlag] = useState(false);
@@ -84,7 +84,7 @@ const Home = () => {
     function handleLogout() {
         if (window.confirm("Você realmente quer sair?")) {
             localStorage.clear();
-            history.push('/');
+            navigate('/');
         } else {
             setSideMenuFlag(false);
         }
@@ -148,7 +148,7 @@ const Home = () => {
             const userId = localStorage.getItem('userId');
 
             if (userId === undefined || userId === null) {
-                history.push('/');
+                navigate('/');
             } else {
                 setUserId(userId);
             }
@@ -281,8 +281,8 @@ const Home = () => {
                                     <p className='menu-item' onClick={handleLogout}>Sair</p>
                                 </div>
                                 <div className='menu'>
-                                    <p className='menu-item' onClick={() => history.push('/apriori')}>Análise Apriori</p>
-                                    <p className='menu-item' onClick={() => history.push('/add-stocks')}>Editar Carteira</p>
+                                    <p className='menu-item' onClick={() => navigate('/apriori')}>Análise Apriori</p>
+                                    <p className='menu-item' onClick={() => navigate('/add-stocks')}>Editar Carteira</p>
                                 </div>
                             </div>
                             <div className='main'>

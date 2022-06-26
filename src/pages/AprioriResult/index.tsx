@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import { CgArrowLongRight } from 'react-icons/cg';
@@ -15,7 +15,7 @@ import AprioriStockCondition from '../../models/AprioriStockCondition';
 import api from '../../services/api';
 
 const AprioriResult = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [loadingFlag2, setLoadingFlag2] = useState(false);
@@ -40,7 +40,7 @@ const AprioriResult = () => {
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
             localStorage.clear();
-            history.push('/');
+            navigate('/');
         } else {
             setSideMenuFlag(false);
         }
@@ -162,11 +162,11 @@ const AprioriResult = () => {
             const lastAnalysis = localStorage.getItem('last-analysis');
 
             if(userId === undefined || userId === null) {
-                history.push('/');
+                navigate('/');
             }
     
             if(lastAnalysis === undefined || lastAnalysis === null) {
-                history.push('/apriori');
+                navigate('/apriori');
             } else {
                 var _items: AprioriItem[] = JSON.parse(lastAnalysis);
 
@@ -233,9 +233,9 @@ const AprioriResult = () => {
                             <p className='menu-apriori-result-item' onClick={handleLogout}>Sair</p>
                         </div>
                         <div className='menu-apriori-result'>
-                            <p className='menu-apriori-result-item' onClick={()=>history.push('/home')}>Página Principal</p>
-                            <p className='menu-apriori-result-item' onClick={()=>history.push('/apriori')}>Análise Apriori</p>
-                            <p className='menu-apriori-result-item' onClick={()=>history.push('/add-stocks')}>Editar Carteira</p>
+                            <p className='menu-apriori-result-item' onClick={()=>navigate('/home')}>Página Principal</p>
+                            <p className='menu-apriori-result-item' onClick={()=>navigate('/apriori')}>Análise Apriori</p>
+                            <p className='menu-apriori-result-item' onClick={()=>navigate('/add-stocks')}>Editar Carteira</p>
                         </div>
                     </div>
                     <div className='main-apriori-result'>

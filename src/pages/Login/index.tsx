@@ -1,13 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import api from '../../services/api';
 import Stock from '../../models/Stock'
 import User from '../../models/User';
 import './login.css';
 
 const Login = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [loginFlag, setLoginFlag] = useState(false);
     const [id, setId] = useState<string>();
     const [selectedStock, setSelectedStock] = useState<string>('');
@@ -36,7 +36,7 @@ const Login = () => {
         localStorage.setItem('userId', response.data);
         localStorage.setItem('first-time-flag', "true");
         
-        history.push('/home');
+        navigate('/home');
     }
 
     function handleId(event: ChangeEvent<HTMLInputElement>) {
@@ -50,7 +50,7 @@ const Login = () => {
             
             localStorage.setItem('userId', response.data._id);
         
-            history.push('/home');
+            navigate('/home');
 
         } catch (e) {
             setResponseFlag(true);

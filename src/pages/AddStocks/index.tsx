@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { IoMdClose } from 'react-icons/io';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import './addStocks.css';
 import Stock from '../../models/Stock';
 import User from '../../models/User';
 import api from '../../services/api';
 
 const AddStocks = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [responseFlag, setResponseFlag] = useState(false);
@@ -21,7 +21,7 @@ const AddStocks = () => {
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
             localStorage.clear();
-            history.push('/');
+            navigate('/');
         } else {
             setSideMenuFlag(false);
         }
@@ -99,7 +99,7 @@ const AddStocks = () => {
             const userId = localStorage.getItem('userId');
 
             if(userId === undefined || userId === null) {
-                history.push('/');
+                navigate('/');
             }
 
             const response_stocks = await api.get('stocks');
@@ -151,8 +151,8 @@ const AddStocks = () => {
                                 <p className='menu-add-stocks-item' onClick={handleLogout}>Sair</p>
                             </div>
                             <div className='menu-add-stocks'>
-                                <p className='menu-add-stocks-item' onClick={()=>history.push('/home')}>Página Principal</p>
-                                <p className='menu-add-stocks-item' onClick={()=>history.push('/apriori')}>Análise Apriori</p>
+                                <p className='menu-add-stocks-item' onClick={()=>navigate('/home')}>Página Principal</p>
+                                <p className='menu-add-stocks-item' onClick={()=>navigate('/apriori')}>Análise Apriori</p>
                             </div>
                         </div>
                         <div className='main-add-stocks'>
