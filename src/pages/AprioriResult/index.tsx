@@ -122,6 +122,9 @@ const AprioriResult = () => {
     }
 
     function checkCondition(symbol: string){
+        if(stockDataYahoo === null || stockDataYahoo === undefined)
+            return false;
+
         const stockCondition: AprioriStockCondition = getCondition();
         const stockData = stockDataYahoo.find(s => s.symbol === symbol);
         
@@ -311,21 +314,21 @@ const AprioriResult = () => {
                                                 {item.items_base.map(symbol => (
                                                     <tr key={symbol}>
                                                         <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
-                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
+                                                        <td className='td'><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
                                                     </tr>
                                                 ))}
                                                 {item.items_add.map(symbol => (
                                                     <tr key={symbol}>
                                                         <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
-                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
+                                                        <td className='td'><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
                                                     </tr>
                                                 ))}
                                                 </tbody>
