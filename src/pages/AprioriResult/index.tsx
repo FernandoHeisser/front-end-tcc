@@ -124,6 +124,10 @@ const AprioriResult = () => {
     function checkCondition(symbol: string){
         const stockCondition: AprioriStockCondition = getCondition();
         const stockData = stockDataYahoo.find(s => s.symbol === symbol);
+        
+        if(stockData === null || stockData === undefined || stockData.content === null || stockData.content === undefined)
+            return false;
+
         const stock = stocks.find(s => s.symbol === symbol);
         const yesterday: YahooData | undefined = stockData?.content.yesterday;
         const today: YahooData | undefined = stockData?.content.today;
@@ -235,7 +239,6 @@ const AprioriResult = () => {
                         <div className='menu-apriori-result'>
                             <p className='menu-apriori-result-item' onClick={()=>navigate('/home')}>Página Principal</p>
                             <p className='menu-apriori-result-item' onClick={()=>navigate('/apriori')}>Análise Apriori</p>
-                            <p className='menu-apriori-result-item' onClick={()=>navigate('/add-stocks')}>Editar Carteira</p>
                         </div>
                     </div>
                     <div className='main-apriori-result'>
@@ -308,21 +311,21 @@ const AprioriResult = () => {
                                                 {item.items_base.map(symbol => (
                                                     <tr key={symbol}>
                                                         <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.open).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.close).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.high).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.low).toFixed(2)}</p></td>
-                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.volume)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
+                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
                                                     </tr>
                                                 ))}
                                                 {item.items_add.map(symbol => (
                                                     <tr key={symbol}>
                                                         <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.open).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.close).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.high).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.low).toFixed(2)}</p></td>
-                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content.today.volume)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
+                                                        <td><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
+                                                        <td className='td'><p>{Number(stockDataYahoo.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
                                                     </tr>
                                                 ))}
                                                 </tbody>

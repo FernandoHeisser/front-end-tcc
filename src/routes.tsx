@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Apriori from './pages/Apriori';
 import AprioriResult from './pages/AprioriResult';
-import AddStocks from './pages/AddStocks';
 
 const AppRoutes = () => {
     return (
@@ -15,7 +14,6 @@ const AppRoutes = () => {
                 <Route element={<Home />} path="/home"/>
                 <Route element={<Apriori />} path="/apriori"/>
                 <Route element={<AprioriResult />} path="/apriori-result"/>
-                <Route element={<AddStocks />} path="/add-stocks"/>
             </Routes>
         </BrowserRouter>
     );

@@ -2,6 +2,8 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useNavigate } from 'react-router';
 import { HiOutlineSearch } from 'react-icons/hi';
+import { BiCustomize } from 'react-icons/bi'
+import { IoMdClose } from 'react-icons/io';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
 import './home.css';
 import StockData from '../../models/StockData';
@@ -19,6 +21,7 @@ const Home = () => {
     const [firstTimeFlag, setFirstTimeFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [loadingFlag2, setLoadingFlag2] = useState(false);
+    const [editFlag, setEditFlag] = useState(false);
     const [userId, setUserId] = useState('');
     const [responseFlag, setResponseFlag] = useState(false);
     const [items, setItems] = useState<Item[]>();
@@ -27,6 +30,8 @@ const Home = () => {
     const [currentUserStock, setCurrentUserStock] = useState<Stock>();
     const [search, setSearch] = useState<string>();
     const [user, setUser] = useState<User>();
+    const [stocks, setStocks] = useState<Stock[]>();
+    const [selectedEditStock, setSelectedEditStock] = useState<string>('');
 
     function formatDate(str: string | undefined) {
         if (str !== undefined && str !== null && str !== '') {
@@ -76,7 +81,7 @@ const Home = () => {
             }
             return mainArticle;
         });
-        console.log(_currentUserStock?.news?.mainArticles);
+
         setCurrentUserStock(_currentUserStock);
         setChangesCounter(changesCounter + 1);
     }
@@ -138,6 +143,68 @@ const Home = () => {
         setLoadingFlag2(false);
     }
 
+    function handleSelected(event: ChangeEvent<HTMLSelectElement>) {
+        const selectedEditStock = (event.target.value);
+        setSelectedEditStock(selectedEditStock);
+    }
+
+    function addStock() {
+        let _userStocks = userStocks;
+        let stocks = userStocks.map(stock => stock.symbol);
+        let _items = items;
+        if(!stocks.includes(selectedEditStock) && selectedEditStock !== '') {
+            _items?.push({
+                symbol: selectedEditStock,
+                selected: false
+            });
+            setItems(_items);
+
+            let stock: Stock = {
+                symbol: selectedEditStock
+            };
+            _userStocks.push(stock);
+            setUserStocks(_userStocks);
+            
+            let _user = user!;
+            _user.stocks = _userStocks;
+            setUser(_user);
+        }
+        setSelectedEditStock('');
+    }
+
+    function removeStock(param: string) {
+        let _user = user!;
+        
+        let _userStocks = userStocks;
+        let _items = items;
+
+        let _newUserStocks: Stock[] = [];
+        let _newItems: Item[] = [];
+
+        _items?.forEach(stock => {
+            if(stock.symbol !== param)
+            _newItems.push(stock);
+        });
+        setItems(_newItems);
+
+        _userStocks.forEach(stock => {
+            if(stock.symbol !== param)
+                _newUserStocks.push(stock);
+        });
+        _user.stocks = _newUserStocks;
+        setUser(_user);
+        setUserStocks(_newUserStocks);
+    }
+
+    async function saveStocks() {
+        try {
+            await api.put('users', user);
+            window.location.reload();
+        } catch (e) {
+            alert('Erro durante o salvamento, tente novamente.');
+        }
+    }
+
     useEffect(() => {
         (async function () {
             if (!haveChanges) {
@@ -152,6 +219,9 @@ const Home = () => {
             } else {
                 setUserId(userId);
             }
+
+            const _stocks: Stock[] = JSON.parse(localStorage.getItem('stocks')!);
+            setStocks(_stocks);
 
             const _firstTimeFlag = localStorage.getItem('first-time-flag');
             setFirstTimeFlag(_firstTimeFlag === 'true');
@@ -176,9 +246,11 @@ const Home = () => {
                     }
                 });
             }
+
             itemList[0].selected = true;
 
             let userStockList: Stock[] = userStocks;
+
             itemList.forEach(async (item) => {
                 const symbol = item.symbol;
 
@@ -218,7 +290,9 @@ const Home = () => {
                         company: currentUserStock.company
                     };
 
-                    userStockList.push(userStockItem);
+                    if (!userStockList.map(stock=>stock.symbol).includes(userStockItem.symbol)){
+                        userStockList.push(userStockItem);
+                    }
 
                     setItems(itemList);
                     setUserStocks(userStockList);
@@ -282,123 +356,164 @@ const Home = () => {
                                 </div>
                                 <div className='menu'>
                                     <p className='menu-item' onClick={() => navigate('/apriori')}>Análise Apriori</p>
-                                    <p className='menu-item' onClick={() => navigate('/add-stocks')}>Editar Carteira</p>
                                 </div>
                             </div>
                             <div className='main'>
-                                <div className='left'>
-                                    {items?.map(item => (
-                                        <div onClick={() => changeSelected(item)}
-                                            key={item.symbol}
-                                            className={item.selected ? 'item-selected' : 'item'}>
-                                            <p>{item.symbol}</p>
+                                {editFlag ? 
+                                        <div className='left-edit'>
+                                            <div className='item-list'>
+                                                {items?.map(item => (
+                                                    <div onClick={() => {}} key={item.symbol} className='item-edit'>
+                                                        <div className='item-inside'>
+                                                            <p>{item.symbol}</p>
+                                                            <IoMdClose className='remove-icon' onClick={()=>removeStock(item.symbol)}/>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className='edit-stocks-button-2'>
+                                                <select className='edit-stocks-select' value={selectedEditStock} onChange={handleSelected}>
+                                                    <option value="0">Selecione uma ação</option>
+                                                    {stocks?.map(stock => (
+                                                        <option key={stock._id} value={stock.symbol}>{stock.symbol}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className='edit-stocks-button-2'>
+                                                <button type='button' className='edit-stocks-button-add' onClick={addStock}>Adicionar</button>
+                                            </div>
+                                            <div className='edit-stocks-button-3'>
+                                                <button type='button' className='edit-stocks-button' onClick={saveStocks}>Salvar</button>
+                                            </div>
+                                            <div className='edit-stocks-button-3'>
+                                                <p><BiCustomize className='edit-button' title='Editar carteira' onClick={() => {setEditFlag(!editFlag)}}/></p>
+                                            </div>
                                         </div>
-                                    ))}
-                                </div>
-                                <div className='right'>
-                                    <div className='home-inside-left'>
+                                    :
+                                        <div className='left'>
+                                            {items?.map(item => (
+                                                <div onClick={() => changeSelected(item)}
+                                                    key={item.symbol}
+                                                    className={item.selected ? 'item-selected' : 'item'}>
+                                                    <p>{item.symbol}</p>
+                                                </div>
+                                            ))}
+                                            <div onClick={() => {setEditFlag(!editFlag)}} className='item'>
+                                                <p><BiCustomize className='edit-button' title='Editar carteira'/></p>
+                                            </div>
+                                        </div>
+                                }
+                                {editFlag ?
+                                        <div className='pop-up-background' onClick={()=>setEditFlag(false)}>
+                                        </div>
+                                    :
+                                        <>
+                                        </>
+                                }
+                                <div className={editFlag? 'right-edit' : 'right'}>
+                                    <div className={editFlag? 'home-inside-left-edit' : 'home-inside-left'}>
                                         <div className='search-bar'>
                                             <HiOutlineSearch className='search-icon' onClick={submitSearch2}/>
                                             <input value={currentUserStock?.tags?.replaceAll('+', ' ')} type="search" className='search-input' onChange={handleSearch} onKeyPress={submitSearch}/>
                                         </div>
                                         {loadingFlag2 ? 
-                                            <div className='loading-page'>
-                                                <div className='column'>
-                                                    <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
-                                                </div>
-                                            </div>                    
+                                                <div className='loading-page'>
+                                                    <div className='column'>
+                                                        <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
+                                                    </div>
+                                                </div>                    
                                             :
-                                            <div className='articles'>
-                                                {currentUserStock?.news?.mainArticles.map((mainArticle, index) => (
-                                                    <div className='main-article' key={index}>
-                                                        <div className='main-article-left'>
-                                                            <div className='main-article-top'>
-                                                                <div className='main-article-top-top'>
-                                                                    <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
-                                                                        <p className='main-article-title' title={mainArticle.article.title}>{mainArticle.article.title}</p>
-                                                                    </a>
+                                                <div className='articles'>
+                                                    {currentUserStock?.news?.mainArticles.map((mainArticle, index) => (
+                                                        <div className='main-article' key={index}>
+                                                            <div className='main-article-left'>
+                                                                <div className='main-article-top'>
+                                                                    <div className='main-article-top-top'>
+                                                                        <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                                            <p className='main-article-title' title={mainArticle.article.title}>{mainArticle.article.title}</p>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div className='main-article-top-bottom'>
+                                                                        <a className='a' href={mainArticle.article.source.url} target="_blank" rel="noopener noreferrer">
+                                                                            <p className='main-article-p'>{mainArticle.article.source.title}</p>
+                                                                        </a>
+                                                                        <p className='main-article-p'>{mainArticle.article.time.title}</p>
+                                                                    </div>
                                                                 </div>
-                                                                <div className='main-article-top-bottom'>
-                                                                    <a className='a' href={mainArticle.article.source.url} target="_blank" rel="noopener noreferrer">
-                                                                        <p className='main-article-p'>{mainArticle.article.source.title}</p>
-                                                                    </a>
-                                                                    <p className='main-article-p'>{mainArticle.article.time.title}</p>
-                                                                </div>
+                                                                    <div className='first-main-article-bottom'>
+                                                                        <div className='main-article-bottom-top'>
+                                                                            <a className='a' href={mainArticle.firstSubArticle.url} target="_blank" rel="noopener noreferrer">
+                                                                                <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div className='main-article-bottom-bottom'>
+                                                                            <a className='a' href={mainArticle.firstSubArticle.source.url} target="_blank" rel="noopener noreferrer">
+                                                                                <p className='main-article-p'>{mainArticle.firstSubArticle.source.title}</p>
+                                                                            </a>
+                                                                            <p className='main-article-p'>{mainArticle.firstSubArticle.time.title}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                {mainArticle.subArticles.map((subArticle, index) => (
+                                                                    <div className={mainArticle.expandFlag === true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
+                                                                        <div className='main-article-bottom-top'>
+                                                                            <a className='a' href={subArticle.url} target="_blank" rel="noopener noreferrer">
+                                                                                <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div className='main-article-bottom-bottom'>
+                                                                            <a className='a' href={subArticle.source.url} target="_blank" rel="noopener noreferrer">
+                                                                                <p className='main-article-p'>{subArticle.source.title}</p>
+                                                                            </a>
+                                                                            <p className='main-article-p'>{subArticle.time.title}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
                                                             </div>
-                                                                <div className='first-main-article-bottom'>
-                                                                    <div className='main-article-bottom-top'>
-                                                                        <a className='a' href={mainArticle.firstSubArticle.url} target="_blank" rel="noopener noreferrer">
-                                                                            <p className='main-article-title-2' title={mainArticle.firstSubArticle.title}>{mainArticle.firstSubArticle.title}</p>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div className='main-article-bottom-bottom'>
-                                                                        <a className='a' href={mainArticle.firstSubArticle.source.url} target="_blank" rel="noopener noreferrer">
-                                                                            <p className='main-article-p'>{mainArticle.firstSubArticle.source.title}</p>
-                                                                        </a>
-                                                                        <p className='main-article-p'>{mainArticle.firstSubArticle.time.title}</p>
-                                                                    </div>
-                                                                </div>
-                                                            {mainArticle.subArticles.map((subArticle, index) => (
-                                                                <div className={mainArticle.expandFlag === true ? 'main-article-bottom' : 'main-article-bottom-collapsed'} key={index}>
-                                                                    <div className='main-article-bottom-top'>
-                                                                        <a className='a' href={subArticle.url} target="_blank" rel="noopener noreferrer">
-                                                                            <p className='main-article-title-2' title={subArticle.title}>{subArticle.title}</p>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div className='main-article-bottom-bottom'>
-                                                                        <a className='a' href={subArticle.source.url} target="_blank" rel="noopener noreferrer">
-                                                                            <p className='main-article-p'>{subArticle.source.title}</p>
-                                                                        </a>
-                                                                        <p className='main-article-p'>{subArticle.time.title}</p>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                        <div className='main-article-right'>
-                                                            <div className='main-image-div'>
-                                                                <div className='dummy-div-2'>
+                                                            <div className='main-article-right'>
+                                                                <div className='main-image-div'>
+                                                                    <div className='dummy-div-2'>
 
+                                                                    </div>
+                                                                    <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
+                                                                        <img referrerPolicy="no-referrer" className='main-article-image' srcSet={mainArticle.article.image} />
+                                                                    </a>
                                                                 </div>
-                                                                <a className='a' href={mainArticle.article.url} target="_blank" rel="noopener noreferrer">
-                                                                    <img referrerPolicy="no-referrer" className='main-article-image' srcSet={mainArticle.article.image} />
-                                                                </a>
+                                                                <div className='dummy-div-1'>
+                                                                    <div></div>
+                                                                    {mainArticle.expandFlag ? 
+                                                                        <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
+                                                                        :
+                                                                        <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
+                                                                    }
+                                                                </div>
                                                             </div>
-                                                            <div className='dummy-div-1'>
+                                                        </div>
+                                                    ))}
+                                                    {currentUserStock?.news?.articles.map((article, index) => (
+                                                        <div className='article' key={index}>
+                                                            <div className='article-left'>
+                                                                <div className='article-top'>
+                                                                    <a className='a' href={article.url} target="_blank" rel="noopener noreferrer">
+                                                                        <p className='article-title' title={article.title}>{article.title}</p>
+                                                                    </a>
+                                                                </div>
+                                                                <div className='article-bottom'>
+                                                                    <a className='a' href={article.source.url} target="_blank" rel="noopener noreferrer">
+                                                                        <p className='main-article-p'>{article.source.title}</p>
+                                                                    </a>
+                                                                    <p className='main-article-p'>{article.time.title}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className='article-right'>
                                                                 <div></div>
-                                                                {mainArticle.expandFlag ? 
-                                                                    <MdExpandLess className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
-                                                                    :
-                                                                    <MdExpandMore className='expand-button' onClick={()=>setExpandFlag(mainArticle.article.url)}/>
-                                                                }
+                                                                <img referrerPolicy="no-referrer" className='article-image' srcSet={article.image}/>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                ))}
-                                                {currentUserStock?.news?.articles.map((article, index) => (
-                                                    <div className='article' key={index}>
-                                                        <div className='article-left'>
-                                                            <div className='article-top'>
-                                                                <a className='a' href={article.url} target="_blank" rel="noopener noreferrer">
-                                                                    <p className='article-title' title={article.title}>{article.title}</p>
-                                                                </a>
-                                                            </div>
-                                                            <div className='article-bottom'>
-                                                                <a className='a' href={article.source.url} target="_blank" rel="noopener noreferrer">
-                                                                    <p className='main-article-p'>{article.source.title}</p>
-                                                                </a>
-                                                                <p className='main-article-p'>{article.time.title}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className='article-right'>
-                                                            <div></div>
-                                                            <img referrerPolicy="no-referrer" className='article-image' srcSet={article.image}/>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                                    ))}
+                                                </div>
                                         }
                                     </div>
-                                    <div className='home-inside-right'>
+                                    <div className={editFlag? 'home-inside-right-edit' : 'home-inside-right'}>
 
                                     </div>
                                 </div>

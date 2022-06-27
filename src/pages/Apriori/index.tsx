@@ -256,7 +256,6 @@ const Apriori = () => {
                                                 </div>
                                                 <div className='menu-apriori'>
                                                     <p className='menu-apriori-item' onClick={()=>navigate('/home')}>Página Principal</p>
-                                                    <p className='menu-apriori-item' onClick={()=>navigate('/add-stocks')}>Editar Carteira</p>
                                                 </div>
                                             </div>
                                             <div className='main-apriori'>

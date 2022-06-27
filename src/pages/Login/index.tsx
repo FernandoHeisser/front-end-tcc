@@ -94,6 +94,7 @@ const Login = () => {
         async function getStocks() {
             const response = await api.get('stocks');
             setStocks(response.data.content.sort(compare));
+            localStorage.setItem('stocks', JSON.stringify(response.data.content.sort(compare)));
         }
         getStocks();
     }, []);
