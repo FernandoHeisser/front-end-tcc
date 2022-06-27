@@ -4,21 +4,21 @@
     align-items: center;
     height: 100vh;
 }
-.login-main .left {
+.login-main .login-left {
     display: flex;
     flex-direction: column;
     width: 40%;
     margin: 50px;
 }
-.login-main .left .login-title {
+.login-main .login-left .login-title {
     font-size: 48px;
     margin: 15px;
 }
-.login-main .left .login-span {
+.login-main .login-left .login-span {
     font-size: 28px;
     margin: 15px;
 }
-.login-main .right {
+.login-main .login-right {
     display: flex;
     justify-content: center;
     padding: 20px;
@@ -28,7 +28,7 @@
     width: 80%;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
 }
-.login-main .right-column {
+.login-main .login-right-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,21 +77,21 @@
     border: solid 1px #19313f;
     transition: background-color 0.2s;
 }
-.login-main .stock-list {
+.login-main .login-stock-list {
     display: flex;
     flex-direction: column;
     padding-left: 8%;
     padding-bottom: 5%;
 }
-.stock-item span {
+.login-stock-item span {
     margin-top: 2px;
     cursor: pointer;
 }
-.stock-item span:hover {
+.login-stock-item span:hover {
     color: rgb(163, 0, 0);
     cursor: pointer;
 }
-.stock-item {
+.login-stock-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -102,20 +102,23 @@
     padding-left: 2%;
     padding-right: 2%;
 }
-.stock-symbol {
+.login-remove-icon {
+    margin-top: -20px;
+}
+.login-stock-symbol {
     display: flex;
     text-align: center;
     align-items: center;
     font-size: 100%;
     color: var(--title-color);
 }
-.inside-left {
+.login-inside-left {
     width: 50%;
 }
-.inside-right {
+.login-inside-right {
     width: 50%;
 }
-.button-link {
+.login-button-link {
     margin-top: 15px;
     margin-left: 45%;
     text-align: center;
@@ -123,20 +126,20 @@
     background-color: white;
     color: var(--title-color);
 }
-.button-link:hover {
+.login-button-link:hover {
     border: none;
     background-color: white;
     color:#19313f;
     text-decoration: underline;
 }
-.button-link-2 {
+.login-button-link-2 {
     margin-top: 15px;
     text-align: center;
     border: none;
     background-color: white;
     color: var(--title-color);
 }
-.button-link-2:hover {
+.login-button-link-2:hover {
     border: none;
     background-color: white;
     color:#19313f;
