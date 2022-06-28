@@ -1,14 +1,25 @@
 .login-main {
     display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+.left-container {
+    display: flex;
+    width: 40%;
+    padding-left: 10%;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+}
+.right-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    padding-left: 5%;
+    justify-content: center;
 }
 .login-main .login-left {
     display: flex;
     flex-direction: column;
-    width: 40%;
-    margin: 50px;
 }
 .login-main .login-left .login-title {
     font-size: 48px;
@@ -24,24 +35,23 @@
     padding: 20px;
     background-color: white;
     border-radius: 15px;
-    margin: 50px;
-    width: 80%;
+    margin-right: 20%;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
+    width: 80%;
 }
 .login-main .login-right-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 20px;
     background-color: white;
     border-radius: 15px;
-    margin: 50px;
-    width: 80%;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
 }
 .login-input {
     height: 50px;
-    width: 300px;
+    width: 80%;
     padding-left: 15px;
     margin: 15px;
     font-size: 18px;
@@ -52,9 +62,22 @@
     outline: none !important;
     border: solid 2px var(--title-color);
 }
+.login-inside-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.login-inside-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
 .login {
     height: 50px;
-    width: 300px;
+    width: 80%;
     margin: 15px;
     font-size: 18px;
     border-radius: 5px;
@@ -119,8 +142,8 @@
     width: 50%;
 }
 .login-button-link {
-    margin-top: 15px;
-    margin-left: 45%;
+    margin-top: 5%;
+    width: 100%;
     text-align: center;
     border: none;
     background-color: white;

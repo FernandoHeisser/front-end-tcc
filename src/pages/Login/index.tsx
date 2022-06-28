@@ -102,45 +102,49 @@ const Login = () => {
     return (
         <>
             <main className='login-main'>
-                <div className='login-left'>
-                    <h1 className='login-title'>Minha carteira</h1>
-                    <p className='login-span'>Adicione as ações de seu interesse</p>
+                <div className='left-container'>
+                    <div className='login-left'>
+                        <h1 className='login-title'>Minha carteira</h1>
+                        <p className='login-span'>Adicione as ações de seu interesse</p>
+                    </div>
                 </div>
-                <form onSubmit={handleSubmit}>
-                    {loginFlag ?
-                        <div className='login-right-column'>
-                            <p className='login-p'>Faça o login usando seu código identificador:</p>
-                            <input type='text' className='login-input' onChange={handleId}></input>
-                            <button type='button' className='login' onClick={submitLogin}>Entrar</button>
-                            <button type='button' className='login-button-link-2' onClick={()=>setLoginFlag(!loginFlag)}>Cadastrar</button>
-                        </div>
-                    :
-                        <div className='login-right'>
-                            <div className='login-inside-left'>
-                                <select name="stocks" id="stocks" className='login-input' value={selectedStock} onChange={handleSelected}>
-                                    <option value="0">Selecione uma ação</option>
-                                    {stocks.map(stock => (
-                                        <option key={stock._id} value={stock.symbol}>{stock.symbol}</option>
-                                    ))}
-                                </select>
-                                <div className='login-stock-list'>
-                                    <p>{userStocks.length === 0 ? null : 'Ações adicionadas:'}</p>
-                                    {userStocks.map(stock => (
-                                        <div className='login-stock-item' key={stock}>
-                                            <p className='login-stock-symbol' key={stock}>{stock}</p>
-                                            <span onClick={() => removeStock(stock)}><IoMdClose className='login-remove-icon' /></span>
-                                        </div>
-                                    ))}
+                <div className='right-container'>
+                    <form onSubmit={handleSubmit}>
+                        {loginFlag ?
+                            <div className='login-right-column'>
+                                <p className='login-p'>Faça o login usando seu código identificador:</p>
+                                <input type='text' className='login-input' onChange={handleId}></input>
+                                <button type='button' className='login' onClick={submitLogin}>Entrar</button>
+                                <button type='button' className='login-button-link-2' onClick={()=>setLoginFlag(!loginFlag)}>Cadastrar</button>
+                            </div>
+                        :
+                            <div className='login-right'>
+                                <div className='login-inside-left'>
+                                    <select name="stocks" id="stocks" className='login-input' value={selectedStock} onChange={handleSelected}>
+                                        <option value="0">Selecione uma ação</option>
+                                        {stocks.map(stock => (
+                                            <option key={stock._id} value={stock.symbol}>{stock.symbol}</option>
+                                        ))}
+                                    </select>
+                                    <div className='login-stock-list'>
+                                        <p>{userStocks.length === 0 ? null : 'Ações adicionadas:'}</p>
+                                        {userStocks.map(stock => (
+                                            <div className='login-stock-item' key={stock}>
+                                                <p className='login-stock-symbol' key={stock}>{stock}</p>
+                                                <span onClick={() => removeStock(stock)}><IoMdClose className='login-remove-icon' /></span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className='login-inside-right'>
+                                    <button type='button' className='login' onClick={addStock} >Adicionar</button>
+                                    <button type='submit' className='login' >Começar</button>
+                                    <button type='button' className='login-button-link' onClick={()=>setLoginFlag(!loginFlag)}>Login</button>
                                 </div>
                             </div>
-                            <div className='login-inside-right'>
-                                <button type='button' className='login' onClick={addStock} >Adicionar</button>
-                                <button type='submit' className='login' >Começar</button>
-                                <button type='button' className='login-button-link' onClick={()=>setLoginFlag(!loginFlag)}>Login</button>
-                            </div>
-                        </div>
-                    }
-                </form>
+                        }
+                    </form>
+                </div>
             </main>
             {responseFlag ?
                 <div className='pop-up-background'>
