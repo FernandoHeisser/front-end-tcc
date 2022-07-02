@@ -198,9 +198,11 @@ const Home = () => {
 
     async function saveStocks() {
         try {
+            setLoadingFlag(true);
             await api.put('users', user);
             window.location.reload();
         } catch (e) {
+            setLoadingFlag(false);
             alert('Erro durante o salvamento, tente novamente.');
         }
     }
@@ -213,7 +215,6 @@ const Home = () => {
             setHaveChanges(false);
 
             const userId = localStorage.getItem('userId');
-
             if (userId === undefined || userId === null) {
                 navigate('/');
             } else {
@@ -231,12 +232,13 @@ const Home = () => {
 
             const _session: Session = sessionResponse.data;
 
-            setUser(_session.user);
+            const _user = _session.user;
+            setUser(_user);
 
             let itemList: Item[] = [];
-            if (_session.user.stocks !== undefined) {
-                var firstSymbol = _session.user.stocks[0].symbol;
-                _session.user.stocks.forEach(stock => {
+            if (_user.stocks !== undefined) {
+                var firstSymbol = _user.stocks[0].symbol;
+                _user.stocks.forEach(stock => {
                     if(stock.symbol !== undefined){
                         const item: Item = {
                             symbol: stock.symbol,
@@ -254,38 +256,14 @@ const Home = () => {
             itemList.forEach(async (item) => {
                 const symbol = item.symbol;
 
-                const currentUserStock: Stock | undefined = _session.stocks
-                    .find(stock => stock.symbol === symbol);
+                const currentUserStock: Stock | undefined = _session.stocks.find(stock => stock.symbol === symbol);
 
                 if (currentUserStock !== undefined && currentUserStock.data !== undefined && currentUserStock.news !== undefined) {
 
-                    const stockData: StockData = currentUserStock.data;
-
-                    const stockNews: News = currentUserStock.news;
-
-                    const userTags = _session.user.stocks?.find(stock => stock.symbol === symbol)?.tags;
-
-                    let listKeywords = userTags?.split(', ');
-                    listKeywords?.map(keyword => keyword.trim());
-
-                    if ((listKeywords === undefined || listKeywords?.length === 0) && stockData !== undefined) {
-                        if(currentUserStock.symbol !== undefined && currentUserStock.company !== undefined)
-                            listKeywords = [currentUserStock.symbol, currentUserStock.company];
-                    }
-
-                    if (_session.user.stocks?.find(stock => stock.symbol === item.symbol) === undefined) {
-                        _session.user.stocks?.map(stock => {
-                            if (stock.symbol === item.symbol) {
-                                stock.tags = listKeywords?.join(", ");
-                            }
-                            return stock;
-                        });
-                    }
-
                     const userStockItem: Stock = {
-                        news: stockNews,
-                        data: stockData,
-                        tags: userTags,
+                        news: currentUserStock.news,
+                        data: currentUserStock.data,
+                        tags: currentUserStock.tags,
                         symbol: currentUserStock.symbol,
                         company: currentUserStock.company
                     };
@@ -293,14 +271,14 @@ const Home = () => {
                     if (!userStockList.map(stock=>stock.symbol).includes(userStockItem.symbol)){
                         userStockList.push(userStockItem);
                     }
-
-                    setItems(itemList);
-                    setUserStocks(userStockList);
-                    if(firstSymbol !== undefined)
-                        setSelected(firstSymbol);
-                    setLoadingFlag(true);
                 }
             });
+
+            setItems(itemList);
+            setUserStocks(userStockList);
+            if(firstSymbol !== undefined)
+                setSelected(firstSymbol);
+            setLoadingFlag(true);
         })();
     }, [changesCounter]);
 
