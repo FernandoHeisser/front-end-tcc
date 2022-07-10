@@ -5,14 +5,14 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import { BiCustomize } from 'react-icons/bi'
 import { IoMdClose } from 'react-icons/io';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
-import './home.css';
-import StockData from '../../models/StockData';
 import Stock from '../../models/Stock';
 import Item from '../../models/Item';
 import Session from '../../models/Session';
 import api from '../../services/api';
 import News from '../../models/News';
 import User from '../../models/User';
+import UserStock from '../../models/UserStock';
+import './home.css';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -166,7 +166,17 @@ const Home = () => {
             setUserStocks(_userStocks);
             
             let _user = user!;
-            _user.stocks = _userStocks;
+            let _userStockList: UserStock[] = [];
+            
+            _userStocks.forEach(userStock => {
+                _userStockList.push({
+                    symbol: userStock.symbol,
+                    tags: userStock.tags
+                });
+            });
+
+            _user.stocks = _userStockList;
+
             setUser(_user);
         }
         setSelectedEditStock('');
@@ -226,7 +236,6 @@ const Home = () => {
 
             const _firstTimeFlag = localStorage.getItem('first-time-flag');
             setFirstTimeFlag(_firstTimeFlag === 'true');
-            localStorage.setItem('first-time-flag', "false");
 
             const sessionResponse = await api.get(`/session/${userId}`);
 

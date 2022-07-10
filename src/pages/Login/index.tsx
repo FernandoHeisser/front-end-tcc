@@ -49,6 +49,7 @@ const Login = () => {
             const response = await api.get(`/users/${id}`);
             
             localStorage.setItem('userId', response.data._id);
+            localStorage.setItem('first-time-flag', "false");
         
             navigate('/home');
 

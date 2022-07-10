@@ -1,8 +1,8 @@
-import Stock from "./Stock";
+import UserStock from './UserStock';
 
 interface User {
     _id?: string,
-    stocks: Stock[]
+    stocks: UserStock[]
 }
 
 export default User;
