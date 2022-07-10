@@ -229,7 +229,7 @@ const Apriori = () => {
                         <>
                             {
                                 loadingFlag2 ?
-                                    <form onSubmit={handleSubmit}>
+                                    <form className='main' onSubmit={handleSubmit}>
                                         <div className='content-apriori'>
                                             <div className='top-bar-apriori'>
                                                 <div className='top-bar-apriori-left'>
@@ -283,14 +283,14 @@ const Apriori = () => {
                                                             </div>
                                                             <div className='row-2-apriori-bottom-left'>
                                                                 <select onChange={handleFirstCondition}>
-                                                                    <option value="Abertura (atual)">Abertura (dia)</option>
-                                                                    <option value="Fechamento (atual)">Fechamento (dia)</option>
-                                                                    <option value="Alta (atual)">Máxima (dia)</option>
-                                                                    <option value="Baixa (atual)">Mínima (dia)</option>
-                                                                    <option value="Abertura (dia anterior)">Abertura (dia anterior)</option>
-                                                                    <option value="Fechamento (dia anterior)">Fechamento (dia anterior)</option>
-                                                                    <option value="Alta (dia anterior)">Máxima (dia anterior)</option>
-                                                                    <option value="Baixa (dia anterior)">Mínima (dia anterior)</option>
+                                                                    <option value="Abertura (atual)">Abertura</option>
+                                                                    <option value="Fechamento (atual)">Fechamento</option>
+                                                                    <option value="Alta (atual)">Máxima</option>
+                                                                    <option value="Baixa (atual)">Mínima</option>
+                                                                    <option value="Abertura (dia anterior)">Abertura (anterior)</option>
+                                                                    <option value="Fechamento (dia anterior)">Fechamento (anterior)</option>
+                                                                    <option value="Alta (dia anterior)">Máxima (anterior)</option>
+                                                                    <option value="Baixa (dia anterior)">Mínima (anterior)</option>
                                                                 </select>
                                                             </div>
                                                             <div className='row-2-apriori-bottom-center'>
@@ -298,10 +298,10 @@ const Apriori = () => {
                                                             </div>
                                                             <div className='row-2-apriori-bottom-right'>
                                                                 <select onChange={handleSecondCondition}>
-                                                                    <option value="Abertura (atual)">Abertura (dia)</option>
-                                                                    <option value="Fechamento (atual)" selected>Fechamento (dia)</option>
-                                                                    <option value="Alta (atual)">Máxima (dia)</option>
-                                                                    <option value="Baixa (atual)">Mínima (dia)</option>
+                                                                    <option value="Abertura (atual)">Abertura</option>
+                                                                    <option value="Fechamento (atual)" selected>Fechamento</option>
+                                                                    <option value="Alta (atual)">Máxima</option>
+                                                                    <option value="Baixa (atual)">Mínima</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -380,11 +380,11 @@ const Apriori = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='footer'>
-                                                <div className='footer-right'>Fernando Heisser</div>
-                                                <div className='footer-center'>Sistema de Apoio para Análise de Ações da Bolsa de Valores</div>
-                                                <div className='footer-left'>2022</div>
-                                            </div>
+                                        </div>
+                                        <div className='footer'>
+                                            <div className='footer-right'>Fernando Heisser</div>
+                                            <div className='footer-center'>Sistema de Apoio para Análise de Ações da Bolsa de Valores</div>
+                                            <div className='footer-left'>2022</div>
                                         </div>
                                     </form>
                                 :

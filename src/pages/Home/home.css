@@ -67,23 +67,25 @@
     color: white;
     cursor: pointer;
 }
-.main {
+.main-home {
     display: flex;
     flex-direction: row;
     color: var(--title-color);
 }
 .item-list {
-    max-height: 250px;
+    max-height: 50%;
     overflow: scroll;
 }
-.main .left-edit {
+
+.main-home .left-edit {
     z-index: 100;
     display: flex;
     flex-direction: column;
     width: 30%;
+    max-width: 380px;
     background-color: #F0F2F5;
     transition: 0.8s;
-    height: 600px;
+    height: 90vh;
 }
 .edit-stocks-button {
     margin-top: 1%;
@@ -135,7 +137,7 @@
     flex-direction: row;
     justify-content: center;
 }
-.main .left {
+.main-home .left {
     display: flex;
     flex-direction: column;
     width: 10%;
@@ -200,15 +202,15 @@
 .edit-button:hover {
     background-color: white;
 }
-.main .right {
+.main-home .right {
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     display: flex;
     flex-direction: row;
     width: 90%;
     background-color: white;
-    min-height: 500px;
+    min-height: 600px;
 }
-.main .right-edit {
+.main-home .right-edit {
     display: flex;
     flex-direction: row;
     width: 70%;
@@ -218,6 +220,7 @@
     width: 70%;
     display: flex;
     flex-direction: column;
+    min-height: 100%;
     padding: 20px;
 }
 .home-inside-left-edit {
@@ -528,17 +531,19 @@
     padding-left: 33%;
 }
 .pop-up {
-    padding-top: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     box-shadow: 1px 1px 10px 1px #555555;
     border-radius: 15px;
     background-color: #d5dee4;
     width: 50%;
-    height: 40%;
+    height: 30%;
 }
 .dummy-div-1 {
     display: flex;
@@ -556,4 +561,45 @@
 .copy-button:hover {
     background-color: var(--title-color);
     color: white;
+}
+.empty-article-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.empty-article-list-inside {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.empty-article-list-icon {
+    font-size: 100px;
+}
+.empty-article-list-p {
+    font-weight: bold;
+}
+.footer-home{
+    display: flex;
+    width: 100%;
+    background-color: var(--title-color);
+    height: 100px;
+    justify-content: space-between;
+    padding: 1%;
+    color: whitesmoke;
+    padding-top: 2%;
+}
+.footer-home-right{
+    width: 33%;
+    text-align: center;
+}
+.footer-home-center{
+    width: 33%;
+    text-align: center;
+}
+.footer-home-left{
+    width: 33%;
+    text-align: center;
 }

@@ -187,11 +187,11 @@ const AprioriResult = () => {
                     
                     setStocks(stocks);
                     
-                    var symbols: string[] = [];
-                    
+                    let symbols: string[] = [];
                     stocks.forEach(stock => {
-                        if(stock.symbol !== undefined)
+                        if (stock.symbol !== undefined) {
                             symbols.push(stock.symbol);
+                        }
                     });
 
                     await getStockDataFromYahoo(symbols);
@@ -215,7 +215,8 @@ const AprioriResult = () => {
         <main>
             {
             loadingFlag ?
-                <div className='content-apriori-result'>
+                <div className='main'>
+                    <div className='content-apriori-result'>
                     <div className='top-bar-apriori-result'>
                         <div className='top-bar-apriori-result-left'>
                             <div className="menu-button" onClick={()=>setSideMenuFlag(!sideMenuFlag)}>
@@ -245,115 +246,124 @@ const AprioriResult = () => {
                         </div>
                     </div>
                     <div className='main-apriori-result'>
-                        <Accordion defaultActiveKey="0">
-                            {items.map((item, index) => (
-                                <div key={index}>
-                                <Accordion.Item eventKey={index.toString()}>
-                                    <Accordion.Header>
-                                        <div className='apriori-result-item-left'>
-                                            {item.items_base.length > 0 ? 
-                                                <div className='apriori-result-item-left-base'>
-                                                    {item.items_base.map((i, index) => (
-                                                        <div key={index}>
-                                                        {index !== (item.items_base.length) - 1 ? 
-                                                            <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}, </p>
-                                                            :
-                                                            <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}</p>
-                                                        }
-                                                        </div>
-                                                    ))}
-                                                </div> 
-                                                : 
-                                                <></>
-                                            }
-                                            {item.items_base.length > 0 ? <CgArrowLongRight className='arrow'/> : <></>}
-                                            <div className='apriori-result-item-left-add'>
-                                                {item.items_add.map((i, index) => (
-                                                    <div key={index}>
-                                                    {index !== (item.items_add.length) - 1 ? 
-                                                        <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}, </p>
-                                                        :
-                                                        <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}</p>
-                                                    }
+                        <div className='main-apriori-result-left'>
+                            <Accordion defaultActiveKey="0" >
+                                {items.map((item, index) => (
+                                    <div key={index}>
+                                        <Accordion.Item eventKey={index.toString()} className='accordion-item'>
+                                            <Accordion.Header>
+                                                <div className='apriori-result-item-left'>
+                                                    <div className='apriori-item-index'>
+                                                        <span>{(index+1).toString()}</span>
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div className='apriori-result-item-right'>
-                                            <div title='A probabilidade de um movimento (alta/baixa) de uma ação dentro dos dados analisados.'>
-                                                Suporte: {(item.support*100).toFixed(2).toString().replace('.', ',')}%
-                                            </div>
-                                            <div title='A probabilidade de um movimento de “Z”, dentro do conjunto de suporte.'>
-                                                Confiança: {(item.confidence*100).toFixed(2).toString().replace('.', ',')}%
-                                            </div>
-                                            <div title='É uma medida de correlação que mostra o quão dependentes são os movimentos.'>
-                                                Lift: {item.lift.toFixed(2).toString().replace('.', ',')}
-                                            </div>
-                                        </div>
-                                    </Accordion.Header>
-                                    <Accordion.Body className='accordion-body'>
-                                        {loadingFlag2 ? 
-                                            <div className='loading-page-apriori-result'>
-                                                <div>
-                                                    <ReactLoading type={'spin'} color={'#224255'} height={75} width={75} />
+                                                    {item.items_base.length > 0 ? 
+                                                        <div className='apriori-result-item-left-base'>
+                                                            {item.items_base.map((i, index) => (
+                                                                <div key={index}>
+                                                                {index !== (item.items_base.length) - 1 ? 
+                                                                    <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}, </p>
+                                                                    :
+                                                                    <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}</p>
+                                                                }
+                                                                </div>
+                                                            ))}
+                                                        </div> 
+                                                        : 
+                                                        <></>
+                                                    }
+                                                    {item.items_base.length > 0 ? <CgArrowLongRight className='arrow'/> : <></>}
+                                                    <div className='apriori-result-item-left-add'>
+                                                        {item.items_add.map((i, index) => (
+                                                            <div key={index}>
+                                                            {index !== (item.items_add.length) - 1 ? 
+                                                                <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}, </p>
+                                                                :
+                                                                <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}</p>
+                                                            }
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            :
-                                            <Table className='table'>
-                                                <thead>
-                                                    <tr>
-                                                        <th><span>Ação</span></th>
-                                                        <th><span>Abertura</span></th>
-                                                        <th><span>Cotação</span></th>
-                                                        <th><span>Máxima</span></th>
-                                                        <th><span>Mínima</span></th>
-                                                        <th><span>Volume</span></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                {item.items_base.map(symbol => (
-                                                    <tr key={symbol}>
-                                                        <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
-                                                        <td className='td'><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
-                                                    </tr>
-                                                ))}
-                                                {item.items_add.map(symbol => (
-                                                    <tr key={symbol}>
-                                                        <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
-                                                        <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
-                                                        <td className='td'><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
-                                                    </tr>
-                                                ))}
-                                                </tbody>
-                                            </Table>
-                                        }
-                                        <div className='side-table'>
-                                            <div className='side-table-left'>
-                                                <div className='side-table-left-top'>
-                                                    <AiOutlineReload className='reload-button' onClick={reloadData}/>
+                                                <div className='apriori-result-item-right'>
+                                                    <div title='A probabilidade de um movimento (alta/baixa) de uma ação dentro dos dados analisados.'>
+                                                        Suporte: {(item.support*100).toFixed(2).toString().replace('.', ',')}%
+                                                    </div>
+                                                    <div title='A probabilidade de um movimento de “Z”, dentro do conjunto de suporte.'>
+                                                        Confiança: {(item.confidence*100).toFixed(2).toString().replace('.', ',')}%
+                                                    </div>
+                                                    <div title='É uma medida de correlação que mostra o quão dependentes são os movimentos.'>
+                                                        Lift: {item.lift.toFixed(2).toString().replace('.', ',')}
+                                                    </div>
                                                 </div>
-                                                <div className='side-table-left-bottom'>
+                                            </Accordion.Header>
+                                            <Accordion.Body className='accordion-body'>
+                                                {loadingFlag2 ? 
+                                                    <div className='loading-page-apriori-result'>
+                                                        <div>
+                                                            <ReactLoading type={'spin'} color={'#224255'} height={75} width={75} />
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <Table className='table'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><span>Ação</span></th>
+                                                                <th><span>Abertura</span></th>
+                                                                <th><span>Cotação</span></th>
+                                                                <th><span>Máxima</span></th>
+                                                                <th><span>Mínima</span></th>
+                                                                <th><span>Volume</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {item.items_base.map(symbol => (
+                                                            <tr key={symbol}>
+                                                                <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
+                                                                <td className='td'><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
+                                                            </tr>
+                                                        ))}
+                                                        {item.items_add.map(symbol => (
+                                                            <tr key={symbol}>
+                                                                <td><strong className={checkCondition(symbol) ? 'green-symbol' : 'red-symbol'}>{symbol}</strong></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.open).toFixed(2)}</p></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.close).toFixed(2)}</p></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.high).toFixed(2)}</p></td>
+                                                                <td><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.low).toFixed(2)}</p></td>
+                                                                <td className='td'><p>{Number(stockDataYahoo?.find(s=>s.symbol===symbol)?.content?.today.volume)}</p></td>
+                                                            </tr>
+                                                        ))}
+                                                        </tbody>
+                                                    </Table>
+                                                }
+                                                <div className='side-table'>
+                                                    <div className='side-table-left'>
+                                                        <div className='side-table-left-top'>
+                                                            <AiOutlineReload className='reload-button' onClick={reloadData}/>
+                                                        </div>
+                                                        <div className='side-table-left-bottom'>
 
+                                                        </div>
+                                                    </div>
+                                                    <div className='side-table-right'>
+                                                        <p>Valores atuais das ações analisadas.</p>
+                                                        <p><span className='red-symbol'>Vermelho</span> - A condição analisada não está se satisfazendo atualmente.</p>
+                                                        <p><span className='green-symbol'>Verde</span> - A condição analisada está se satisfazendo atualmente.</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className='side-table-right'>
-                                                <p>Valores atuais das ações analisadas.</p>
-                                                <p><span className='red-symbol'>Vermelho</span> - A condição analisada não está se satisfazendo atualmente.</p>
-                                                <p><span className='green-symbol'>Verde</span> - A condição analisada está se satisfazendo atualmente.</p>
-                                            </div>
-                                        </div>
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                                </div>
-                            ))}
-                        </Accordion>    
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    </div>
+                                ))}
+                            </Accordion>
+                        </div>
+                        <div className='main-apriori-result-right'>
+                            
+                        </div>
+                    </div>
                     </div>
                     <div className='footer'>
                         <div className='footer-right'>Fernando Heisser</div>

@@ -19,7 +19,14 @@
   h1, h2, h3, h4, h5, h6 {
     color: var(--title-color);
   }
+  .main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+  }
   .footer{
+    display: flex;
     width: 100%;
     background-color: var(--title-color);
     height: 100px;
