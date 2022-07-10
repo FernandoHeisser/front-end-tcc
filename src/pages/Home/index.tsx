@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useNavigate } from 'react-router';
 import { HiOutlineSearch } from 'react-icons/hi';
-import { BiCustomize } from 'react-icons/bi'
+import { BiCustomize, BiCopy } from 'react-icons/bi'
 import { IoMdClose } from 'react-icons/io';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
 import Stock from '../../models/Stock';
@@ -32,6 +32,7 @@ const Home = () => {
     const [user, setUser] = useState<User>();
     const [stocks, setStocks] = useState<Stock[]>();
     const [selectedEditStock, setSelectedEditStock] = useState<string>('');
+    const [copyFlag, setCopyFlag] = useState<boolean>();
 
     function formatDate(str: string | undefined) {
         if (str !== undefined && str !== null && str !== '') {
@@ -216,6 +217,16 @@ const Home = () => {
             alert('Erro durante o salvamento, tente novamente.');
         }
     }
+
+    async function copyToClipBoard(copyMe: string) {
+        try {
+            setCopyFlag(true);
+            await navigator.clipboard.writeText(copyMe);
+            setCopyFlag(false);
+        } catch (err) {
+            console.log(err);
+        }
+      };
 
     useEffect(() => {
         (async function () {
@@ -514,7 +525,7 @@ const Home = () => {
                         {firstTimeFlag ?
                             <div className='pop-up-background'>
                                 <div className='pop-up'>
-                                    <p><strong>{userId}</strong></p>
+                                    <p><strong>{userId}</strong><BiCopy className='copy-button' onClick={()=>copyToClipBoard(userId)}>Copiar</BiCopy></p>
                                     <p>Esse é o seu código identificador, anote-o para realizar logins futuros.</p>
                                     <button type='button' className='login' onClick={() => {
                                         setFirstTimeFlag(false);
