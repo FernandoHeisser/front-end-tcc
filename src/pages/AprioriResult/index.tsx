@@ -73,7 +73,7 @@ const AprioriResult = () => {
             }
         });
 
-        await getStockDataFromYahoo(symbols);
+        await getStockDataFromYahoo(symbols, aprioriAnalysis?.interval);
         setLoadingFlag2(false);
     }
 
@@ -194,9 +194,10 @@ const AprioriResult = () => {
         }
     }
 
-    async function getStockDataFromYahoo(symbols: string[]){
+    async function getStockDataFromYahoo(symbols: string[], interval: string | undefined){
         const request = {
-            stockList: symbols
+            stockList: symbols,
+            interval: interval === undefined ? '1d' : interval
         };
         const response = await api.post('yahoo', request);
         const _stockDataYahoo: StockDataYahoo[] = response.data;
@@ -237,7 +238,7 @@ const AprioriResult = () => {
                         }
                     });
 
-                    await getStockDataFromYahoo(symbols); 
+                    await getStockDataFromYahoo(symbols, _condition.interval); 
                 }
             }
 
