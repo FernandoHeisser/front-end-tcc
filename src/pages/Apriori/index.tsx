@@ -175,7 +175,6 @@ const Apriori = () => {
             const response = await api.post('/apriori', request);
 
             localStorage.setItem('last-analysis', JSON.stringify(response.data));
-            localStorage.setItem('stocks-symbols', JSON.stringify(stocks));
             localStorage.setItem('request-apriori', JSON.stringify(request));
 
             navigate('/apriori-result');

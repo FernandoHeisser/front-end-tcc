@@ -10,7 +10,7 @@ import './aprioriResult.css';
 import StockDataYahoo from '../../models/StockDataYahoo';
 import YahooData from '../../models/YahooData';
 import Stock from '../../models/Stock';
-import AprioriCondition from '../../models/AprioriCondition';
+import AprioriAnalysis from '../../models/AprioriAnalysis';
 import AprioriItem from '../../models/AprioriItem';
 import AprioriStockCondition from '../../models/AprioriStockCondition';
 import api from '../../services/api';
@@ -23,9 +23,38 @@ const AprioriResult = () => {
     const [items, setItems] = useState<AprioriItem[]>([]);
     const [stocks, setStocks] = useState<Stock[]>([]);
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
-    const [condition, setCondition] = useState<AprioriCondition>();
+    const [aprioriAnalysis, setAprioriAnalysis] = useState<AprioriAnalysis>();
 
-    function checkItemList() {
+    function getToday(){
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        
+        if(month < 10) {
+            var _month: string = '0' + month;
+        } else {
+            var _month: string = month.toString();
+        }
+
+        if(day < 10) {
+            var _day: string = '0' + day;
+        } else {
+            var _day: string = day.toString();
+        }
+        
+        return year + '-' + _month + '-' + _day;
+    }
+
+    function formateDate(date: string | undefined){
+        if (date !== undefined) {
+            let dataArray = date.split('-');
+            dataArray = dataArray.reverse();
+            return dataArray.join('/');
+        }
+    }
+
+    function checkItemList(){
         if (items === undefined)
             return true;
         if (items === null)
@@ -58,8 +87,8 @@ const AprioriResult = () => {
     }
 
     function getCondition(){
-        const firstCondition = condition?.firstCondition;
-        const secondCondition = condition?.secondCondition;
+        const firstCondition = aprioriAnalysis?.firstCondition;
+        const secondCondition = aprioriAnalysis?.secondCondition;
 
         var column1;
         var column2;
@@ -177,24 +206,27 @@ const AprioriResult = () => {
     useEffect(() => {
         (async function () {
             const userId = localStorage.getItem('userId');
-            const lastAnalysis = localStorage.getItem('last-analysis');
-
             if(userId === undefined || userId === null) {
                 navigate('/');
             }
     
+            const lastAnalysis = localStorage.getItem('last-analysis');
             if(lastAnalysis === undefined || lastAnalysis === null) {
                 navigate('/apriori');
             } else {
                 var _items: AprioriItem[] = JSON.parse(lastAnalysis);
 
-                setItems(_items);
+                setItems(_items);console.log(_items);
 
-                const stocks_symbols = localStorage.getItem('stocks-symbols');
+                const requestApriori = localStorage.getItem('request-apriori');
                 
-                if(stocks_symbols !== undefined && stocks_symbols !== null) {
+                if(requestApriori !== undefined && requestApriori !== null) {
                     
-                    const stocks: Stock[] = JSON.parse(stocks_symbols);
+                    const _condition: AprioriAnalysis = JSON.parse(requestApriori);
+                    
+                    setAprioriAnalysis(_condition);console.log(_condition);
+
+                    const stocks: Stock[] = _condition.stocks;
                     
                     setStocks(stocks);
                     
@@ -205,16 +237,7 @@ const AprioriResult = () => {
                         }
                     });
 
-                    await getStockDataFromYahoo(symbols);
-
-                    const request_apriori = localStorage.getItem('request-apriori');
-                
-                    if(request_apriori !== undefined && request_apriori !== null) {
-                        
-                        const _condition: AprioriCondition = JSON.parse(request_apriori);
-                        
-                        setCondition(_condition);
-                    }   
+                    await getStockDataFromYahoo(symbols); 
                 }
             }
 
@@ -381,7 +404,49 @@ const AprioriResult = () => {
                             }
                         </div>
                         <div className='main-apriori-result-right'>
-                            
+                            <div className='main-apriori-result-right-top'>
+                                <p className='main-apriori-result-right-top-title'>Análise realizada</p>
+                                <div>
+                                    <p className='main-apriori-result-right-top-interval-box-title'>Periodo de tempo:</p>
+                                    <div className='main-apriori-result-right-top-time-box'>
+                                        <p>{formateDate(aprioriAnalysis?.startDate)}</p>
+                                        <p className='main-apriori-result-right-top-time-box-middle'>até</p>
+                                        <p>{aprioriAnalysis?.endDate === undefined?formateDate(getToday()):formateDate(aprioriAnalysis?.endDate)}</p>
+                                    </div>
+                                </div>
+                                <div className='main-apriori-result-right-top-interval-box'>
+                                    <p className='main-apriori-result-right-top-interval-box-title'>Intervalo:</p>
+                                    <p>{aprioriAnalysis?.interval}</p>
+                                </div>
+                                <div className='main-apriori-result-right-top-filter-box'>
+                                    <div className='main-apriori-result-right-top-time-box'>
+                                        <p className='main-apriori-result-right-top-interval-box-title'>Suporte mínimo:</p>
+                                        <p>{aprioriAnalysis?.minSupport.toString() === 'null'?'Nenhum':aprioriAnalysis?.minSupport}</p>
+                                    </div>
+                                    <div className='main-apriori-result-right-top-time-box'>
+                                        <p className='main-apriori-result-right-top-interval-box-title'>Confiança mínima:</p>
+                                        <p>{aprioriAnalysis?.minConfidence.toString() === 'null'?'Nenhum':aprioriAnalysis?.minConfidence}</p>
+                                    </div>
+                                    <div className='main-apriori-result-right-top-time-box'>
+                                        <p className='main-apriori-result-right-top-interval-box-title'>Lift mínimo:</p>
+                                        <p>{aprioriAnalysis?.minLift.toString() === 'null'?'Nenhum':aprioriAnalysis?.minLift}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='main-apriori-result-right-bottom'>
+                                {aprioriAnalysis?.stocks.map(stock=>(
+                                    <div className='main-apriori-result-right-bottom-card'>
+                                        <div>
+                                            <p className='main-apriori-result-right-top-interval-box-title'>{stock.symbol}</p>
+                                        </div>
+                                        <div className='main-apriori-result-right-bottom-card-box'>
+                                            <p>{aprioriAnalysis.firstCondition}</p>
+                                            <p className='main-apriori-result-right-top-time-box-middle'>{stock.condition}</p>
+                                            <p>{aprioriAnalysis.secondCondition}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     </div>

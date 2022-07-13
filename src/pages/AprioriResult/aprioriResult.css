@@ -93,7 +93,7 @@ body{
     margin-right: 1%;
     margin-bottom: 1%;
     border-radius: 15px;
-    height: 60vh;
+    height: auto;
 }
 .apriori-result-item-left{
     display: flex;
@@ -212,7 +212,8 @@ body{
     flex-direction: column;
 }
 .side-table-left-top{
-    margin-left: -25px;
+    margin-top: 4px;
+    margin-left: -20px;
     height: 15%;
     font-size: 20px;
     color: black;
@@ -243,4 +244,58 @@ body{
     white-space: pre;
     color: rgb(190, 0, 0);
     font-weight: bold;
+}
+.main-apriori-result-right-top{
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+}
+.main-apriori-result-right-top-title{
+    font-weight: bold;
+    font-size: 18px;
+}
+.main-apriori-result-right-top-time-box{
+    display: flex;
+    flex-direction: row;
+}
+.main-apriori-result-right-top-time-box-middle{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.main-apriori-result-right-top-interval-box{
+    display: flex;
+    flex-direction: row;
+}
+.main-apriori-result-right-top-interval-box-title{
+    margin-right: 2%;
+    font-weight: bold;
+}
+.main-apriori-result-right-top-filter-box{
+    border: #dddddd 2px solid;
+    border-radius: 5px;
+    padding: 2%;
+}
+.main-apriori-result-right-bottom{
+    display: flex;
+    flex-direction: column;
+    padding: 5%;   
+}
+.main-apriori-result-right-bottom-card{
+    display: flex;
+    flex-direction: column;
+    background-color: #E7F1FF;
+    margin-bottom: 15px ;
+    border-radius: 5px;
+    padding: 5%;
+}
+.main-apriori-result-right-bottom-card-box{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    font-size: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-radius: 5px;
 }
