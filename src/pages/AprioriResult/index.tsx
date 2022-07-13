@@ -217,7 +217,7 @@ const AprioriResult = () => {
             } else {
                 var _items: AprioriItem[] = JSON.parse(lastAnalysis);
 
-                setItems(_items);console.log(_items);
+                setItems(_items);
 
                 const requestApriori = localStorage.getItem('request-apriori');
                 
@@ -225,7 +225,7 @@ const AprioriResult = () => {
                     
                     const _condition: AprioriAnalysis = JSON.parse(requestApriori);
                     
-                    setAprioriAnalysis(_condition);console.log(_condition);
+                    setAprioriAnalysis(_condition);
 
                     const stocks: Stock[] = _condition.stocks;
                     
