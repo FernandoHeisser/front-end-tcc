@@ -94,62 +94,62 @@ const AprioriResult = () => {
         var column2;
         var previous;
         
-        if(firstCondition === "Abertura (atual)"){
+        if(firstCondition === "Abertura"){
             column1 = 'open';
             previous = false;
         }
 
-        if(firstCondition === "Fechamento (atual)"){
+        if(firstCondition === "Fechamento"){
             column1 = 'close';
             previous = false;
         }
 
-        if(firstCondition === "Alta (atual)"){
+        if(firstCondition === "Máxima"){
             column1 = 'high';
             previous = false;
         }
 
-        if(firstCondition === "Baixa (atual)"){
+        if(firstCondition === "Mínima"){
             column1 = 'low';
             previous = false;
         }
 
-        if(secondCondition === "Abertura (atual)"){
+        if(secondCondition === "Abertura"){
             column2 = 'open';
             previous = false;
         }
 
-        if(secondCondition === "Fechamento (atual)"){
+        if(secondCondition === "Fechamento"){
             column2 = 'close';
             previous = false;
         }
 
-        if(secondCondition === "Alta (atual)"){
+        if(secondCondition === "Máxima"){
             column2 = 'high';
             previous = false;
         }
 
-        if(secondCondition === "Baixa (atual)"){
+        if(secondCondition === "Mínima"){
             column2 = 'low';
             previous = false;
         }
 
-        if(firstCondition === "Abertura (dia anterior)"){
+        if(firstCondition === "Abertura (anterior)"){
             column1 = 'open';
             previous = true;
         }
 
-        if(firstCondition === "Fechamento (dia anterior)"){
+        if(firstCondition === "Fechamento (anterior)"){
             column1 = 'close';
             previous = true;
         }
 
-        if(firstCondition === "Alta (dia anterior)"){
+        if(firstCondition === "Máxima (anterior)"){
             column1 = 'high';
             previous = true;
         }
 
-        if(firstCondition === "Baixa (dia anterior)"){
+        if(firstCondition === "Mínima (anterior)"){
             column1 = 'low';
             previous = true;
         }

@@ -18,8 +18,8 @@ const Apriori = () => {
     const [minSupport, setMinSupport] = useState("null");
     const [minConfidence, setMinConfidence] = useState("null");
     const [minLift, setMinLift] = useState("null");
-    const [firstCondition, setFirstCondition] = useState("Abertura (atual)");
-    const [secondCondition, setSecondCondition] = useState("Fechamento (atual)");
+    const [firstCondition, setFirstCondition] = useState("Abertura");
+    const [secondCondition, setSecondCondition] = useState("Fechamento");
     const [interval, setInterval] = useState('1d');
 
     function handleLogout(){
@@ -185,8 +185,8 @@ const Apriori = () => {
             setMinSupport("null");
             setMinConfidence("null");
             setMinLift("null");
-            setFirstCondition("Abertura (atual)");
-            setSecondCondition("Fechamento (atual)");
+            setFirstCondition("Abertura");
+            setSecondCondition("Fechamento");
             setInterval('1d');
 
             setLoadingFlag2(true);
@@ -282,14 +282,14 @@ const Apriori = () => {
                                                             </div>
                                                             <div className='row-2-apriori-bottom-left'>
                                                                 <select onChange={handleFirstCondition}>
-                                                                    <option value="Abertura (atual)">Abertura</option>
-                                                                    <option value="Fechamento (atual)">Fechamento</option>
-                                                                    <option value="Alta (atual)">Máxima</option>
-                                                                    <option value="Baixa (atual)">Mínima</option>
-                                                                    <option value="Abertura (dia anterior)">Abertura (anterior)</option>
-                                                                    <option value="Fechamento (dia anterior)">Fechamento (anterior)</option>
-                                                                    <option value="Alta (dia anterior)">Máxima (anterior)</option>
-                                                                    <option value="Baixa (dia anterior)">Mínima (anterior)</option>
+                                                                    <option value="Abertura">Abertura</option>
+                                                                    <option value="Fechamento">Fechamento</option>
+                                                                    <option value="Máxima">Máxima</option>
+                                                                    <option value="Mínima">Mínima</option>
+                                                                    <option value="Abertura (anterior)">Abertura (anterior)</option>
+                                                                    <option value="Fechamento (anterior)">Fechamento (anterior)</option>
+                                                                    <option value="Máxima (anterior)">Máxima (anterior)</option>
+                                                                    <option value="Mínima (anterior)">Mínima (anterior)</option>
                                                                 </select>
                                                             </div>
                                                             <div className='row-2-apriori-bottom-center'>
@@ -297,10 +297,10 @@ const Apriori = () => {
                                                             </div>
                                                             <div className='row-2-apriori-bottom-right'>
                                                                 <select onChange={handleSecondCondition}>
-                                                                    <option value="Abertura (atual)">Abertura</option>
-                                                                    <option value="Fechamento (atual)" selected>Fechamento</option>
-                                                                    <option value="Alta (atual)">Máxima</option>
-                                                                    <option value="Baixa (atual)">Mínima</option>
+                                                                    <option value="Abertura">Abertura</option>
+                                                                    <option value="Fechamento" selected>Fechamento</option>
+                                                                    <option value="Máxima">Máxima</option>
+                                                                    <option value="Mínima">Mínima</option>
                                                                 </select>
                                                             </div>
                                                         </div>
