@@ -65,27 +65,6 @@ const Apriori = () => {
         return year + '-' + _month + '-' + _day;
     }
 
-    function getYesterday(){
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1;
-        const day = today.getDate();
-        
-        if(month < 10) {
-            var _month: string = '0' + month;
-        } else {
-            var _month: string = month.toString();
-        }
-
-        if(day < 10) {
-            var _day: string = '0' + (day - 1);
-        } else {
-            var _day: string = (day - 1).toString();
-        }
-        
-        return year + '-' + _month + '-' + _day;
-    }
-
     function handleStartDate(event: ChangeEvent<HTMLInputElement>){
         const startDate = event.target.value;
         setStartDate(startDate);
@@ -332,7 +311,7 @@ const Apriori = () => {
                                                             <div className='column-1-apriori-left'>
                                                                 <div className='apriori-start-date'>
                                                                     <p>Do dia:</p>
-                                                                    <input className='input-date' type="date" max={getYesterday()} required onChange={handleStartDate}/>
+                                                                    <input className='input-date' type="date" max={getToday()} required onChange={handleStartDate}/>
                                                                 </div>
                                                                 <div className='apriori-end-date'>
                                                                     <p>Até o dia:</p>

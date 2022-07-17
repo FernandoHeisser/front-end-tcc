@@ -373,3 +373,18 @@ a:hover{
 .apriori-item-box-select{
     margin-top: -16px;
 }
+.pop-up-add-stocks{
+    padding-top: 3%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 10px 1px #555555;
+    border-radius: 15px;
+    background-color: #d5dee4;
+    width: 50%;
+    height: 30%;
+}
