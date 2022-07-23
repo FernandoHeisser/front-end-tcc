@@ -351,11 +351,11 @@ const Home = () => {
                                     <div className='top-bar-right'>
                                         <div>
                                             <p className='top-bar-p'>{Number(currentUserStock?.data?.high).toFixed(2).toString().replace('.', ',')}</p>
-                                            <span className='top-bar-span'>Alta</span>
+                                            <span className='top-bar-span'>Máxima</span>
                                         </div>
                                         <div>
                                             <p className='top-bar-p'>{Number(currentUserStock?.data?.low).toFixed(2).toString().replace('.', ',')}</p>
-                                            <span className='top-bar-span'>Baixa</span>
+                                            <span className='top-bar-span'>Mínima</span>
                                         </div>
                                         <div>
                                             <p className='top-bar-p'>{formatDate(currentUserStock?.data?.datetime)}</p>
