@@ -288,6 +288,10 @@ a:hover{
 .item-apriori-p{
     padding-top: 12%;
 }
+.item-apriori-p-all{
+    padding-top: 11%;
+    font-size: 15px;
+}
 .checkbox-apriori {
     width: 20px;
     height: 20px;

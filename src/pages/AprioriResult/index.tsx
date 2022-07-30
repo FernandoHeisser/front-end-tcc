@@ -304,9 +304,13 @@ const AprioriResult = () => {
                                                                 {item.items_base.map((i, index) => (
                                                                     <div key={index}>
                                                                     {index !== (item.items_base.length) - 1 ? 
-                                                                        <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}, </p>
+                                                                        <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>
+                                                                            <a href={`https://www.google.com/finance/quote/${i}:BVMF`} target='blank' className='symbol-link'>{i}, </a>
+                                                                        </p>
                                                                         :
-                                                                        <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}</p>
+                                                                        <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>
+                                                                            <a href={`https://www.google.com/finance/quote/${i}:BVMF`} target='blank' className='symbol-link'>{i}</a>
+                                                                        </p>
                                                                     }
                                                                     </div>
                                                                 ))}
@@ -319,9 +323,13 @@ const AprioriResult = () => {
                                                             {item.items_add.map((i, index) => (
                                                                 <div key={index}>
                                                                 {index !== (item.items_add.length) - 1 ? 
-                                                                    <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}, </p>
+                                                                    <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>
+                                                                        <a href={`https://www.google.com/finance/quote/${i}:BVMF`} target='blank' className='symbol-link'>{i}, </a>
+                                                                    </p>
                                                                     :
-                                                                    <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>{i}</p>
+                                                                    <p className={checkCondition(i) ? 'green-symbol' : 'red-symbol'}>
+                                                                        <a href={`https://www.google.com/finance/quote/${i}:BVMF`} target='blank' className='symbol-link'>{i}</a>
+                                                                    </p>
                                                                 }
                                                                 </div>
                                                             ))}

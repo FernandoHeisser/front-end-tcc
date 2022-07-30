@@ -124,7 +124,12 @@ const Login = () => {
                                     <select name="stocks" id="stocks" className='login-input' value={selectedStock} onChange={handleSelected}>
                                         <option value="0">Selecione uma ação</option>
                                         {stocks.map(stock => (
-                                            <option key={stock._id} value={stock.symbol}>{stock.symbol}</option>
+                                            <option 
+                                                title={stock.symbol + ' - ' + stock.company}
+                                                className='stock-option'
+                                                key={stock._id}
+                                                value={stock.symbol}>{stock.symbol + ' - ' + stock.company}
+                                            </option>
                                         ))}
                                     </select>
                                     <div className='login-stock-list'>

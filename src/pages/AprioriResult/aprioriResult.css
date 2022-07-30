@@ -299,3 +299,10 @@ body{
     text-align: center;
     border-radius: 5px;
 }
+.symbol-link{
+    text-decoration: none;
+    color: inherit;
+}
+.symbol-link:hover{
+    text-decoration: underline;
+}

@@ -21,6 +21,7 @@ const Apriori = () => {
     const [firstCondition, setFirstCondition] = useState("Abertura");
     const [secondCondition, setSecondCondition] = useState("Fechamento");
     const [interval, setInterval] = useState('1d');
+    const [selectAll, setSelectAll] = useState(false);
 
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
@@ -118,6 +119,12 @@ const Apriori = () => {
     function handleInterval(event: ChangeEvent<HTMLSelectElement>){
         const interval = event.target.value;
         setInterval(interval);
+    }
+
+    function handleSelectAll(){
+        setSelectAll(!selectAll);
+        stocks.map(stock => stock.checked = !selectAll);
+        setStocks(stocks);
     }
 
     async function handleSubmit(event: FormEvent){
@@ -238,6 +245,15 @@ const Apriori = () => {
                                             </div>
                                             <div className='main-apriori'>
                                                 <div className='main-apriori-left'>
+                                                    <div onClick={() => handleSelectAll()}
+                                                        className={selectAll===true ? 'item-apriori-selected' : 'item-apriori'}>
+                                                            <p className='item-apriori-p-all'>Selecionar Tudo</p>
+                                                            {selectAll ?
+                                                                <ImCheckboxChecked/>
+                                                                :
+                                                                <ImCheckboxUnchecked/>
+                                                            }
+                                                    </div>
                                                     {stocks.map(stock => (
                                                         <div key={stock.symbol} onClick={() => handleStock(stock)}
                                                             className={stock.checked===true ? 'item-apriori-selected' : 'item-apriori'}>

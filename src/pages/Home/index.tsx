@@ -337,7 +337,11 @@ const Home = () => {
                                     </div>
                                     <div className='top-bar-center'>
                                         <div>
-                                            <p className='top-bar-p'>{currentUserStock?.symbol}</p>
+                                            <p className='top-bar-p'>
+                                                <a href={`https://www.google.com/finance/quote/${currentUserStock?.symbol}:BVMF`} target='blank' className='symbol-link'>
+                                                    {currentUserStock?.symbol}
+                                                </a>
+                                            </p>
                                         </div>
                                         <div>
                                             <p className='top-bar-p'>{currentUserStock?.company}</p>
@@ -392,7 +396,12 @@ const Home = () => {
                                                     <select className='edit-stocks-select' value={selectedEditStock} onChange={handleSelected}>
                                                         <option value="0">Selecione uma ação</option>
                                                         {stocks?.map(stock => (
-                                                            <option key={stock._id} value={stock.symbol}>{stock.symbol}</option>
+                                                            <option 
+                                                                title={stock.symbol + ' - ' + stock.company}
+                                                                className='stock-option'
+                                                                key={stock._id}
+                                                                value={stock.symbol}>{stock.symbol + ' - ' + stock.company}
+                                                            </option>
                                                         ))}
                                                     </select>
                                                 </div>
