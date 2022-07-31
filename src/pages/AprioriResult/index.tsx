@@ -614,7 +614,7 @@ const AprioriResult = () => {
                             </div>
                             <div className='main-apriori-result-right-bottom'>
                                 {aprioriAnalysis?.stocks.map(stock=>(
-                                    <div className='main-apriori-result-right-bottom-card'>
+                                    <div key={stock.symbol} className='main-apriori-result-right-bottom-card'>
                                         <div>
                                             <p className='main-apriori-result-right-top-interval-box-title'>{stock.symbol}</p>
                                         </div>
