@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router';
 import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import { CgArrowLongRight } from 'react-icons/cg';
-import { AiOutlineReload } from 'react-icons/ai';
+import { AiOutlineReload, AiOutlineMinus } from 'react-icons/ai';
 import { GiSadCrab } from 'react-icons/gi';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import './aprioriResult.css';
 import StockDataYahoo from '../../models/StockDataYahoo';
 import YahooData from '../../models/YahooData';
@@ -24,6 +25,132 @@ const AprioriResult = () => {
     const [stocks, setStocks] = useState<Stock[]>([]);
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
     const [aprioriAnalysis, setAprioriAnalysis] = useState<AprioriAnalysis>();
+    const [supportOrder, setSupportOrder] = useState(0);
+    const [confidenceOrder, setConfidenceOrder] = useState(0);
+    const [liftOrder, setLiftOrder] = useState(2);
+
+    function compareSupport(a: AprioriItem, b: AprioriItem) {
+        if (a.support !== undefined && b.support !== undefined && a.support < b.support) {
+            return -1;
+        }
+        if (a.support !== undefined && b.support !== undefined && a.support > b.support) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function compareConfidence(a: AprioriItem, b: AprioriItem) {
+        if (a.confidence !== undefined && b.confidence !== undefined && a.confidence < b.confidence) {
+            return -1;
+        }
+        if (a.confidence !== undefined && b.confidence !== undefined && a.confidence > b.confidence) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function compareLift(a: AprioriItem, b: AprioriItem) {
+        if (a.lift !== undefined && b.lift !== undefined && a.lift < b.lift) {
+            return -1;
+        }
+        if (a.lift !== undefined && b.lift !== undefined && a.lift > b.lift) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function compareSupportDesc(a: AprioriItem, b: AprioriItem) {
+        if (a.support !== undefined && b.support !== undefined && a.support < b.support) {
+            return 1;
+        }
+        if (a.support !== undefined && b.support !== undefined && a.support > b.support) {
+            return -1;
+        }
+        return 0;
+    }
+
+    function compareConfidenceDesc(a: AprioriItem, b: AprioriItem) {
+        if (a.confidence !== undefined && b.confidence !== undefined && a.confidence < b.confidence) {
+            return 1;
+        }
+        if (a.confidence !== undefined && b.confidence !== undefined && a.confidence > b.confidence) {
+            return -1;
+        }
+        return 0;
+    }
+
+    function compareLiftDesc(a: AprioriItem, b: AprioriItem) {
+        if (a.lift !== undefined && b.lift !== undefined && a.lift < b.lift) {
+            return 1;
+        }
+        if (a.lift !== undefined && b.lift !== undefined && a.lift > b.lift) {
+            return -1;
+        }
+        return 0;
+    }
+
+    function handleSupportOrder(){
+        setConfidenceOrder(0);
+        setLiftOrder(0);
+
+        if(supportOrder == 0){
+            setSupportOrder(1);
+            setItems(items.sort(compareSupport));
+            return;
+        }
+        if(supportOrder == 1){
+            setSupportOrder(2);
+            setItems(items.sort(compareSupportDesc));
+            return;
+        }
+        if(supportOrder == 2){
+            setSupportOrder(1);
+            setItems(items.sort(compareSupport));
+            return;
+        }
+    }
+
+    function handleConfidenceOrder(){
+        setSupportOrder(0);
+        setLiftOrder(0);
+        
+        if(confidenceOrder == 0){
+            setConfidenceOrder(1);
+            setItems(items.sort(compareConfidence));
+            return;
+        }
+        if(confidenceOrder == 1){
+            setConfidenceOrder(2);
+            setItems(items.sort(compareConfidenceDesc));
+            return;
+        }
+        if(confidenceOrder == 2){
+            setConfidenceOrder(1);
+            setItems(items.sort(compareConfidence));
+            return;
+        }
+    }
+
+    function handleLiftOrder(){
+        setSupportOrder(0);
+        setConfidenceOrder(0);
+
+        if(liftOrder == 0){
+            setLiftOrder(1);
+            setItems(items.sort(compareLift));
+            return;
+        }
+        if(liftOrder == 1){
+            setLiftOrder(2);
+            setItems(items.sort(compareLiftDesc));
+            return;
+        }
+        if(liftOrder == 2){
+            setLiftOrder(1);
+            setItems(items.sort(compareLift));
+            return;
+        }
+    }
 
     function getToday(){
         const today = new Date();
@@ -291,6 +418,49 @@ const AprioriResult = () => {
                                     </div>
                                 :
                                     <Accordion defaultActiveKey="0" >
+                                        <div className='accordion-order-bar'>
+                                            <div className='accordion-order-bar-left'>
+                                                <p>Ações</p>
+                                            </div>
+                                            <div className='accordion-order-bar-right'>
+                                                <div className='accordion-order-bar-right-left' onClick={handleSupportOrder}>
+                                                    <p>Suporte</p>
+                                                    {supportOrder === 0?
+                                                        <AiOutlineMinus className='IoIosArrowUp'/>
+                                                        :
+                                                        <>{supportOrder === 1?
+                                                            <IoIosArrowDown className='IoIosArrowUp'/>
+                                                            :
+                                                            <IoIosArrowUp className='IoIosArrowUp'/>
+                                                        }</>
+                                                    }
+                                                </div>
+                                                <div className='accordion-order-bar-right-center' onClick={handleConfidenceOrder}>
+                                                    <p>Confiança</p>
+                                                    {confidenceOrder === 0?
+                                                        <AiOutlineMinus className='IoIosArrowUp'/>
+                                                        :
+                                                        <>{confidenceOrder === 1?
+                                                            <IoIosArrowDown className='IoIosArrowUp'/>
+                                                            :
+                                                            <IoIosArrowUp className='IoIosArrowUp'/>
+                                                        }</>
+                                                    }
+                                                </div>
+                                                <div className='accordion-order-bar-right-right' onClick={handleLiftOrder}>
+                                                    <p>Lift</p>
+                                                    {liftOrder === 0?
+                                                        <AiOutlineMinus className='IoIosArrowUp'/>
+                                                        :
+                                                        <>{liftOrder === 1?
+                                                            <IoIosArrowDown className='IoIosArrowUp'/>
+                                                            :
+                                                            <IoIosArrowUp className='IoIosArrowUp'/>
+                                                        }</>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
                                     {items.map((item, index) => (
                                         <div key={index}>
                                             <Accordion.Item eventKey={index.toString()} className='accordion-item'>

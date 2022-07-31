@@ -306,3 +306,49 @@ body{
 .symbol-link:hover{
     text-decoration: underline;
 }
+.accordion-order-bar{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    background-color: var(--title-color);
+    color: white;
+    margin-bottom: 15px;
+}
+.accordion-order-bar-left{
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    padding-top: 1%;
+    padding-left: 5%;
+}
+.accordion-order-bar-right{
+    display: flex;
+    flex-direction: row;
+    padding-top: 1%;
+    width: 60%;
+    padding-left: 8.5%;
+}
+.accordion-order-bar-right-left{
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+}
+.accordion-order-bar-right-center{
+    display: flex;
+    flex-direction: row;
+    width: 31%;
+}
+.accordion-order-bar-right-right{
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+}
+.accordion-order-bar-left:hover, .accordion-order-bar-right-right:hover, .accordion-order-bar-right-center:hover, .accordion-order-bar-right-left:hover{
+    cursor: default;
+}
+.IoIosArrowUp{
+    color: white;
+    margin-top: 4px;
+    margin-left: 4px;
+}
