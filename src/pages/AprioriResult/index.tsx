@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import { CgArrowLongRight } from 'react-icons/cg';
@@ -16,15 +16,21 @@ import AprioriItem from '../../models/AprioriItem';
 import AprioriStockCondition from '../../models/AprioriStockCondition';
 import api from '../../services/api';
 
+interface CustomizedState {
+    response: AprioriItem[],
+    request: AprioriAnalysis
+}
+
 const AprioriResult = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [items, setItems] = useState<AprioriItem[]>([]);
+    const [aprioriAnalysis, setAprioriAnalysis] = useState<AprioriAnalysis>();
+    const [stocks, setStocks] = useState<Stock[]>([]);
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [loadingFlag2, setLoadingFlag2] = useState(false);
-    const [items, setItems] = useState<AprioriItem[]>([]);
-    const [stocks, setStocks] = useState<Stock[]>([]);
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
-    const [aprioriAnalysis, setAprioriAnalysis] = useState<AprioriAnalysis>();
     const [supportOrder, setSupportOrder] = useState(0);
     const [confidenceOrder, setConfidenceOrder] = useState(0);
     const [liftOrder, setLiftOrder] = useState(2);
@@ -337,39 +343,27 @@ const AprioriResult = () => {
             if(userId === undefined || userId === null) {
                 navigate('/');
             }
-    
-            const lastAnalysis = localStorage.getItem('last-analysis');
-            if(lastAnalysis === undefined || lastAnalysis === null) {
+
+            const state = location.state as CustomizedState;  
+            if(state === undefined || state === null) {
                 navigate('/apriori');
             } else {
-                var _items: AprioriItem[] = JSON.parse(lastAnalysis);
-
-                setItems(_items);
-
-                const requestApriori = localStorage.getItem('request-apriori');
+                setItems(state.response);
+                setAprioriAnalysis(state.request);
+                setStocks(state.request.stocks);
                 
-                if(requestApriori !== undefined && requestApriori !== null) {
-                    
-                    const _condition: AprioriAnalysis = JSON.parse(requestApriori);
-                    
-                    setAprioriAnalysis(_condition);
+                let symbols: string[] = [];
+                state.request.stocks.forEach(stock => {
+                    if (stock.symbol !== undefined) {
+                        symbols.push(stock.symbol);
+                    }
+                });
 
-                    const stocks: Stock[] = _condition.stocks;
-                    
-                    setStocks(stocks);
-                    
-                    let symbols: string[] = [];
-                    stocks.forEach(stock => {
-                        if (stock.symbol !== undefined) {
-                            symbols.push(stock.symbol);
-                        }
-                    });
+                await getStockDataFromYahoo(symbols, state.request.interval); 
+                
 
-                    await getStockDataFromYahoo(symbols, _condition.interval); 
-                }
+                setLoadingFlag(true);
             }
-
-            setLoadingFlag(true);
         })();
     }, []);
 

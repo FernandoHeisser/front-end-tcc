@@ -160,10 +160,12 @@ const Apriori = () => {
         try {
             const response = await api.post('/apriori', request);
 
-            localStorage.setItem('last-analysis', JSON.stringify(response.data));
-            localStorage.setItem('request-apriori', JSON.stringify(request));
-
-            navigate('/apriori-result');
+            navigate('/apriori-result', {
+                state: {
+                    response: response.data,
+                    request: request
+                }
+            });
 
         } catch(e) {
             setStartDate("null");
