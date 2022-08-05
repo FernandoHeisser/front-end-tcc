@@ -246,6 +246,14 @@ const Home = () => {
         return false;
     }
 
+    function goToAprioriStockPage() {
+        navigate('/apriori-stock', {
+            state: {
+                stock: currentUserStock
+            }
+        });
+    }
+
     useEffect(() => {
         (async function () {
             if (!haveChanges) {
@@ -551,7 +559,9 @@ const Home = () => {
                                             }
                                         </div>
                                         <div className={editFlag? 'home-inside-right-edit' : 'home-inside-right'}>
-
+                                            <button className='home-apriori-button' onClick={goToAprioriStockPage}>
+                                                Analise {currentUserStock?.symbol} com outras ações
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

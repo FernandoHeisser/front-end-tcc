@@ -1,18 +1,23 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
-import { useNavigate } from 'react-router';
-import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
-import './apriori.css';
+import { useLocation, useNavigate } from 'react-router';
+import { ImCheckboxChecked } from 'react-icons/im';
+import './aprioriStock.css';
 import Stock from '../../models/Stock';
 import api from '../../services/api';
 
-const Apriori = () => {
+interface CustomizedState {
+    stock: Stock
+}
+
+const AprioriStock = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [sideMenuFlag, setSideMenuFlag] = useState(false);
     const [loadingFlag, setLoadingFlag] = useState(false);
     const [loadingFlag2, setLoadingFlag2] = useState(true);
     const [responseFlag, setResponseFlag] = useState(false);
-    const [stocks, setStocks] = useState<Stock[]>([]);
+    const [stock, setStock] = useState<Stock>();
     const [startDate, setStartDate] = useState<string>(getToday());
     const [endDate, setEndDate] = useState<string>(getToday());
     const [minSupport, setMinSupport] = useState("null");
@@ -20,8 +25,8 @@ const Apriori = () => {
     const [minLift, setMinLift] = useState("null");
     const [firstCondition, setFirstCondition] = useState("Abertura");
     const [secondCondition, setSecondCondition] = useState("Fechamento");
+    const [stockCondition, setStockCondition] = useState("<");
     const [interval, setInterval] = useState('1d');
-    const [selectAll, setSelectAll] = useState(false);
 
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
@@ -30,19 +35,6 @@ const Apriori = () => {
         } else {
             setSideMenuFlag(false);
         }
-    }
-
-    function handleStock(stock: Stock){
-        var _stocks: Stock[] = [];
-        stocks.forEach(s => {
-            var _stock = s;
-            if(_stock.symbol === stock.symbol) {
-                _stock.checked = !_stock.checked;
-            }
-            _stock.condition = '>';
-            _stocks.push(_stock);
-        });
-        setStocks(_stocks);
     }
 
     function getToday(){
@@ -101,19 +93,9 @@ const Apriori = () => {
         setSecondCondition(secondCondition);
     }
 
-    function handleStockCondition(event: ChangeEvent<HTMLSelectElement>, symbol: string | undefined){
+    function handleStockCondition(event: ChangeEvent<HTMLSelectElement>){
         const stockCondition = event.target.value;
-        var _stocks: Stock[] = [];
-        stocks.forEach(stock => {
-            if(stock.symbol === symbol) {
-               var _stock = stock;
-               _stock.condition = stockCondition; 
-               _stocks.push(_stock);
-            } else {
-                _stocks.push(stock);
-            }
-        });
-        setStocks(_stocks);
+        setStockCondition(stockCondition);
     }
 
     function handleInterval(event: ChangeEvent<HTMLSelectElement>){
@@ -121,30 +103,11 @@ const Apriori = () => {
         setInterval(interval);
     }
 
-    function handleSelectAll(){
-        setSelectAll(!selectAll);
-        stocks.map(stock => stock.checked = !selectAll);
-        setStocks(stocks);
-    }
-
     async function handleSubmit(event: FormEvent){
         event.preventDefault();
 
-        var _stocks: Stock[] = [];
-
-        stocks.forEach(stock => {
-            if(stock.checked === true){
-                _stocks.push(stock);
-            }
-        });
-
-        if(_stocks.length < 2){
-            setResponseFlag(true);
-            return;
-        }
-
         const request = {
-            'stocks': _stocks,
+            'stock': stock,
             'startDate': startDate,
             'endDate': endDate,
             'minSupport': minSupport,
@@ -152,20 +115,21 @@ const Apriori = () => {
             'minLift': minLift,
             'firstCondition': firstCondition,
             'secondCondition': secondCondition,
+            'stockCondition': stockCondition,
             'interval': interval
         };
 
         setLoadingFlag2(false);
 
         try {
-            const response = await api.post('/apriori', request);
+            console.log(request);// const response = await api.post('/apriori-stock', request);
 
-            navigate('/apriori-result', {
-                state: {
-                    response: response.data,
-                    request: request
-                }
-            });
+            // navigate('/apriori-result', {
+            //     state: {
+            //         response: response.data,
+            //         request: request
+            //     }
+            // });
 
         } catch(e) {
             setStartDate("null");
@@ -186,23 +150,13 @@ const Apriori = () => {
 
     useEffect(() => {
         (async function () {
-            const userId = localStorage.getItem('userId');
 
-            if(userId === undefined || userId === null) {
-                navigate('/');
+            const state = location.state as CustomizedState;  
+            if(state === undefined || state === null) {
+                navigate('/home');
+            } else {
+                setStock(state.stock);
             }
-
-            const userResponse = await api.get(`/users/${userId}`);
-
-            var _stocks: Stock[] = userResponse.data.stocks;
-
-            _stocks.map(stock => {
-                stock.checked = false;
-                stock.condition = ">";
-                return stock;
-            });
-
-            setStocks(_stocks);
 
             setLoadingFlag(true);
         })();
@@ -227,7 +181,7 @@ const Apriori = () => {
                                                     </div>
                                                 </div>
                                                 <div className='top-bar-apriori-center'>
-                                                    <p>Análise de Ações com Algoritmo Apriori</p>
+                                                    <p>Analise {stock?.symbol} com todas ações</p>
                                                 </div>
                                                 <div className='top-bar-apriori-right'>
                                                 </div>
@@ -243,30 +197,15 @@ const Apriori = () => {
                                                 </div>
                                                 <div className='menu-apriori'>
                                                     <p className='menu-apriori-item' onClick={()=>navigate('/home')}>Página Principal</p>
+                                                    <p className='menu-apriori-item' onClick={()=>navigate('/apriori')}>Análise Apriori</p>
                                                 </div>
                                             </div>
                                             <div className='main-apriori'>
                                                 <div className='main-apriori-left'>
-                                                    <div onClick={() => handleSelectAll()}
-                                                        className={selectAll===true ? 'item-apriori-selected' : 'item-apriori'}>
-                                                            <p className='item-apriori-p-all'>Selecionar Tudo</p>
-                                                            {selectAll ?
-                                                                <ImCheckboxChecked/>
-                                                                :
-                                                                <ImCheckboxUnchecked/>
-                                                            }
+                                                    <div className='item-apriori-selected'>
+                                                        <p className='item-apriori-p'>{stock?.symbol}</p>
+                                                        <ImCheckboxChecked/>
                                                     </div>
-                                                    {stocks.map(stock => (
-                                                        <div key={stock.symbol} onClick={() => handleStock(stock)}
-                                                            className={stock.checked===true ? 'item-apriori-selected' : 'item-apriori'}>
-                                                                <p className='item-apriori-p'>{stock.symbol}</p>
-                                                                {stock.checked ?
-                                                                    <ImCheckboxChecked/>
-                                                                    :
-                                                                    <ImCheckboxUnchecked/>
-                                                                }
-                                                        </div>
-                                                    ))}
                                                 </div>
                                                 <div className='main-apriori-right'>
                                                     <div className='row-2-apriori'>
@@ -290,7 +229,12 @@ const Apriori = () => {
                                                                 </select>
                                                             </div>
                                                             <div className='row-2-apriori-bottom-center'>
-                                                                <p>com</p>
+                                                                <div className='apriori-item-box-select'>
+                                                                    <select onChange={handleStockCondition}>
+                                                                        <option value=">">Maior que</option>
+                                                                        <option value="<" selected>Menor que</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                             <div className='row-2-apriori-bottom-right'>
                                                                 <select onChange={handleSecondCondition}>
@@ -301,28 +245,6 @@ const Apriori = () => {
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div className='row-1-apriori'>
-                                                        {stocks.map(stock => (
-                                                            stock.checked ?
-                                                            <div className='apriori-item' key={stock.symbol}>
-                                                                <div className='apriori-item-title'>
-                                                                    <p>{stock.symbol}</p>
-                                                                </div>
-                                                                <div className='apriori-item-box'>
-                                                                    <p className='apriori-item-box-p'>{firstCondition}</p>
-                                                                    <div className='apriori-item-box-select'>
-                                                                        <select onChange={e => handleStockCondition(e, stock.symbol)}>
-                                                                            <option value=">">Maior que</option>
-                                                                            <option value="<">Menor que</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <p className='apriori-item-box-p'>{secondCondition}</p>
-                                                                </div>
-                                                            </div>
-                                                            :
-                                                            <div key={stock.symbol}></div>
-                                                        ))}
                                                     </div>
                                                     <div className='row-3-apriori'>
                                                         <div className='column-1-apriori'>
@@ -414,4 +336,4 @@ const Apriori = () => {
         </>
     );
 }
-export default Apriori;
+export default AprioriStock;

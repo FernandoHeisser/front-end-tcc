@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Apriori from './pages/Apriori';
+import AprioriStock from './pages/AprioriStock';
 import AprioriResult from './pages/AprioriResult';
 
 const AppRoutes = () => {
@@ -13,6 +14,7 @@ const AppRoutes = () => {
                 <Route element={<Login />} path="/"/>
                 <Route element={<Home />} path="/home"/>
                 <Route element={<Apriori />} path="/apriori"/>
+                <Route element={<AprioriStock />} path="/apriori-stock"/>
                 <Route element={<AprioriResult />} path="/apriori-result"/>
             </Routes>
         </BrowserRouter>
