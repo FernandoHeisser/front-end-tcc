@@ -107,7 +107,7 @@ const AprioriStock = () => {
         event.preventDefault();
 
         const request = {
-            'stock': stock,
+            'stock': stock?.symbol,
             'startDate': startDate,
             'endDate': endDate,
             'minSupport': minSupport,
@@ -122,8 +122,8 @@ const AprioriStock = () => {
         setLoadingFlag2(false);
 
         try {
-            console.log(request);// const response = await api.post('/apriori-stock', request);
-
+            const response = await api.post('/apriori-stock', request);
+            console.log(response);
             // navigate('/apriori-result', {
             //     state: {
             //         response: response.data,
