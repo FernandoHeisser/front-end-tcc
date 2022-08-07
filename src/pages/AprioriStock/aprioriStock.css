@@ -1,10 +1,10 @@
-.loading-page-apriori {
+.loading-page-apriori-stock {
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--title-color)
 }
-.loading-page-apriori .column-apriori {
+.loading-page-apriori-stock .column-apriori-stock {
     padding-top: 15%;
     display: flex;
     flex-direction: column;
@@ -12,10 +12,10 @@
     justify-content: center;
     font-size: 20px;
 }
-.loading-page-apriori .column-apriori .column-apriori-p {
+.loading-page-apriori-stock .column-apriori-stock .column-apriori-stock-p {
     margin: 20px;
 }
-.side-menu-apriori {
+.side-menu-apriori-stock {
     height: 100%;
     width: 20%;
     position: fixed;
@@ -28,7 +28,7 @@
     padding-top: 1.5%;
     padding-left: 1.5%;
 }
-.side-menu-apriori-hidden {
+.side-menu-apriori-stock-hidden {
     height: 100%;
     width: 0%;
     position: fixed;
@@ -41,14 +41,14 @@
     padding-top: 1.5%;
     padding-left: 1.5%;
 }
-.div-logout-apriori{
+.div-logout-apriori-stock{
     margin-top: 5%;
     padding-left: 20%;
     margin-right: 5%;
     border-top: solid rgb(102, 102, 102) 1px;
     border-bottom: solid rgb(102, 102, 102) 1px;
 }
-.menu-apriori{
+.menu-apriori-stock{
     margin-top: 5%;
     padding-top: 5%;
     padding-bottom: 5%;
@@ -56,31 +56,31 @@
     margin-right: 5%;
     font-size: 20px;
 }
-.menu-apriori-item{
+.menu-apriori-stock-item{
     font-size: 16px;
     color: rgb(218, 218, 218);
     transition: color 0.2s;
     margin-top: 10%;
     margin-bottom: 10%;
 }
-.menu-apriori-item:hover{
+.menu-apriori-stock-item:hover{
     color: white;
     cursor: pointer;
 }
-.main-apriori {
+.main-apriori-stock {
     padding: 1%;
     display: flex;
     flex-direction: row;
     background-color: white;
     padding-bottom: 70px;
 }
-.main-apriori .main-apriori-left{
+.main-apriori-stock .main-apriori-stock-left{
     width: 15%;
     display: flex;
     flex-direction: column;
     padding: 10px;
 }
-.main-apriori .main-apriori-right{
+.main-apriori-stock .main-apriori-stock-right{
     width: 85%;
     display: flex;
     flex-direction: row;
@@ -89,7 +89,7 @@
     flex-direction: column;
     align-items: center;
 }
-.main-apriori .main-apriori-right .row-1-apriori{
+.main-apriori-stock .main-apriori-stock-right .row-1-apriori-stock{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -102,48 +102,55 @@
     border-radius: 10px;
     padding: 2%;
 }
-.main-apriori .main-apriori-right .row-2-apriori{
+.main-apriori-stock .main-apriori-stock-right .row-2-apriori-stock{
     display: flex;
     align-items: center;
     overflow: auto;
     flex-direction: column;
     width: 90%;
-    height: 150px;
+    height: 180px;
     margin: 1%;
     background-color: #F0F2F5;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     border-radius: 10px;
     padding: 2%;
 }
-.main-apriori .main-apriori-right .row-2-apriori .row-2-apriori-bottom{
+.row-2-apriori-stock-top{
     display: flex;
+    width: 50%;
     text-align: center;
     align-items: center;
     flex-direction: row;
-    height: 150px;
-}
-.row-2-apriori-bottom-left select{
-    width: 250px;
-    height: 40px;
+    justify-content: center;
     font-size: 20px;
-    border-radius: 5px;
-    margin-top: -10px;
 }
-.row-2-apriori-bottom-center select{
-    width: 150px;
-    height: 40px;
+.row-2-apriori-stock-bottom{
+    display: flex;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+.row-2-apriori-stock-bottom-item{
+    display: flex;
+    margin: 5px;
     font-size: 20px;
-    border-radius: 5px;
-    margin-top: 6px;
 }
-.row-2-apriori-bottom-right select{
+.row-2-apriori-stock-bottom-item select{
+    border-radius: 5px;
     width: 200px;
     height: 40px;
-    font-size: 20px;
-    border-radius: 5px;
-    margin-top: -10px;
 }
-.main-apriori .main-apriori-right .row-3-apriori{
+.row-2-apriori-stock-bottom-item2{
+    display: flex;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+.main-apriori-stock .main-apriori-stock-right .row-3-apriori-stock{
     width: 90%;
     height: 200px;
     margin: 1%;
@@ -151,13 +158,13 @@
     justify-content: space-between;
     flex-direction: row;
 }
-.main-apriori .main-apriori-right .row-1-apriori:hover{
+.main-apriori-stock .main-apriori-stock-right .row-1-apriori-stock:hover{
     box-shadow: 1px 1px 20px 1px #BEBEBE;
 }
-.main-apriori .main-apriori-right .row-2-apriori:hover{
+.main-apriori-stock .main-apriori-stock-right .row-2-apriori-stock:hover{
     box-shadow: 1px 1px 20px 1px #BEBEBE;
 }
-.main-apriori .main-apriori-right .row-3-apriori .column-1-apriori{
+.main-apriori-stock .main-apriori-stock-right .row-3-apriori-stock .column-1-apriori-stock{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -168,17 +175,17 @@
     border-radius: 10px;
     padding: 2.5%;
 }
-.main-apriori .main-apriori-right .row-3-apriori .column-1-apriori:hover{
+.main-apriori-stock .main-apriori-stock-right .row-3-apriori-stock .column-1-apriori-stock:hover{
     box-shadow: 1px 1px 20px 1px #BEBEBE;
 }
-.main-apriori .main-apriori-right .row-3-apriori .column-2-apriori{
+.main-apriori-stock .main-apriori-stock-right .row-3-apriori-stock .column-2-apriori-stock{
     width: 25%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-.main-apriori .main-apriori-right .row-3-apriori .column-2-apriori button{
+.main-apriori-stock .main-apriori-stock-right .row-3-apriori-stock .column-2-apriori-stock button{
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     border-radius: 10px;
     border: none;
@@ -189,11 +196,11 @@
     transition: background-color 0.2s;
     font-size: 18px;
 }
-.main-apriori .main-apriori-right .row-3-apriori .column-2-apriori button:hover {
+.main-apriori-stock .main-apriori-stock-right .row-3-apriori-stock .column-2-apriori-stock button:hover {
     box-shadow: 1px 1px 20px 1px #BEBEBE;
     background-color: #beceda;
 }
-.content-apriori .top-bar-apriori {
+.content-apriori-stock .top-bar-apriori-stock {
     height: 100px;
     width: 100%;
     display: flex;
@@ -203,13 +210,13 @@
     padding: 1.5%;
     border-bottom: solid 3px var(--title-color);
 }
-.content-apriori .top-bar-apriori span {
+.content-apriori-stock .top-bar-apriori-stock span {
     font-size: 12px;
     padding-left: 1%;
     padding-right: 1%;
     padding-bottom: 1%;
 }
-.content-apriori .top-bar-apriori:before {
+.content-apriori-stock .top-bar-apriori-stock:before {
     content: "";
     margin-left: 5%;
     position: absolute;
@@ -217,13 +224,13 @@
     height: 0;
     width: 90%;
 }
-.content-apriori .top-bar-apriori .top-bar-apriori-left {
+.content-apriori-stock .top-bar-apriori-stock .top-bar-apriori-stock-left {
     display: flex;
     width: 5%;
     height: 60px;
     justify-content: space-between;
 }
-.content-apriori .top-bar-apriori .top-bar-apriori-center {
+.content-apriori-stock .top-bar-apriori-stock .top-bar-apriori-stock-center {
     display: flex;
     width: 55%;
     height: 60px;
@@ -231,18 +238,18 @@
     padding-left: 5%;
     padding-right: 5%;
 }
-.content-apriori .top-bar-apriori .top-bar-apriori-right {
+.content-apriori-stock .top-bar-apriori-stock .top-bar-apriori-stock-right {
     display: flex;
     width: 40%;
     height: 60px;
     justify-content: space-between;
 }
-.title-apriori{
+.title-apriori-stock{
     font-weight: bold;
     margin-bottom: 5px;
     margin-top: 5px;
 }
-.title-apriori:hover{
+.title-apriori-stock:hover{
     text-decoration: underline;
 }
 a{
@@ -253,26 +260,26 @@ a:hover{
     text-decoration: none;
     color: rgb(32, 72, 82);
 }
-.time-apriori {
+.time-apriori-stock {
     font-weight: 500;
 }
-.menu-button-apriori{
+.menu-button-apriori-stock{
     display: inline-block;
     cursor: pointer;
 }
-.bar-apriori{
+.bar-apriori-stock{
     background-color: var(--title-color);
     width: 25px;
     height: 3px;
     margin: 6px 0;
 }
-.bar-white-apriori{
+.bar-white-apriori-stock{
     background-color: whitesmoke;
     width: 25px;
     height: 3px;
     margin: 6px 0;
 }
-.main-apriori .main-apriori-left .item-apriori {
+.main-apriori-stock .main-apriori-stock-left .item-apriori-stock {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -287,19 +294,19 @@ a:hover{
     border: 2px var(--title-color) solid;
     background-color: #F0F2F5;
 }
-.item-apriori-p{
+.item-apriori-stock-p{
     padding-top: 12%;
 }
-.item-apriori-p-all{
+.item-apriori-stock-p-all{
     padding-top: 11%;
     font-size: 15px;
 }
-.checkbox-apriori {
+.checkbox-apriori-stock {
     width: 20px;
     height: 20px;
     cursor: pointer;
 }
-.main-apriori .main-apriori-left .item-apriori-selected {
+.main-apriori-stock .main-apriori-stock-left .item-apriori-stock-selected {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -315,7 +322,7 @@ a:hover{
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     color: var(--title-color);
 }
-.apriori-item {
+.apriori-stock-item {
     box-shadow: 1px 1px 10px 1px #BEBEBE;
     border-radius: 5px;
     align-items: center;
@@ -329,11 +336,11 @@ a:hover{
     margin-right: 2%;
     margin-bottom: 4%;
 }
-.column-1-apriori-left{
+.column-1-apriori-stock-left{
     width: 50%;
     margin-right: 15%;
 }
-.column-1-apriori-right{
+.column-1-apriori-stock-right{
     width: 50%;
     margin-left: 2%;
 }
@@ -349,35 +356,35 @@ a:hover{
     width: 70px;
     height: 20%;
 }
-.apriori-start-date, .apriori-end-date, .apriori-interval{
+.apriori-stock-start-date, .apriori-stock-end-date, .apriori-stock-interval{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 2%;
 }
-.apriori-interval-select{
+.apriori-stock-interval-select{
     height: 30px;
     width: 150px;
 }
-.apriori-start-date p, .apriori-end-date p{
+.apriori-stock-start-date p, .apriori-stock-end-date p{
     height: 25px;
 }
-.apriori-start-date .input-date, .apriori-end-date .input-date{
+.apriori-stock-start-date .input-date, .apriori-stock-end-date .input-date{
     width: 150px;
     height: 20%;
 }
-.apriori-item-title{
+.apriori-stock-item-title{
     font-weight: bold;
     margin-bottom: -4%;
 }
-.apriori-item-box{
+.apriori-stock-item-box{
     border-radius: 15px;
     background-color: #e0ebf3;
 }
-.apriori-item-box-p{
+.apriori-stock-item-box-p{
     padding: 4%;
 }
-.apriori-item-box-select{
+.apriori-stock-item-box-select{
     margin-top: -16px;
 }
 .pop-up-add-stocks{

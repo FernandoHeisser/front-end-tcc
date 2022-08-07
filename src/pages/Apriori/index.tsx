@@ -13,6 +13,8 @@ const Apriori = () => {
     const [loadingFlag2, setLoadingFlag2] = useState(true);
     const [responseFlag, setResponseFlag] = useState(false);
     const [stocks, setStocks] = useState<Stock[]>([]);
+    const [selectedStock, setSelectedStock] = useState<string>();
+    const [selectedStocks, setSelectedStocks] = useState<Stock[]>([]);
     const [startDate, setStartDate] = useState<string>(getToday());
     const [endDate, setEndDate] = useState<string>(getToday());
     const [minSupport, setMinSupport] = useState("null");
@@ -21,7 +23,20 @@ const Apriori = () => {
     const [firstCondition, setFirstCondition] = useState("Abertura");
     const [secondCondition, setSecondCondition] = useState("Fechamento");
     const [interval, setInterval] = useState('1d');
-    const [selectAll, setSelectAll] = useState(false);
+
+    function addStock() {
+        let _selectedStocks = selectedStocks;
+        let symbols = selectedStocks.map(stock => stock.symbol);
+        if(!symbols.includes(selectedStock) && selectedStock !== '')
+        _selectedStocks.push(stocks.find(stock => stock.symbol === selectedStock)!);
+        setSelectedStocks(_selectedStocks);
+        setSelectedStock('');
+    }
+
+    function handleSelected(event: ChangeEvent<HTMLSelectElement>){
+        const selectedStock = (event.target.value);
+        setSelectedStock(selectedStock);
+    }
 
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
@@ -121,12 +136,6 @@ const Apriori = () => {
         setInterval(interval);
     }
 
-    function handleSelectAll(){
-        setSelectAll(!selectAll);
-        stocks.map(stock => stock.checked = !selectAll);
-        setStocks(stocks);
-    }
-
     async function handleSubmit(event: FormEvent){
         event.preventDefault();
 
@@ -192,9 +201,7 @@ const Apriori = () => {
                 navigate('/');
             }
 
-            const userResponse = await api.get(`/users/${userId}`);
-
-            var _stocks: Stock[] = userResponse.data.stocks;
+            var _stocks: Stock[] = JSON.parse(localStorage.getItem('stocks')!);
 
             _stocks.map(stock => {
                 stock.checked = false;
@@ -247,16 +254,21 @@ const Apriori = () => {
                                             </div>
                                             <div className='main-apriori'>
                                                 <div className='main-apriori-left'>
-                                                    <div onClick={() => handleSelectAll()}
-                                                        className={selectAll===true ? 'item-apriori-selected' : 'item-apriori'}>
-                                                            <p className='item-apriori-p-all'>Selecionar Tudo</p>
-                                                            {selectAll ?
-                                                                <ImCheckboxChecked/>
-                                                                :
-                                                                <ImCheckboxUnchecked/>
-                                                            }
+                                                    <div className='main-apriori-add-stock'>
+                                                        <select name="stocks" id="stocks" value={selectedStock} onChange={handleSelected}>
+                                                            <option value="0">Selecione uma ação</option>
+                                                            {stocks.map(stock => (
+                                                                <option 
+                                                                    title={stock.symbol + ' - ' + stock.company}
+                                                                    className='stock-option'
+                                                                    key={stock._id}
+                                                                    value={stock.symbol}>{stock.symbol + ' - ' + stock.company}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                        <button type='button' onClick={addStock}>Adicionar</button>
                                                     </div>
-                                                    {stocks.map(stock => (
+                                                    {selectedStocks.map(stock => (
                                                         <div key={stock.symbol} onClick={() => handleStock(stock)}
                                                             className={stock.checked===true ? 'item-apriori-selected' : 'item-apriori'}>
                                                                 <p className='item-apriori-p'>{stock.symbol}</p>
