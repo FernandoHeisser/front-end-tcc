@@ -142,7 +142,7 @@ const AprioriStock = () => {
             setInterval('1d');
 
             setLoadingFlag2(true);
-            alert('Período e intervalo de tempo inviável, tente com um período ou intervalo de tempo menor.');
+            alert('Erro na análise, tente novamente.');
         }
         
         setLoadingFlag2(true);
