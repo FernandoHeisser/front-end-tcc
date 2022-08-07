@@ -259,18 +259,13 @@ const AprioriStock = () => {
                                                                     <p>Intervalo:</p>
                                                                     <select className='apriori-stock-interval-select' onChange={handleInterval}>
                                                                         <option value='1m'>1 Minuto</option>
-                                                                        <option value='2m'>2 Minutos</option>
                                                                         <option value='5m'>5 Minutos</option>
                                                                         <option value='15m'>15 Minutos</option>
                                                                         <option value='30m'>30 Minutos</option>
-                                                                        <option value='60m'>60 Minutos</option>
-                                                                        <option value='90m'>90 Minutos</option>
                                                                         <option value='1h'>1 Hora</option>
                                                                         <option value='1d' selected>1 Dia</option>
-                                                                        <option value='5d'>5 Dias</option>
                                                                         <option value='1wk'>1 Semana</option>
                                                                         <option value='1mo'>1 Mês</option>
-                                                                        <option value='3mo'>3 Meses</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
