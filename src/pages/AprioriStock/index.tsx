@@ -168,7 +168,7 @@ const AprioriStock = () => {
         try {
             const response = await api.post('/apriori-stock', request);
 
-            navigate('/apriori-result', {
+            navigate('/apriori-stock-result', {
                 state: {
                     response: response.data,
                     request: request

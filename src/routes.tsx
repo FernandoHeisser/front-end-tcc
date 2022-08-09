@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Apriori from './pages/Apriori';
 import AprioriStock from './pages/AprioriStock';
 import AprioriResult from './pages/AprioriResult';
+import AprioriStockResult from './pages/AprioriStockResult';
 
 const AppRoutes = () => {
     return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
                 <Route element={<Apriori />} path="/apriori"/>
                 <Route element={<AprioriStock />} path="/apriori-stock"/>
                 <Route element={<AprioriResult />} path="/apriori-result"/>
+                <Route element={<AprioriStockResult />} path="/apriori-stock-result"/>
             </Routes>
         </BrowserRouter>
     );
