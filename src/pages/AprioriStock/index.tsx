@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
-import { useLocation, useNavigate } from 'react-router';
-import { ImCheckboxChecked } from 'react-icons/im';
+import { useNavigate, useLocation } from 'react-router';
+import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
 import './aprioriStock.css';
 import Stock from '../../models/Stock';
 import api from '../../services/api';
@@ -18,6 +18,9 @@ const AprioriStock = () => {
     const [loadingFlag2, setLoadingFlag2] = useState(true);
     const [responseFlag, setResponseFlag] = useState(false);
     const [stock, setStock] = useState<Stock>();
+    const [stocks, setStocks] = useState<Stock[]>([]);
+    const [selectedStock, setSelectedStock] = useState<string>();
+    const [selectedStocks, setSelectedStocks] = useState<Stock[]>([]);
     const [startDate, setStartDate] = useState<string>(getToday());
     const [endDate, setEndDate] = useState<string>(getToday());
     const [minSupport, setMinSupport] = useState("null");
@@ -28,6 +31,20 @@ const AprioriStock = () => {
     const [stockCondition, setStockCondition] = useState("<");
     const [interval, setInterval] = useState('1d');
 
+    function addStock() {
+        let _selectedStocks = selectedStocks;
+        let symbols = selectedStocks.map(stock => stock.symbol);
+        if(!symbols.includes(selectedStock) && selectedStock !== '')
+        _selectedStocks.push(stocks.find(stock => stock.symbol === selectedStock)!);
+        setSelectedStocks(_selectedStocks);
+        setSelectedStock('');
+    }
+
+    function handleSelected(event: ChangeEvent<HTMLSelectElement>){
+        const selectedStock = (event.target.value);
+        setSelectedStock(selectedStock);
+    }
+
     function handleLogout(){
         if (window.confirm("Você realmente quer sair?")) {
             localStorage.clear();
@@ -35,6 +52,19 @@ const AprioriStock = () => {
         } else {
             setSideMenuFlag(false);
         }
+    }
+
+    function handleStock(stock: Stock){
+        var _stocks: Stock[] = [];
+        stocks.forEach(s => {
+            var _stock = s;
+            if(_stock.symbol === stock.symbol) {
+                _stock.checked = !_stock.checked;
+            }
+            _stock.condition = '>';
+            _stocks.push(_stock);
+        });
+        setStocks(_stocks);
     }
 
     function getToday(){
@@ -106,8 +136,22 @@ const AprioriStock = () => {
     async function handleSubmit(event: FormEvent){
         event.preventDefault();
 
+        var _stocks: Stock[] = [];
+
+        stocks.forEach(stock => {
+            if(stock.checked === true){
+                _stocks.push(stock);
+            }
+        });
+
+        if(_stocks.length < 1){
+            setResponseFlag(true);
+            return;
+        }
+
         const request = {
             'stock': stock?.symbol,
+            'stocks': selectedStocks.map(stock => stock.symbol),
             'startDate': startDate,
             'endDate': endDate,
             'minSupport': minSupport,
@@ -123,24 +167,15 @@ const AprioriStock = () => {
 
         try {
             const response = await api.post('/apriori-stock', request);
-            console.log(response);
-            // navigate('/apriori-result', {
-            //     state: {
-            //         response: response.data,
-            //         request: request
-            //     }
-            // });
+
+            navigate('/apriori-result', {
+                state: {
+                    response: response.data,
+                    request: request
+                }
+            });
 
         } catch(e) {
-            setStartDate("null");
-            setEndDate("null");
-            setMinSupport("null");
-            setMinConfidence("null");
-            setMinLift("null");
-            setFirstCondition("Abertura");
-            setSecondCondition("Fechamento");
-            setInterval('1d');
-
             setLoadingFlag2(true);
             alert('Erro na análise, tente novamente.');
         }
@@ -150,6 +185,10 @@ const AprioriStock = () => {
 
     useEffect(() => {
         (async function () {
+            const userId = localStorage.getItem('userId');
+            if(userId === undefined || userId === null) {
+                navigate('/');
+            }
 
             const state = location.state as CustomizedState;  
             if(state === undefined || state === null) {
@@ -157,6 +196,17 @@ const AprioriStock = () => {
             } else {
                 setStock(state.stock);
             }
+
+            var _stocks: Stock[] = JSON.parse(localStorage.getItem('stocks')!);
+
+            _stocks.map(stock => {
+                stock.checked = false;
+                stock.condition = ">";
+                return stock;
+            });
+            _stocks = _stocks.filter(stock => stock.symbol !== state.stock.symbol)
+
+            setStocks(_stocks);
 
             setLoadingFlag(true);
         })();
@@ -171,49 +221,74 @@ const AprioriStock = () => {
                             {
                                 loadingFlag2 ?
                                     <form className='main' onSubmit={handleSubmit}>
-                                        <div className='content-apriori-stock'>
-                                            <div className='top-bar-apriori-stock'>
-                                                <div className='top-bar-apriori-stock-left'>
+                                        <div className='content-apriori'>
+                                            <div className='top-bar-apriori'>
+                                                <div className='top-bar-apriori-left'>
                                                     <div className="menu-button" onClick={()=>setSideMenuFlag(!sideMenuFlag)}>
                                                         <div className="bar"></div>
                                                         <div className="bar"></div>
                                                         <div className="bar"></div>
                                                     </div>
                                                 </div>
-                                                <div className='top-bar-apriori-stock-center'>
-                                                    <p>Analise {stock?.symbol} com todas ações</p>
+                                                <div className='top-bar-apriori-center'>
+                                                    <p>Analise {stock?.symbol} com outras ações</p>
                                                 </div>
-                                                <div className='top-bar-apriori-stock-right'>
-                                                </div>
-                                            </div>
-                                            <div className={sideMenuFlag?'side-menu-apriori-stock':'side-menu-apriori-stock-hidden'}>
-                                                <div className="menu-button-apriori-stock" onClick={()=>setSideMenuFlag(!sideMenuFlag)}>
-                                                    <div className="bar-white-apriori-stock"></div>
-                                                    <div className="bar-white-apriori-stock"></div>
-                                                    <div className="bar-white-apriori-stock"></div>
-                                                </div>
-                                                <div className='div-logout-apriori-stock'>
-                                                    <p className='menu-apriori-stock-item' onClick={handleLogout}>Sair</p>
-                                                </div>
-                                                <div className='menu-apriori-stock'>
-                                                    <p className='menu-apriori-stock-item' onClick={()=>navigate('/home')}>Página Principal</p>
-                                                    <p className='menu-apriori-stock-item' onClick={()=>navigate('/apriori')}>Análise Apriori</p>
+                                                <div className='top-bar-apriori-right'>
                                                 </div>
                                             </div>
-                                            <div className='main-apriori-stock'>
-                                                <div className='main-apriori-stock-left'>
-                                                    <div className='item-apriori-stock-selected'>
-                                                        <p className='item-apriori-stock-p'>{stock?.symbol}</p>
+                                            <div className={sideMenuFlag?'side-menu-apriori':'side-menu-apriori-hidden'}>
+                                                <div className="menu-button-apriori" onClick={()=>setSideMenuFlag(!sideMenuFlag)}>
+                                                    <div className="bar-white-apriori"></div>
+                                                    <div className="bar-white-apriori"></div>
+                                                    <div className="bar-white-apriori"></div>
+                                                </div>
+                                                <div className='div-logout-apriori'>
+                                                    <p className='menu-apriori-item' onClick={handleLogout}>Sair</p>
+                                                </div>
+                                                <div className='menu-apriori'>
+                                                    <p className='menu-apriori-item' onClick={()=>navigate('/home')}>Página Principal</p>
+                                                    <p className='menu-apriori-item' onClick={()=>navigate('/apriori')}>Análise Apriori</p>
+                                                </div>
+                                            </div>
+                                            <div className='main-apriori'>
+                                                <div className='main-apriori-left'>
+                                                    <div className='main-apriori-add-stock'>
+                                                        <select name="stocks" id="stocks" value={selectedStock} onChange={handleSelected}>
+                                                            <option value="0">Selecione uma ação</option>
+                                                            {stocks.map(stock => (
+                                                                <option 
+                                                                    title={stock.symbol + ' - ' + stock.company}
+                                                                    className='stock-option'
+                                                                    key={stock._id}
+                                                                    value={stock.symbol}>{stock.symbol + ' - ' + stock.company}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                        <button type='button' onClick={addStock}>Adicionar</button>
+                                                    </div>
+                                                    <div className='item-apriori-selected'>
+                                                        <p className='item-apriori-p'>{stock?.symbol}</p>
                                                         <ImCheckboxChecked/>
                                                     </div>
+                                                    {selectedStocks.map(stock => (
+                                                        <div key={stock.symbol} onClick={() => handleStock(stock)}
+                                                            className={stock.checked===true ? 'item-apriori-selected' : 'item-apriori'}>
+                                                                <p className='item-apriori-p'>{stock.symbol}</p>
+                                                                {stock.checked ?
+                                                                    <ImCheckboxChecked/>
+                                                                    :
+                                                                    <ImCheckboxUnchecked/>
+                                                                }
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                                <div className='main-apriori-stock-right'>
-                                                    <div className='row-2-apriori-stock'>
-                                                        <div className='row-2-apriori-stock-top'>
+                                                <div className='main-apriori-right'>
+                                                    <div className='row-2-apriori'>
+                                                        <div className='row-2-apriori-top'>
                                                             <p>Monte a sua análise:</p>
                                                         </div>
-                                                        <div className='row-2-apriori-stock-bottom'>
-                                                            <div className='row-2-apriori-stock-bottom-item2'>
+                                                        <div className='row-2-apriori-bottom'>
+                                                            <div className='row-2-apriori-stock-bottom-item'>
                                                                 <p>Comparar</p>
                                                             </div>
                                                             <div className='row-2-apriori-stock-bottom-item'>
@@ -245,19 +320,19 @@ const AprioriStock = () => {
                                                         </div>
                                                     </div>
                                                     <div className='row-3-apriori-stock'>
-                                                        <div className='column-1-apriori-stock'>
-                                                            <div className='column-1-apriori-stock-left'>
-                                                                <div className='apriori-stock-start-date'>
+                                                        <div className='column-1-apriori'>
+                                                            <div className='column-1-apriori-left'>
+                                                                <div className='apriori-start-date'>
                                                                     <p>Do dia:</p>
                                                                     <input className='input-date' type="date" max={getToday()} required onChange={handleStartDate}/>
                                                                 </div>
-                                                                <div className='apriori-stock-end-date'>
+                                                                <div className='apriori-end-date'>
                                                                     <p>Até o dia:</p>
                                                                     <input className='input-date' type="date" defaultValue={getToday()} max={getToday()} onChange={handleEndDate}/>
                                                                 </div>
-                                                                <div className='apriori-stock-interval'>
+                                                                <div className='apriori-interval'>
                                                                     <p>Intervalo:</p>
-                                                                    <select className='apriori-stock-interval-select' onChange={handleInterval}>
+                                                                    <select className='apriori-interval-select' onChange={handleInterval}>
                                                                         <option value='1m'>1 Minuto</option>
                                                                         <option value='5m'>5 Minutos</option>
                                                                         <option value='15m'>15 Minutos</option>
@@ -269,7 +344,7 @@ const AprioriStock = () => {
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div className='column-1-apriori-stock-right'>
+                                                            <div className='column-1-apriori-right'>
                                                                 <div className='support'>
                                                                     <p>Suporte Mínimo:</p>
                                                                     <input className='input-number' type="number" placeholder='0,1' step="0.1" onChange={handleMinSupport}/>
@@ -284,9 +359,9 @@ const AprioriStock = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className='column-2-apriori-stock'>
-                                                            <button className='button-apriori-stock'>Analisar</button>
-                                                            <button className='button-apriori-stock' type='reset'>Limpar</button>
+                                                        <div className='column-2-apriori'>
+                                                            <button className='button-apriori'>Analisar</button>
+                                                            <button className='button-apriori' type='reset'>Limpar</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -299,19 +374,19 @@ const AprioriStock = () => {
                                         </div>
                                     </form>
                                 :
-                                    <div className='loading-page-apriori-stock'>
-                                        <div className='column-apriori-stock'>
+                                    <div className='loading-page-apriori'>
+                                        <div className='column-apriori'>
                                             <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
-                                            <p className='column-apriori-stock-p'>Coletando e analisando...</p>
+                                            <p className='column-apriori-p'>Coletando e analisando...</p>
                                         </div>
                                     </div>
                             }
                         </>
                         :
-                        <div className='loading-page-apriori-stock'>
-                            <div className='column-apriori-stock'>
+                        <div className='loading-page-apriori'>
+                            <div className='column-apriori'>
                                 <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
-                                <p className='column-apriori-stock-p'>Buscando os dados na web...</p>
+                                <p className='column-apriori-p'>Buscando os dados na web...</p>
                             </div>
                         </div>
                 }
