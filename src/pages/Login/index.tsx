@@ -92,6 +92,10 @@ const Login = () => {
     }
 
     useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (userId !== undefined && userId !== null) {
+            navigate('/home');
+        }
         async function getStocks() {
             const response = await api.get('stocks');
             setStocks(response.data.content.sort(compare));
