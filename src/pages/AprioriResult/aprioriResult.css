@@ -98,9 +98,13 @@ body{
 .apriori-result-item-left{
     display: flex;
     flex-direction: row; 
-    width: 50%;
+    width: 70%;
     align-items: center;
-    margin: -0.5%;
+    margin-right: 15px;
+    flex-wrap: wrap;
+}
+.apriori-result-item-left:hover{
+    overflow: visible;
 }
 .apriori-item-index {
     margin-right: 15px;
@@ -120,8 +124,8 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 50%;
-    padding-right: 10%;
+    width: 30%;
+    padding-left: 10%;
 }
 .arrow{
     margin-left: 10px;
@@ -314,6 +318,42 @@ body{
     background-color: var(--title-color);
     color: white;
     margin-bottom: 15px;
+}
+.accordion-footer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    color: #353535;
+    justify-content: center;
+    padding-top: 1%;
+}
+.accordion-footer-item{
+    display: flex;
+    height: 25px;
+    width: 25px;
+    justify-content: center;
+    margin: 5px;
+    padding-top: 1px;
+}
+.accordion-footer-item-selected{
+    display: flex;
+    height: 25px;
+    width: 25px;
+    justify-content: center;
+    margin: 5px;
+    padding-top: 1px;
+    background-color: var(--title-color);
+    border-radius: 15px;
+    color: white;
+}
+.accordion-footer-item:hover{
+    background-color: white;
+    box-shadow: 1px 1px 10px 1px #BEBEBE;
+    flex-direction: row;
+    border-radius: 15px;
+    cursor: pointer;
 }
 .accordion-order-bar-left{
     display: flex;
