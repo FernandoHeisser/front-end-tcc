@@ -1,19 +1,21 @@
 .loading-page-apriori {
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: center;
     color: var(--title-color)
 }
-.loading-page-apriori .column-apriori {
+.loading-page-apriori .row-apriori {
     padding-top: 15%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     font-size: 20px;
 }
-.loading-page-apriori .column-apriori .column-apriori-p {
-    margin: 20px;
+.loading-page-apriori .row-apriori .column-apriori-p {
+    margin-left: 10px;
+    margin-bottom: -2px;
 }
 .side-menu-apriori {
     height: 100%;
@@ -76,6 +78,7 @@
 }
 .main-apriori .main-apriori-left{
     width: 18%;
+    margin-top: 1%;
     padding-left: 1%;
     padding-right: 1%;
     display: flex;

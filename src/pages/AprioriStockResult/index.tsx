@@ -14,6 +14,7 @@ import AprioriStockAnalysis from '../../models/AprioriStockAnalysis';
 import AprioriItem from '../../models/AprioriItem';
 import AprioriStockCondition from '../../models/AprioriStockCondition';
 import api from '../../services/api';
+import Stock from '../../models/Stock';
 
 interface CustomizedState {
     response: AprioriItem[],
@@ -32,7 +33,7 @@ const AprioriStockResult = () => {
     const [stockDataYahoo, setStockDataYahoo] = useState<StockDataYahoo[]>([]);
     const [supportOrder, setSupportOrder] = useState(0);
     const [confidenceOrder, setConfidenceOrder] = useState(0);
-    const [liftOrder, setLiftOrder] = useState(2);
+    const [liftOrder, setLiftOrder] = useState(0);
 
     function compareSupport(a: AprioriItem, b: AprioriItem) {
         if (a.support !== undefined && b.support !== undefined && a.support < b.support) {
@@ -348,15 +349,15 @@ const AprioriStockResult = () => {
             } else {
                 setItems(state.response);
                 setAprioriAnalysis(state.request);
-                setStocks(state.request.stocks);
-                
-                let symbols: string[] = [];
-                symbols.push(state.request.stock!);
-                state.request.stocks.forEach(stock => {
-                    if (stock !== undefined) {
-                        symbols.push(stock);
+
+                var _stocks: Stock[] = JSON.parse(localStorage.getItem('stocks')!);
+                var symbols: string[] = [];
+                _stocks.forEach(stock => {
+                    if (stock !== undefined && stock.symbol !== undefined) {
+                        symbols.push(stock.symbol);
                     }
                 });
+                setStocks(symbols);
 
                 await getStockDataFromYahoo(symbols, state.request.interval); 
                 
