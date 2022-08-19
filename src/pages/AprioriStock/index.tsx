@@ -105,6 +105,7 @@ const AprioriStock = () => {
     }
 
     function delay(time: number) {
+        time = time * 1000;
         return new Promise(resolve => setTimeout(resolve, time));
     }
 
@@ -126,35 +127,36 @@ const AprioriStock = () => {
 
         try {
             const response = await api.post('/apriori/create', request);
-            const instructionId = response.data;
+            var instructionId = response.data;
 
+        } catch {
+            alert('Erro na criação da análise, tente novamente.');
+        }
+        try {
             setLoadingFlag2(false);
 
             var analysisResponse;
             var i = 0;
-            while (i <= 15) {
-                await delay(60000)
+            while (i <= 10) {
+                await delay(30)
                 analysisResponse = await api.get(`/apriori/search/${instructionId}`);
                 if (analysisResponse.data !== null) {
                     break;
                 }
                 i++;
             }
-            if (analysisResponse === null 
-                || analysisResponse === undefined 
-                || analysisResponse.data === null
-                || analysisResponse.data === undefined) {
-                alert('Erro na análise, tente novamente.');        
-            } else {
-                const aprioriStockResult: AprioriStockResult = analysisResponse.data;
+            const aprioriStockResult: AprioriStockResult = analysisResponse?.data;
+
+            if (aprioriStockResult.status == 200) {
                 navigate('/apriori-stock-result', {
                     state: {
                         response: aprioriStockResult.data,
                         request: request
                     }
                 });
+            } else {
+                alert('Erro na análise, tente novamente.');    
             }
-
         } catch(e) {
             setLoadingFlag2(true);
             alert('Erro na análise, tente novamente.');
