@@ -311,14 +311,14 @@ const AprioriStock = () => {
                                         </div>
                                     :
                                         <div className='loading-page-apriori'>
-                                        <div className='row-apriori'>
-                                            <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
-                                            <div>
-                                                <p className='column-apriori-p'>Enfileirando...</p>
-                                                <p className='column-apriori-p'>Coletando...</p>
-                                                <p className='column-apriori-p'>Analisando...</p>
+                                            <div className='row-apriori'>
+                                                <ReactLoading type={'spin'} color={'#224255'} height={150} width={150} />
+                                                <div>
+                                                    <p className='column-apriori-p'>Enfileirando...</p>
+                                                    <p className='column-apriori-p'>Coletando...</p>
+                                                    <p className='column-apriori-p'>Analisando...</p>
+                                                </div>
                                             </div>
-                                        </div>
                                         </div>
                                     }
                                 </div>
