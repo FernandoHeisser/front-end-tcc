@@ -23,6 +23,14 @@ const Apriori = () => {
     const [firstCondition, setFirstCondition] = useState("Abertura");
     const [secondCondition, setSecondCondition] = useState("Fechamento");
     const [interval, setInterval] = useState('1d');
+    const [selectAllFlag, setSelectAllFlag] = useState(false);
+
+    function selectAll() {
+        setSelectAllFlag(!selectAllFlag);
+
+        selectedStocks.map(stock => stock.checked = !selectAllFlag);
+        setSelectedStocks(selectedStocks);
+    }
 
     function addStock() {
         let _selectedStocks = selectedStocks;
@@ -259,6 +267,19 @@ const Apriori = () => {
                                                         </select>
                                                         <button type='button' onClick={addStock}>Adicionar</button>
                                                     </div>
+                                                    {selectedStocks.length > 1 ?
+                                                        <div onClick={selectAll}
+                                                            className={selectAllFlag ? 'item-apriori-selected' : 'item-apriori'}>
+                                                                <p className='item-apriori-p'>Selecionar tudo</p>
+                                                                {selectAllFlag ?
+                                                                    <ImCheckboxChecked/>
+                                                                    :
+                                                                    <ImCheckboxUnchecked/>
+                                                                }
+                                                        </div>
+                                                        :
+                                                        <></>
+                                                    }
                                                     {selectedStocks.map(stock => (
                                                         <div key={stock.symbol} onClick={() => handleStock(stock)}
                                                             className={stock.checked===true ? 'item-apriori-selected' : 'item-apriori'}>
