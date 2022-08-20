@@ -28,7 +28,7 @@ interface Page {
 
 const AprioriStockResult = () => {
     const navigate = useNavigate();
-    const myLocation = useLocation();
+    const location = useLocation();
     const [items, setItems] = useState<AprioriItem[]>([]);
     const [aprioriStockAnalysis, setAprioriAnalysis] = useState<AprioriStockAnalysis>();
     const [pages, setPages] = useState<Page[]>([]);
@@ -104,27 +104,27 @@ const AprioriStockResult = () => {
     }
 
     function handleSupportOrder() {
-        if (items.length == 0) {
+        if (items.length === 0) {
             return;
         }
         setConfidenceOrder(0);
         setLiftOrder(0);
 
-        if (supportOrder == 0) {
+        if (supportOrder === 0) {
             setSupportOrder(1);
             const localItems = items.sort(compareSupport);
             setItems(localItems);
             setPages(splitListIntoPages(localItems));
             return;
         }
-        if (supportOrder == 1) {
+        if (supportOrder === 1) {
             setSupportOrder(2);
             const localItems = items.sort(compareSupportDesc);
             setItems(localItems);
             setPages(splitListIntoPages(localItems));
             return;
         }
-        if (supportOrder == 2) {
+        if (supportOrder === 2) {
             setSupportOrder(1);
             const localItems = items.sort(compareSupport);
             setItems(localItems);
@@ -134,27 +134,27 @@ const AprioriStockResult = () => {
     }
 
     function handleConfidenceOrder() {
-        if (items.length == 0) {
+        if (items.length === 0) {
             return;
         }
         setSupportOrder(0);
         setLiftOrder(0);
 
-        if (confidenceOrder == 0) {
+        if (confidenceOrder === 0) {
             setConfidenceOrder(1);
             const localItems = items.sort(compareConfidence);
             setItems(localItems);
             setPages(splitListIntoPages(localItems));
             return;
         }
-        if (confidenceOrder == 1) {
+        if (confidenceOrder === 1) {
             setConfidenceOrder(2);
             const localItems = items.sort(compareConfidenceDesc);
             setItems(localItems);
             setPages(splitListIntoPages(localItems));
             return;
         }
-        if (confidenceOrder == 2) {
+        if (confidenceOrder === 2) {
             setConfidenceOrder(1);
             const localItems = items.sort(compareConfidence);
             setItems(localItems);
@@ -164,27 +164,27 @@ const AprioriStockResult = () => {
     }
 
     function handleLiftOrder() {
-        if (items.length == 0) {
+        if (items.length === 0) {
             return;
         }
         setSupportOrder(0);
         setConfidenceOrder(0);
 
-        if (liftOrder == 0) {
+        if (liftOrder === 0) {
             setLiftOrder(1);
             const localItems = items.sort(compareLift);
             setItems(localItems);
             setPages(splitListIntoPages(localItems));
             return;
         }
-        if (liftOrder == 1) {
+        if (liftOrder === 1) {
             setLiftOrder(2);
             const localItems = items.sort(compareLiftDesc);
             setItems(localItems);
             setPages(splitListIntoPages(localItems));
             return;
         }
-        if (liftOrder == 2) {
+        if (liftOrder === 2) {
             setLiftOrder(1);
             const localItems = items.sort(compareLift);
             setItems(localItems);
@@ -369,13 +369,13 @@ const AprioriStockResult = () => {
         try {
             const response = await api.post('yahoo', request);
             const _stockDataYahoo: StockDataYahoo[] = response.data;
-            if (response.data == null || response.data == undefined) {
-                location.reload();
+            if (response.data === null || response.data === undefined) {
+                window.location.reload();
             } else {
                 setStockDataYahoo(_stockDataYahoo);
             }
         } catch {
-            location.reload();
+            window.location.reload();
         }
     }
 
@@ -423,7 +423,7 @@ const AprioriStockResult = () => {
                 navigate('/');
             }
 
-            const state = myLocation.state as CustomizedState;
+            const state = location.state as CustomizedState;
             if (state === undefined || state === null) {
                 navigate('/apriori');
             } else {
