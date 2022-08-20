@@ -122,13 +122,13 @@ const AprioriStock = () => {
             'firstCondition': firstCondition,
             'secondCondition': secondCondition,
             'stockCondition': stockCondition,
-            'interval': interval
+            'interval': interval,
+            'processType': 2
         };
 
         try {
-            const response = await api.post('/apriori/create', request);
+            const response = await api.post('/apriori/instructions', request);
             var instructionId = response.data;
-
         } catch {
             alert('Erro na criação da análise, tente novamente.');
         }
@@ -138,8 +138,8 @@ const AprioriStock = () => {
             var analysisResponse;
             var i = 0;
             while (i <= 10) {
-                await delay(30)
-                analysisResponse = await api.get(`/apriori/search/${instructionId}`);
+                await delay(30);
+                analysisResponse = await api.get(`/apriori/analysis/${instructionId}`);
                 if (analysisResponse.data !== null) {
                     break;
                 }
