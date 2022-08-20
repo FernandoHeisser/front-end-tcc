@@ -28,7 +28,7 @@ interface Page {
 
 const AprioriStockResult = () => {
     const navigate = useNavigate();
-    const location = useLocation();
+    const myLocation = useLocation();
     const [items, setItems] = useState<AprioriItem[]>([]);
     const [aprioriStockAnalysis, setAprioriAnalysis] = useState<AprioriStockAnalysis>();
     const [pages, setPages] = useState<Page[]>([]);
@@ -366,9 +366,17 @@ const AprioriStockResult = () => {
             stockList: symbols,
             interval: interval === undefined ? '1d' : interval
         };
-        const response = await api.post('yahoo', request);
-        const _stockDataYahoo: StockDataYahoo[] = response.data;
-        setStockDataYahoo(_stockDataYahoo);
+        try {
+            const response = await api.post('yahoo', request);
+            const _stockDataYahoo: StockDataYahoo[] = response.data;
+            if (response.data == null || response.data == undefined) {
+                location.reload();
+            } else {
+                setStockDataYahoo(_stockDataYahoo);
+            }
+        } catch {
+            location.reload();
+        }
     }
 
     function splitListIntoPages(list: AprioriItem[]) {
@@ -415,7 +423,7 @@ const AprioriStockResult = () => {
                 navigate('/');
             }
 
-            const state = location.state as CustomizedState;
+            const state = myLocation.state as CustomizedState;
             if (state === undefined || state === null) {
                 navigate('/apriori');
             } else {
