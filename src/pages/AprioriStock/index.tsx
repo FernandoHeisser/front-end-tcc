@@ -21,7 +21,7 @@ const AprioriStock = () => {
     const [stock, setStock] = useState<Stock>();
     const [startDate, setStartDate] = useState<string>(getToday());
     const [endDate, setEndDate] = useState<string>(getToday());
-    const [minSupport, setMinSupport] = useState("null");
+    const [minSupport, setMinSupport] = useState("0.2");
     const [minConfidence, setMinConfidence] = useState("null");
     const [minLift, setMinLift] = useState("null");
     const [firstCondition, setFirstCondition] = useState("Abertura");
@@ -291,7 +291,7 @@ const AprioriStock = () => {
                                                 <div className='column-1-apriori-right'>
                                                     <div className='support'>
                                                         <p>Suporte Mínimo:</p>
-                                                        <input className='input-number' type="number" placeholder='0,1' step="0.1" onChange={handleMinSupport}/>
+                                                        <input className='input-number' type="number" placeholder='0.2' step="0.1" onChange={handleMinSupport}/>
                                                     </div>
                                                     <div className='confidence'>
                                                         <p>Confiança Mínima:</p>
