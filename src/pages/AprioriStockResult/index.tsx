@@ -700,6 +700,15 @@ const AprioriStockResult = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className='main-apriori-result-right-bottom'>
+                                        <div className='main-apriori-result-right-bottom-card'>
+                                            <div className='main-apriori-result-right-bottom-card-box'>
+                                                <p>{aprioriStockAnalysis?.firstCondition}</p>
+                                                <p className='main-apriori-result-right-top-time-box-middle'>{aprioriStockAnalysis?.stockCondition}</p>
+                                                <p>{aprioriStockAnalysis?.secondCondition}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

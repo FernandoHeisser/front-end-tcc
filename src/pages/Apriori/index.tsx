@@ -191,7 +191,7 @@ const Apriori = () => {
             var analysisResponse;
             var i = 0;
             while (i <= 10) {
-                await delay(30)
+                await delay(5)
                 analysisResponse = await api.get(`/apriori/analysis/${instructionId}`);
                 if (analysisResponse.data !== null) {
                     break;
